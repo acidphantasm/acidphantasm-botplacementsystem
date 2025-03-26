@@ -1,0 +1,7 @@
+Server/types/
+Server/.buildignore
+Server/.eslintignore
+Server/.eslintrc.json
+Server/build.mjs
+Server/node_modules/
+Server/package-lock.json
