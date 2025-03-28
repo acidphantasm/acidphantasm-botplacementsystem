@@ -1,7 +1,13 @@
-Server/types/
+Server/types
 Server/.buildignore
 Server/.eslintignore
 Server/.eslintrc.json
 Server/build.mjs
 Server/node_modules/
 Server/package-lock.json
+Server/dist
+Client/Client/.vs
+Client/Client/bin
+Client/Client/obj
+Client/Client/release
+Client/Client/release
