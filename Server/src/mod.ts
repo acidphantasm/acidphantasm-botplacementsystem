@@ -13,7 +13,7 @@ import { minVersion, satisfies, SemVer } from "semver";
 import path from "node:path";
 
 
-class ABPS implements IPreSptLoadMod, IPostDBLoadMod, IPostSptLoadMod
+class ABPS implements IPreSptLoadMod, IPostDBLoadMod
 {
     // Create InstanceManager - Thank you Cj as per usual
     private instance: InstanceManager = new InstanceManager();
@@ -24,23 +24,19 @@ class ABPS implements IPreSptLoadMod, IPostDBLoadMod, IPostSptLoadMod
         const logger = container.resolve<ILogger>("WinstonLogger");
         if (!this.validSptVersion(container)) 
         {
-            logger.error(`[APBS] This version of APBS was not made for your version of SPT. Disabling. Requires ${this.validMinimumSptVersion(container)} or higher.`);
+            logger.error(`[ABPS] This version of ABPS was not made for your version of SPT. Disabling. Requires ${this.validMinimumSptVersion(container)} or higher.`);
             return;
         }
 
-        this.instance.preSptLoad(container, "APBS");
+        this.instance.preSptLoad(container, "ABPS");
+        this.instance.staticRouterHooks.registerRouterHooks();
     }
 
     // PostDBLoad
     public postDBLoad(container: DependencyContainer): void 
     {
         this.instance.postDBLoad(container);
-    }
-
-    // PostSPTLoad
-    public postSptLoad(container: DependencyContainer): void 
-    {
-        this.instance.postSptLoad(container);
+        this.instance.mapSpawnControl.configureInitialData();
     }
     
     // Version Validation

@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { FileSystemSync } from "@spt/utils/FileSystemSync";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import path from "node:path";
+import { MinMax } from "@spt/models/common/MinMax";
 
 @injectable()
 export class ModConfig
@@ -19,5 +20,83 @@ export class ModConfig
 }
 export interface Config
 {
-    enabled: boolean
+    progressiveChance: MinMax
+    pmcConfig: PMCConfig,
+    bossConfig: BossConfig,
+}
+export interface PMCConfig
+{
+    startingPMCs: PMCStartingConfig,
+    waves: PMCWaveConfig,
+}
+export interface PMCStartingConfig
+{
+    enabled: boolean,
+    groupChance: number,
+    maxGroupSize: number,
+    maxGroupCount: number
+}
+export interface PMCWaveConfig
+{
+    enabled: boolean,
+    groupChance: number,
+    maxGroupSize: number,
+    maxGroupCount: number,
+    maxBotsPerWave: number,
+    secondsBetweenWaves: number,
+    stopWavesBeforeEndOfRaidLimit: number
+}
+export interface BossConfig
+{
+    bossKnight: BossLocationInfo,
+    bossBully: BossLocationInfo,
+    bossTagilla: BossLocationInfo,
+    bossKilla: BossLocationInfo,
+    bossZryachiy: BossLocationInfo,
+    bossGluhar: BossLocationInfo,
+    bossSanitar: BossLocationInfo,
+    bossKolontay: BossLocationInfo,
+    bossBoar: BossLocationInfo,
+    bossKojaniy: BossLocationInfo,
+    bossPartisan: BossLocationInfo,
+    sectantPriest: BossLocationInfo,
+    arenaFighterEvent: BossLocationInfo,
+    pmcBot: SpecialLocationInfo,
+    exUsec: SpecialLocationInfo,
+    gifter: BossLocationInfo,
+    bossPunisher: BossLocationInfo,
+    bossLegion: BossLocationInfo,
+}
+export interface BossLocationInfo
+{
+    enable: boolean,
+    useProgressiveChances: boolean,
+    time: number,
+    spawnChance: ValidLocations,
+    bossZone: ValidLocations;
+}
+export interface SpecialLocationInfo
+{
+    enable: boolean,
+    addExtraSpawns: boolean,
+    disableVanillaSpawns: boolean,
+    useProgressiveChances: boolean,
+    time: number,
+    spawnChance: ValidLocations,
+    bossZone: ValidLocations;
+}
+export interface ValidLocations
+{
+    bigmap: number | string,
+    factory4_day: number | string,
+    factory4_night: number | string,
+    interchange: number | string,
+    laboratory: number | string,
+    lighthouse: number | string,
+    rezervbase: number | string,
+    sandbox: number | string,
+    sandbox_high: number | string,
+    shoreline: number | string,
+    tarkovstreets: number | string,
+    woods: number | string,
 }

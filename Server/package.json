@@ -1,5 +1,5 @@
 {
-    "name": "Acid's Bot Placement System",
+    "name": "Acids Bot Placement System",
     "version": "1.0.0",
     "sptVersion": "~3.11",
     "loadBefore": [],
@@ -26,5 +26,5 @@
     },
     "author": "acidphantasm",
     "contributors": [],
-    "license": "MIT"
+    "license": "BY-NC-ND 4.0"
 }

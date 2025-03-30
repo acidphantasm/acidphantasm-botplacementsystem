@@ -3,14 +3,17 @@ import { DependencyContainer, Lifecycle } from "tsyringe";
 import { PreSptModLoader } from "@spt/loaders/PreSptModLoader";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import { StaticRouterModService } from "@spt/services/mod/staticRouter/StaticRouterModService";
-import { DynamicRouterModService } from "@spt/services/mod/dynamicRouter/DynamicRouterModService";
 import { DatabaseService } from "@spt/services/DatabaseService";
-import { IDatabaseTables } from "@spt/models/spt/server/IDatabaseTables";
-import { ConfigServer } from "@spt/servers/ConfigServer";
 import { FileSystemSync } from "@spt/utils/FileSystemSync";
 
 // Custom
 import { ModConfig } from "./Globals/ModConfig";
+import { MapSpawnControl } from "./Controls/MapSpawnControl";
+import { BossSpawnControl } from "./Controls/BossSpawnControl";
+import { ICloner } from "@spt/utils/cloners/ICloner";
+import { VanillaAdjustmentControl } from "./Controls/VanillaAdjustmentControl";
+import { PMCSpawnControl } from "./Controls/PMCSpawnControl";
+import { StaticRouterHooks } from "./Routers/StaticRouterHooks";
 
 export class InstanceManager 
 {
@@ -20,12 +23,19 @@ export class InstanceManager
     public preSptModLoader: PreSptModLoader;
     public logger: ILogger;
     public fileSystemSync: FileSystemSync;
+    public cloner: ICloner;
+    public staticRouterModService: StaticRouterModService;
 
+    public staticRouterHooks: StaticRouterHooks;
     public modConfig: ModConfig;
     //#endregion
 
     //#region accessible in or after postDBLoad
-    public tables: IDatabaseTables;
+    public databaseService: DatabaseService;
+    public vanillaAdjustmentControl: VanillaAdjustmentControl;
+    public bossSpawnControl: BossSpawnControl;
+    public pmcSpawnControl: PMCSpawnControl;
+    public mapSpawnControl: MapSpawnControl;
     //#endregion
 
     //#region accessible in or after PostSptLoad
@@ -42,10 +52,17 @@ export class InstanceManager
         this.preSptModLoader = container.resolve<PreSptModLoader>("PreSptModLoader");
         this.logger = container.resolve<ILogger>("WinstonLogger");
         this.fileSystemSync = container.resolve<FileSystemSync>("FileSystemSync");
+        this.cloner = container.resolve<ICloner>("PrimaryCloner");
+        this.staticRouterModService = container.resolve<StaticRouterModService>("StaticRouterModService");
 
         // Custom Classes
-        //this.container.register<ModInformation>("ModInformation", ModInformation, { lifecycle: Lifecycle.Singleton })
-        //this.modInformation = container.resolve<ModInformation>("ModInformation");
+        this.container.register<VanillaAdjustmentControl>("VanillaAdjustmentControl", VanillaAdjustmentControl, { lifecycle: Lifecycle.Singleton })
+        this.container.register<BossSpawnControl>("BossSpawnControl", BossSpawnControl, { lifecycle: Lifecycle.Singleton })
+        this.container.register<PMCSpawnControl>("PMCSpawnControl", PMCSpawnControl, { lifecycle: Lifecycle.Singleton })
+        this.container.register<MapSpawnControl>("MapSpawnControl", MapSpawnControl, { lifecycle: Lifecycle.Singleton })
+
+        this.container.register<StaticRouterHooks>("StaticRouterHooks", StaticRouterHooks, { lifecycle: Lifecycle.Singleton })
+        this.staticRouterHooks = container.resolve<StaticRouterHooks>("StaticRouterHooks");
 
         // Custom Special
 
@@ -61,12 +78,16 @@ export class InstanceManager
     public postDBLoad(container: DependencyContainer): void
     {
         // SPT Classes
-        this.tables = container.resolve<DatabaseService>("DatabaseService").getTables();
+        this.databaseService = container.resolve<DatabaseService>("DatabaseService");
+        this.vanillaAdjustmentControl = container.resolve<VanillaAdjustmentControl>("VanillaAdjustmentControl");
+        this.bossSpawnControl = container.resolve<BossSpawnControl>("BossSpawnControl");
+        this.pmcSpawnControl = container.resolve<PMCSpawnControl>("PMCSpawnControl");
+        this.mapSpawnControl = container.resolve<MapSpawnControl>("MapSpawnControl");
     }
 
     public postSptLoad(container: DependencyContainer): void
     {
         // SPT Classes
-        this.tables = container.resolve<DatabaseService>("DatabaseService").getTables();
+        this.databaseService = container.resolve<DatabaseService>("DatabaseService");
     }
 }
