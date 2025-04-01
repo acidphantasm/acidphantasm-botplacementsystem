@@ -3,15 +3,21 @@
         "min": 5,
         "max": 100
     },
+    "pmcDifficulty": {
+        "easy": 10,
+        "normal": 50,
+        "hard": 30,
+        "impossible": 10
+    },
     "pmcConfig": {
         "startingPMCs": {
-            "enabled": true,
+            "enable": true,
             "groupChance": 25,
             "maxGroupSize": 4,
             "maxGroupCount": 6
         },
         "waves": {
-            "enabled": false,
+            "enable": false,
             "groupChance": 20,
             "maxGroupSize": 2,
             "maxGroupCount": 3,
@@ -19,6 +25,12 @@
             "secondsBetweenWaves": 400,
             "stopWavesBeforeEndOfRaidLimit": 600
         }        
+    },
+    "bossDifficulty": {
+        "easy": 0,
+        "normal": 60,
+        "hard": 30,
+        "impossible": 10
     },
     "bossConfig": {
         "bossKnight": {
@@ -247,7 +259,7 @@
                 "rezervbase": "",
                 "sandbox": "",
                 "sandbox_high": "",
-                "shoreline": "ZoneGreenHouses,ZoneSanatorium1,ZoneGreenHouses,ZoneSanatorium2,ZonePort",
+                "shoreline": "ZoneGreenHouses,ZoneSanatorium1,ZoneSanatorium2,ZonePort",
                 "tarkovstreets": "",
                 "woods": ""
             }
@@ -412,7 +424,7 @@
                 "rezervbase": "",
                 "sandbox": "",
                 "sandbox_high": "ZoneSandbox",
-                "shoreline": "ZoneSanatorium1,ZoneSanatorium2,ZoneForestSpawn,ZoneForestSpawn,ZoneForestSpawn",
+                "shoreline": "ZoneSanatorium1,ZoneSanatorium2,ZoneForestSpawn",
                 "tarkovstreets": "",
                 "woods": "ZoneMiniHouse,ZoneBrokenVill"
             }
@@ -497,7 +509,7 @@
                 "factory4_night": 0,
                 "interchange": 0,
                 "laboratory": 0,
-                "lighthouse": 65,
+                "lighthouse": 0,
                 "rezervbase": 0,
                 "sandbox": 0,
                 "sandbox_high": 0,
@@ -619,5 +631,10 @@
                 "woods": ""
             }
         }
+    },
+    "configAppSettings": {
+            "showUndo": true,
+            "showDefault": false,
+            "disableAnimations": false
     }
 }

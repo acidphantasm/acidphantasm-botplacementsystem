@@ -1,0 +1,622 @@
+﻿@page "/pmcconfig"
+@inherits LayoutComponentBase
+@using static Core.DataLoader;
+
+<style>
+    .mud-divider {
+        border-width: 2.5px;
+    }
+</style>
+
+<MudMainContent>
+    <MudContainer Class="mb-20">
+        <MudExpansionPanels MultiExpansion="true">
+
+            <MudExpansionPanel Class="mud-expansion-panels-borders ma-3 pa-5" Text="General" Expanded=true>
+                <MudGrid>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Weight of PMC Difficulty. Lower is less common, higher is more common." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Easy Difficulty Weight</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">@_pmc_EasyDifficulty</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_EasyDifficulty" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_EasyDifficulty"))
+                        {
+                            <MudButton @onclick="undo_PMC_Easy" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_EasyDifficulty != 10)
+                        {
+                            <MudButton @onclick="default_PMC_Easy" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Weight of PMC Difficulty. Lower is less common, higher is more common." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Normal Difficulty Weight</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">@_pmc_NormalDifficulty</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_NormalDifficulty" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_NormalDifficulty"))
+                        {
+                            <MudButton @onclick="undo_PMC_Normal" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_NormalDifficulty != 50)
+                        {
+                            <MudButton @onclick="default_PMC_Normal" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Weight of PMC Difficulty. Lower is less common, higher is more common." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Hard Difficulty Weight</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">@_pmc_HardDifficulty</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_HardDifficulty" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium"/>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_HardDifficulty"))
+                        {
+                            <MudButton @onclick="undo_PMC_Hard" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_HardDifficulty != 30)
+                        {
+                            <MudButton @onclick="default_PMC_Hard" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Weight of PMC Difficulty. Lower is less common, higher is more common." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Impossible Difficulty Weight</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">@_pmc_ImpossibleDifficulty</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_ImpossibleDifficulty" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium"/>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_ImpossibleDifficulty"))
+                        {
+                            <MudButton @onclick="undo_PMC_Impossible" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_ImpossibleDifficulty != 10)
+                        {
+                            <MudButton @onclick="default_PMC_Impossible" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                </MudGrid>
+            </MudExpansionPanel>
+            <MudExpansionPanel Class="mud-expansion-panels-borders ma-3 pa-5" Text="Starting PMCs" Expanded=true>
+                <MudGrid>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Creates an initial PMC wave at the start of the raid, if disabled - PMCs won't spawn until the first wave configured in 'PMC Waves'." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Enable Starting PMCs</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Class="d-flex align-center mud-width-full" Elevation="0">
+                            <MudSwitch T="bool" @bind-Value="_pmc_StartingPMCsEnabled" Color="Color.Success" UncheckedColor="Color.Default" LabelPlacement="Placement.End">@_pmc_StartingPMCsEnabled</MudSwitch>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_StartingPMCsEnabled"))
+                        {
+                            <MudButton @onclick="undo_PMC_Starting_Enabled" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_StartingPMCsEnabled != true)
+                        {
+                            <MudButton @onclick="default_PMC_Starting_Enabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The chance a PMC spawning at the start will be in a group and have teammates." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Chance</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_StartingPMCsEnabled">@_pmc_StartingGroupChance</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_StartingGroupChance" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_StartingPMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_StartingGroupChance"))
+                        {
+                            <MudButton @onclick="undo_PMC_Starting_GroupChance" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_StartingGroupChance != 25)
+                        {
+                            <MudButton @onclick="default_PMC_Starting_GroupChance" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The maximum size of a group that a starting PMC can have." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Size</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_StartingPMCsEnabled">@_pmc_StartingGroupSize</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_StartingGroupSize" ValueLabel="true" Min="0" Max="5" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_StartingPMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_StartingGroupSize"))
+                        {
+                            <MudButton @onclick="undo_PMC_Starting_GroupSize" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_StartingGroupSize != 4)
+                        {
+                            <MudButton @onclick="default_PMC_Starting_GroupSize" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The maximum amount of PMC Groups that can possibly spawn at the start." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Count</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_StartingPMCsEnabled">@_pmc_StartingGroupCount</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_StartingGroupCount" ValueLabel="true" Min="0" Max="10" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_StartingPMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_StartingGroupCount"))
+                        {
+                            <MudButton @onclick="undo_PMC_Starting_GroupCount" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_StartingGroupCount != 6)
+                        {
+                            <MudButton @onclick="default_PMC_Starting_GroupCount" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                </MudGrid>
+            </MudExpansionPanel>
+            <MudExpansionPanel Class="mud-expansion-panels-borders ma-3 pa-5" Text="PMC Waves" Expanded=true>
+                <MudGrid>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="If additional PMCs should spawn throughout the raid, if disabled - you will not get further PMC spawns." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Enable PMC Waves</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Class="d-flex align-center mud-width-full" Elevation="0">
+                            <MudSwitch T="bool" @bind-Value="_pmc_WavePMCsEnabled" Color="Color.Success" UncheckedColor="Color.Default" LabelPlacement="Placement.End">@_pmc_WavePMCsEnabled</MudSwitch>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WavePMCsEnabled"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_Enabled" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WavePMCsEnabled != false)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_Enabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The chance a PMC spawning at the start will be in a group and have teammates." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Chance</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveGroupChance</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveGroupChance" ValueLabel="true" Min="0" Max="100" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveGroupChance"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_GroupChance" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveGroupChance != 20)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_GroupChance" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The maximum size of a group that a starting PMC can have." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Size</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveGroupSize</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveGroupSize" ValueLabel="true" Min="0" Max="5" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveGroupSize"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_GroupSize" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveGroupSize != 2)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_GroupSize" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The maximum amount of PMC Groups that can possibly spawn at the start." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Group Count</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveGroupCount</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveGroupCount" ValueLabel="true" Min="0" Max="10" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveGroupCount"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_GroupCount" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveGroupCount != 3)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_GroupCount" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The maximum amount of PMCs that can possibly spawn in each wave." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Max PMC Count per Wave</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveBotsPerWave</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveBotsPerWave" ValueLabel="true" Min="0" Max="15" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveBotsPerWave"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_MaxPMCCount" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveBotsPerWave != 5)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_MaxPMCCount" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The amount of time that must pass from the previous wave, to trigger another PMC wave." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Seconds Between Waves</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveTimer</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveTimer" ValueLabel="true" Min="0" Max="900" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveTimer"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_Timer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveTimer != 400)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_Timer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Time left in the raid to stop spawning additional waves - if set to 600 will not allow more PMC waves when 10m left in raid." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Wave Stop Timer</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveEndTimer</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveEndTimer" ValueLabel="true" Min="0" Max="1200" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveEndTimer"))
+                        {
+                            <MudButton @onclick="undo_PMC_Wave_EndTimer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveEndTimer != 600)
+                        {
+                            <MudButton @onclick="default_PMC_Wave_EndTimer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                </MudGrid>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudContainer>
+</MudMainContent>
+
+@code {
+    #region PMCDifficulty
+    private int _pmc_EasyDifficulty
+    {
+        get => Data.pmcDifficulty.easy;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcDifficulty.easy);
+            Data.pmcDifficulty.easy = value;
+        }
+    }
+    private void undo_PMC_Easy() => _pmc_EasyDifficulty = OriginalConfig.pmcDifficulty.easy;
+    private void default_PMC_Easy() => _pmc_EasyDifficulty = 10;
+    private int _pmc_NormalDifficulty
+    {
+        get => Data.pmcDifficulty.normal;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcDifficulty.normal);
+            Data.pmcDifficulty.normal = value;
+        }
+    }
+    private void undo_PMC_Normal() => _pmc_NormalDifficulty = OriginalConfig.pmcDifficulty.normal;
+    private void default_PMC_Normal() => _pmc_NormalDifficulty = 50;
+    private int _pmc_HardDifficulty
+    {
+        get => Data.pmcDifficulty.hard;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcDifficulty.hard);
+            Data.pmcDifficulty.hard = value;
+        }
+    }
+    private void undo_PMC_Hard() => _pmc_HardDifficulty = OriginalConfig.pmcDifficulty.hard;
+    private void default_PMC_Hard() => _pmc_HardDifficulty = 30;
+    private int _pmc_ImpossibleDifficulty
+    {
+        get => Data.pmcDifficulty.impossible;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcDifficulty.impossible);
+            Data.pmcDifficulty.impossible = value;
+        }
+    }
+    private void undo_PMC_Impossible() => _pmc_ImpossibleDifficulty = OriginalConfig.pmcDifficulty.impossible;
+    private void default_PMC_Impossible() => _pmc_ImpossibleDifficulty = 10;
+    #endregion
+    #region StartingPMCs
+    private bool _pmc_StartingPMCsEnabled
+    {
+        get => Data.pmcConfig.startingPMCs.enable;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.startingPMCs.enable);
+            Data.pmcConfig.startingPMCs.enable = value;
+        }
+    }
+    private void undo_PMC_Starting_Enabled() => _pmc_StartingPMCsEnabled = OriginalConfig.pmcConfig.startingPMCs.enable;
+    private void default_PMC_Starting_Enabled() => _pmc_StartingPMCsEnabled = true;
+
+    private int _pmc_StartingGroupChance
+    {
+        get => Data.pmcConfig.startingPMCs.groupChance;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.startingPMCs.groupChance);
+            Data.pmcConfig.startingPMCs.groupChance = value;
+        }
+    }
+    private void undo_PMC_Starting_GroupChance() => _pmc_StartingGroupChance = OriginalConfig.pmcConfig.startingPMCs.groupChance;
+    private void default_PMC_Starting_GroupChance() => _pmc_StartingGroupChance = 25;
+
+    private int _pmc_StartingGroupSize
+    {
+        get => Data.pmcConfig.startingPMCs.maxGroupSize;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.startingPMCs.maxGroupSize);
+            Data.pmcConfig.startingPMCs.maxGroupSize = value;
+        }
+    }
+    private void undo_PMC_Starting_GroupSize() => _pmc_StartingGroupSize = OriginalConfig.pmcConfig.startingPMCs.maxGroupSize;
+    private void default_PMC_Starting_GroupSize() => _pmc_StartingGroupSize = 4;
+
+    private int _pmc_StartingGroupCount
+    {
+        get => Data.pmcConfig.startingPMCs.maxGroupCount;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.startingPMCs.maxGroupCount);
+            Data.pmcConfig.startingPMCs.maxGroupCount = value;
+        }
+    }
+    private void undo_PMC_Starting_GroupCount() => _pmc_StartingGroupCount = OriginalConfig.pmcConfig.startingPMCs.maxGroupCount;
+    private void default_PMC_Starting_GroupCount() => _pmc_StartingGroupCount = 6;
+    #endregion
+    #region PMCWaves
+    private bool _pmc_WavePMCsEnabled
+    {
+        get => Data.pmcConfig.waves.enable;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.enable);
+            Data.pmcConfig.waves.enable = value;
+        }
+    }
+    private void undo_PMC_Wave_Enabled() => _pmc_WavePMCsEnabled = OriginalConfig.pmcConfig.waves.enable;
+    private void default_PMC_Wave_Enabled() => _pmc_WavePMCsEnabled = false;
+
+    private int _pmc_WaveGroupChance
+    {
+        get => Data.pmcConfig.waves.groupChance;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.groupChance);
+            Data.pmcConfig.waves.groupChance = value;
+        }
+    }
+    private void undo_PMC_Wave_GroupChance() => _pmc_WaveGroupChance = OriginalConfig.pmcConfig.waves.groupChance;
+    private void default_PMC_Wave_GroupChance() => _pmc_WaveGroupChance = 20;
+
+    private int _pmc_WaveGroupSize
+    {
+        get => Data.pmcConfig.waves.maxGroupSize;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.maxGroupSize);
+            Data.pmcConfig.waves.maxGroupSize = value;
+        }
+    }
+    private void undo_PMC_Wave_GroupSize() => _pmc_WaveGroupSize = OriginalConfig.pmcConfig.waves.maxGroupSize;
+    private void default_PMC_Wave_GroupSize() => _pmc_WaveGroupSize = 2;
+
+    private int _pmc_WaveGroupCount
+    {
+        get => Data.pmcConfig.waves.maxGroupCount;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.maxGroupCount);
+            Data.pmcConfig.waves.maxGroupCount = value;
+        }
+    }
+    private void undo_PMC_Wave_GroupCount() => _pmc_WaveGroupCount = OriginalConfig.pmcConfig.waves.maxGroupCount;
+    private void default_PMC_Wave_GroupCount() => _pmc_WaveGroupCount = 3;
+
+    private int _pmc_WaveBotsPerWave
+    {
+        get => Data.pmcConfig.waves.maxBotsPerWave;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.maxBotsPerWave);
+            Data.pmcConfig.waves.maxBotsPerWave = value;
+        }
+    }
+    private void undo_PMC_Wave_MaxPMCCount() => _pmc_WaveBotsPerWave = OriginalConfig.pmcConfig.waves.maxBotsPerWave;
+    private void default_PMC_Wave_MaxPMCCount() => _pmc_WaveBotsPerWave = 5;
+
+    private int _pmc_WaveTimer
+    {
+        get => Data.pmcConfig.waves.secondsBetweenWaves;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.secondsBetweenWaves);
+            Data.pmcConfig.waves.secondsBetweenWaves = value;
+        }
+    }
+    private void undo_PMC_Wave_Timer() => _pmc_WaveTimer = OriginalConfig.pmcConfig.waves.secondsBetweenWaves;
+    private void default_PMC_Wave_Timer() => _pmc_WaveTimer = 400;
+
+    private int _pmc_WaveEndTimer
+    {
+        get => Data.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit);
+            Data.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit = value;
+        }
+    }
+    private void undo_PMC_Wave_EndTimer() => _pmc_WaveEndTimer = OriginalConfig.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit;
+    private void default_PMC_Wave_EndTimer() => _pmc_WaveEndTimer = 600;
+    #endregion
+
+    #region CASCADING PARAMETERS
+    [CascadingParameter] public ABPSConfig.Shared.MainLayout? Layout { get; set; }
+    #endregion
+}

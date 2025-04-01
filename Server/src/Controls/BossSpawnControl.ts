@@ -1,6 +1,8 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
+import { ICloner } from "@spt/utils/cloners/ICloner";
+import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
 import { ModConfig } from "../Globals/ModConfig";
 
 // Default Boss Data
@@ -26,14 +28,14 @@ import {
     pmcBotLaboratoryData, 
     sectantPriestData 
 } from "../Defaults/Bosses"
-import { ICloner } from "@spt/utils/cloners/ICloner";
 
 @injectable()
 export class BossSpawnControl
 {
     constructor(
         @inject("WinstonLogger") protected logger: ILogger,
-        @inject("PrimaryCloner") protected cloner: ICloner
+        @inject("PrimaryCloner") protected cloner: ICloner,
+        @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper
     )
     {}
 
@@ -49,6 +51,7 @@ export class BossSpawnControl
         {
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(boss, location));
             const bossConfigData = ModConfig.config.bossConfig[boss];
+            const difficultyWeights = ModConfig.config.bossDifficulty;
 
             if (!bossConfigData.enable) continue;
 
@@ -58,6 +61,7 @@ export class BossSpawnControl
                 {
                     // These require specific spawns & triggers
                     bossDefaultData[bossSpawn].BossChance = bossConfigData.spawnChance[location];
+                    bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                     bossesForMap.push(bossDefaultData[bossSpawn]);
                 }
                 if (!bossConfigData.addExtraSpawns) continue;
@@ -69,6 +73,8 @@ export class BossSpawnControl
             
             bossDefaultData[0].BossChance = bossConfigData.spawnChance[location];
             bossDefaultData[0].BossZone = bossConfigData.bossZone[location];
+            bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+            bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].Time = bossConfigData.time;
             bossesForMap.push(bossDefaultData[0]);
         }

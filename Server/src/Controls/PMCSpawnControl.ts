@@ -1,7 +1,10 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { ModConfig } from "../Globals/ModConfig";
+import { ICloner } from "@spt/utils/cloners/ICloner";
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+
 
 // Default PMC Data
 import { 
@@ -9,8 +12,7 @@ import {
     pmcUSECData
 } from "../Defaults/PMCs";
 
-import { ICloner } from "@spt/utils/cloners/ICloner";
-import { RandomUtil } from "@spt/utils/RandomUtil";
+import { ModConfig } from "../Globals/ModConfig";
 import { pmcMapLimitCounts } from "../Defaults/PMCMapLimits";
 
 @injectable()
@@ -19,7 +21,8 @@ export class PMCSpawnControl
     constructor(
         @inject("WinstonLogger") protected logger: ILogger,
         @inject("RandomUtil") protected randomUtil: RandomUtil,
-        @inject("PrimaryCloner") protected cloner: ICloner
+        @inject("PrimaryCloner") protected cloner: ICloner,
+        @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper
     )
     {}
 
@@ -31,11 +34,11 @@ export class PMCSpawnControl
     private getConfigValueForLocation(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
     {
         let pmcSpawnInfo: IBossLocationSpawn[] = [];
-        if (ModConfig.config.pmcConfig.startingPMCs.enabled)
+        if (ModConfig.config.pmcConfig.startingPMCs.enable)
         {
             pmcSpawnInfo = pmcSpawnInfo.concat(this.generateStartingPMCWaves(location, escapeTimeLimit));
         }
-        if (ModConfig.config.pmcConfig.waves.enabled)
+        if (ModConfig.config.pmcConfig.waves.enable)
         {
             pmcSpawnInfo = pmcSpawnInfo.concat(this.generatePMCWaves(location, escapeTimeLimit));
         }
@@ -51,6 +54,7 @@ export class PMCSpawnControl
         const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
         const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
         const groupMaxSize = ModConfig.config.pmcConfig.startingPMCs.maxGroupSize;
+        const difficultyWeights = ModConfig.config.pmcDifficulty;
 
         let currentPMCCount = 0;
         let groupCount = 0;
@@ -70,6 +74,8 @@ export class PMCSpawnControl
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
+            bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+            bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             currentPMCCount += groupSize + 1;
             groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
@@ -85,6 +91,7 @@ export class PMCSpawnControl
     {
         const pmcWaveSpawnInfo: IBossLocationSpawn[] = [];
 
+        const difficultyWeights = ModConfig.config.pmcDifficulty;
         const waveMaxPMCCount = location.includes("factory") ? Math.min(2, ModConfig.config.pmcConfig.waves.maxBotsPerWave - 2) : ModConfig.config.pmcConfig.waves.maxBotsPerWave;
         const waveGroupLimit = ModConfig.config.pmcConfig.waves.maxGroupCount;
         const waveGroupSize = ModConfig.config.pmcConfig.waves.maxGroupSize;
@@ -114,6 +121,8 @@ export class PMCSpawnControl
 
                 bossDefaultData[0].BossEscortAmount = groupSize.toString();
                 bossDefaultData[0].Time = currentWaveTime;
+                bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+                bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 currentPMCCount += groupSize + 1;
                 groupCount++
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);

@@ -21,24 +21,28 @@ export class ModConfig
 export interface Config
 {
     progressiveChance: MinMax
+    pmcDifficulty: Record<DifficultyConfig, number>,
     pmcConfig: PMCConfig,
+    bossDifficulty: Record<DifficultyConfig, number>,
     bossConfig: BossConfig,
+    configAppSettings: ConfigAppSettings,
 }
 export interface PMCConfig
 {
     startingPMCs: PMCStartingConfig,
     waves: PMCWaveConfig,
 }
+export type DifficultyConfig = "easy" | "normal" | "hard" | "impossible";
 export interface PMCStartingConfig
 {
-    enabled: boolean,
+    enable: boolean,
     groupChance: number,
     maxGroupSize: number,
     maxGroupCount: number
 }
 export interface PMCWaveConfig
 {
-    enabled: boolean,
+    enable: boolean,
     groupChance: number,
     maxGroupSize: number,
     maxGroupCount: number,
@@ -99,4 +103,11 @@ export interface ValidLocations
     shoreline: number | string,
     tarkovstreets: number | string,
     woods: number | string,
+}
+
+export interface ConfigAppSettings
+{
+    showUndo: boolean,
+    showDefault: boolean,
+    disableAnimations: boolean
 }

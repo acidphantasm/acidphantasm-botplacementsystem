@@ -14,6 +14,7 @@ import { ICloner } from "@spt/utils/cloners/ICloner";
 import { VanillaAdjustmentControl } from "./Controls/VanillaAdjustmentControl";
 import { PMCSpawnControl } from "./Controls/PMCSpawnControl";
 import { StaticRouterHooks } from "./Routers/StaticRouterHooks";
+import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
 
 export class InstanceManager 
 {
@@ -32,6 +33,7 @@ export class InstanceManager
 
     //#region accessible in or after postDBLoad
     public databaseService: DatabaseService;
+    public weightedRandomHelper: WeightedRandomHelper;
     public vanillaAdjustmentControl: VanillaAdjustmentControl;
     public bossSpawnControl: BossSpawnControl;
     public pmcSpawnControl: PMCSpawnControl;
@@ -79,6 +81,7 @@ export class InstanceManager
     {
         // SPT Classes
         this.databaseService = container.resolve<DatabaseService>("DatabaseService");
+        this.weightedRandomHelper = container.resolve<WeightedRandomHelper>("WeightedRandomHelper");
         this.vanillaAdjustmentControl = container.resolve<VanillaAdjustmentControl>("VanillaAdjustmentControl");
         this.bossSpawnControl = container.resolve<BossSpawnControl>("BossSpawnControl");
         this.pmcSpawnControl = container.resolve<PMCSpawnControl>("PMCSpawnControl");
