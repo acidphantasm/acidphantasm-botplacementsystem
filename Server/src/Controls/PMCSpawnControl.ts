@@ -150,4 +150,52 @@ export class PMCSpawnControl
                 return undefined;
         }
     }
+
+    public generateScavRaidRemainingPMCs(location: string, remainingRaidTime: number): IBossLocationSpawn[]
+    {
+        const startingPMCWaveInfo: IBossLocationSpawn[] = [];
+        const minPMCCount = pmcMapLimitCounts[location].min;
+        const maxPMCCount = pmcMapLimitCounts[location].max;
+        let generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
+        const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
+        const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
+        const groupMaxSize = ModConfig.config.pmcConfig.startingPMCs.maxGroupSize;
+        const difficultyWeights = ModConfig.config.pmcDifficulty;
+
+        let currentPMCCount = 0;
+        let groupCount = 0;
+
+        if (remainingRaidTime < 600) generatedPMCCount = this.randomUtil.getInt(1, 3);
+        if (remainingRaidTime < 1200) generatedPMCCount = this.randomUtil.getInt(1, 6);
+        if (remainingRaidTime < 1800) generatedPMCCount = this.randomUtil.getInt(4, 9);
+
+        if (location.includes("factory") && generatedPMCCount > 5) generatedPMCCount -= 2;
+
+        while (currentPMCCount < generatedPMCCount)
+        {
+            if (groupCount >= groupLimit) break;
+            let groupSize = 0;
+            const remainingSpots = generatedPMCCount - currentPMCCount;
+
+            const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
+            if (isAGroup)
+            {
+                groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+            }
+            const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
+            const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
+
+            bossDefaultData[0].BossEscortAmount = groupSize.toString();
+            bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+            bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+            currentPMCCount += groupSize + 1;
+            groupCount++
+            startingPMCWaveInfo.push(bossDefaultData[0]);
+
+            //this.logger.warning(`[Starting PMC] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
+        }
+        
+        //this.logger.warning(`[Starting PMCs] Map: ${location} (Time Limit: ${escapeTimeLimit}m) | Limits: ${minPMCCount}-${maxPMCCount} | Groups: ${groupCount} | TotalPMCs: ${currentPMCCount}/${generatedPMCCount}`);
+        return startingPMCWaveInfo;
+    }
 }
