@@ -1,7 +1,6 @@
 import { DependencyContainer } from "tsyringe";
 import { IPreSptLoadMod } from "@spt/models/external/IPreSptLoadMod";
 import { IPostDBLoadMod } from "@spt/models/external/IPostDBLoadMod";
-import { IPostSptLoadMod } from "@spt/models/external/IPostSptLoadMod";
 import { InstanceManager } from "./InstanceManager";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
@@ -11,6 +10,8 @@ import { FileSystemSync } from "@spt/utils/FileSystemSync";
 
 import { minVersion, satisfies, SemVer } from "semver";
 import path from "node:path";
+import { ILocationBase } from "@spt/models/eft/common/ILocationBase";
+import { IRaidChanges } from "@spt/models/spt/location/IRaidChanges";
 
 
 class ABPS implements IPreSptLoadMod, IPostDBLoadMod
@@ -30,6 +31,15 @@ class ABPS implements IPreSptLoadMod, IPostDBLoadMod
 
         this.instance.preSptLoad(container, "ABPS");
         this.instance.staticRouterHooks.registerRouterHooks();
+
+        container.afterResolution("RaidTimeAdjustmentService", (_t, result: any) =>
+        {
+            result.adjustWaves = (mapBase: ILocationBase, raidAdjustments: IRaidChanges) =>
+            {
+                this.instance.mapSpawnControl.adjustWaves(mapBase, raidAdjustments);
+            }
+
+        }, {frequency: "Always"});
     }
 
     // PostDBLoad
