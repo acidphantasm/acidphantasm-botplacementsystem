@@ -163,5 +163,24 @@ export class MapSpawnControl
     {
         const mapName = location.toLowerCase();
         this.locationData[mapName].base.BossLocationSpawn = this.botMapCache[mapName];
+        this.locationData[mapName].base.waves = this.cloner.clone(this.originalScavMapCache[mapName]);
+        this.scavMapCache[mapName].forEach((index) => (this.locationData[mapName].base.waves.push(index)));
+    }
+
+    public adjustWaves(mapBase: ILocationBase, raidAdjustments: IRaidChanges): void
+    {
+        if (raidAdjustments.simulatedRaidStartSeconds > 60)
+        {
+            mapBase.BossLocationSpawn = mapBase.BossLocationSpawn.filter((x) => x.Time > raidAdjustments.simulatedRaidStartSeconds && (x.BossName == "pmcUSEC" || x.BossName == "pmcBEAR"));
+
+            for (const bossWave of mapBase.BossLocationSpawn)
+            {
+                bossWave.Time -= Math.max(raidAdjustments.simulatedRaidStartSeconds, 0);
+            }
+
+            const totalRemainingTime = raidAdjustments.raidTimeMinutes * 60;
+            const newStartingPMCs = this.pmcSpawnControl.generateScavRaidRemainingPMCs(mapBase.Id, totalRemainingTime);
+            newStartingPMCs.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
+        }
     }
 }
