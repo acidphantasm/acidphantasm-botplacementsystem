@@ -1,13 +1,15 @@
 import { injectable, inject } from "tsyringe";
-import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
+import { ILocationBase, IBossLocationSpawn, IWave } from "@spt/models/eft/common/ILocationBase";
 import { ILogger } from "@spt/models/spt/utils/ILogger";
 
 import { BossSpawnControl } from "./BossSpawnControl";
 import { DatabaseService } from "@spt/services/DatabaseService";
-import { ConfigServer } from "@spt/servers/ConfigServer";
 import { ILocations } from "@spt/models/spt/server/ILocations";
 import { VanillaAdjustmentControl } from "./VanillaAdjustmentControl";
 import { PMCSpawnControl } from "./PMCSpawnControl";
+import { ScavSpawnControl } from "./ScavSpawnControl";
+import { IRaidChanges } from "@spt/models/spt/location/IRaidChanges";
+import { ICloner } from "@spt/utils/cloners/ICloner";
 
 @injectable()
 export class MapSpawnControl 
@@ -28,13 +30,17 @@ export class MapSpawnControl
     ];
 
     public botMapCache: Record<string, IBossLocationSpawn[]> = {};
+    public scavMapCache: Record<string, IWave[]> = {};
+    public originalScavMapCache: Record<string, IWave[]> = {};
     public locationData: ILocations = {};
 
     constructor(
         @inject("WinstonLogger") protected logger: ILogger,
         @inject("DatabaseService") protected databaseService: DatabaseService,
         @inject("BossSpawnControl") protected bossSpawnControl: BossSpawnControl,
+        @inject("ScavSpawnControl") protected scavSpawnControl: ScavSpawnControl,
         @inject("PMCSpawnControl") protected pmcSpawnControl: PMCSpawnControl,
+        @inject("PrimaryCloner") protected cloner: ICloner,
         @inject("VanillaAdjustmentControl") protected vanillaAdjustmentControl: VanillaAdjustmentControl
     ) 
     {}
@@ -47,6 +53,9 @@ export class MapSpawnControl
             const mapName = this.validMaps[map];
             this.locationData[mapName].base.BossLocationSpawn = [];
             this.botMapCache[mapName] = [];
+            this.scavMapCache[mapName] = [];
+            this.originalScavMapCache[mapName] = [];
+            this.originalScavMapCache[mapName] = this.cloner.clone(this.locationData[mapName].base.waves);
             this.vanillaAdjustmentControl.disableNewSpawnSystem(this.locationData[mapName].base);
             //this.vanillaAdjustmentControl.disableWaves(this.locationData[mapName].base);
             this.vanillaAdjustmentControl.fixPMCHostility(this.locationData[mapName].base);
@@ -94,12 +103,14 @@ export class MapSpawnControl
     }
     public buildInitialCache(): void 
     {
-        this.buildBossWave();
-        this.buildPMCWave();
+        this.buildBossWaves();
+        this.buildPMCWaves();
+        this.buildScavWaves();
         this.replaceOriginalLocations();
+        this.addScavWaves();
     }
 
-    private buildBossWave(): void 
+    private buildBossWaves(): void 
     {
         this.logger.warning("[ABPS] Creating boss waves");
         for (const map in this.validMaps) 
@@ -111,7 +122,7 @@ export class MapSpawnControl
         }
     }
 
-    private buildPMCWave(): void 
+    private buildPMCWaves(): void 
     {
         this.logger.warning("[ABPS] Creating pmc waves");
         for (const map in this.validMaps) 
@@ -120,6 +131,18 @@ export class MapSpawnControl
 
             const mapData = this.pmcSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
+        }
+    }
+
+    private buildScavWaves(): void 
+    {
+        this.logger.warning("[ABPS] Creating scav waves");
+        for (const map in this.validMaps) 
+        {
+            const mapName = this.validMaps[map];
+
+            const mapData = this.scavSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
+            if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
         }
     }
 
@@ -132,12 +155,23 @@ export class MapSpawnControl
         }
     }
 
+    private addScavWaves(): void 
+    {
+        for (const map in this.validMaps) 
+        {
+            const mapName = this.validMaps[map];
+            this.scavMapCache[mapName].forEach((index) => (this.locationData[mapName].base.waves.push(index)));
+        }
+    }
+
     public rebuildCache(location: string): void
     {
         this.locationData = this.databaseService.getTables().locations;
         this.botMapCache[location] = [];
+        this.scavMapCache[location] = [];
         this.rebuildBossWave(location);
-        this.rebuildPMCWave(location);        
+        this.rebuildPMCWave(location);   
+        this.rebuildScavWave(location)     
         this.rebuildLocation(location);
     }
 
@@ -157,6 +191,15 @@ export class MapSpawnControl
 
         const mapData = this.pmcSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
+    }
+
+    private rebuildScavWave(location: string): void 
+    {
+        this.logger.warning("[ABPS] Recreating scav waves");
+        const mapName = location.toLowerCase();
+
+        const mapData = this.scavSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
+        if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
     }
 
     private rebuildLocation(location: string): void 
