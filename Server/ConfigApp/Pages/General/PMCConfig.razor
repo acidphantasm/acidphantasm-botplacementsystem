@@ -269,7 +269,7 @@
                     <MudItem xs="1" />
                     <MudItem xs="4">
                         <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
-                            <MudTooltip Text="The chance a PMC spawning at the start will be in a group and have teammates." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                            <MudTooltip Text="The chance a PMC spawning in a wave will be in a group and have teammates." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
                                 <MudText>Group Chance</MudText>
                             </MudTooltip>
                         </MudPaper>
@@ -296,7 +296,7 @@
                     <MudItem xs="1" />
                     <MudItem xs="4">
                         <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
-                            <MudTooltip Text="The maximum size of a group that a starting PMC can have." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                            <MudTooltip Text="The maximum size of a group that a wave PMC can have." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
                                 <MudText>Group Size</MudText>
                             </MudTooltip>
                         </MudPaper>
@@ -323,7 +323,7 @@
                     <MudItem xs="1" />
                     <MudItem xs="4">
                         <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
-                            <MudTooltip Text="The maximum amount of PMC Groups that can possibly spawn at the start." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                            <MudTooltip Text="The maximum amount of PMC Groups that can possibly spawn per wave." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
                                 <MudText>Group Count</MudText>
                             </MudTooltip>
                         </MudPaper>
@@ -377,6 +377,33 @@
                     <MudItem xs="1" />
                     <MudItem xs="4">
                         <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="The amount of time that must pass from the start of the raid to trigger the first PMC wave." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>First Wave Delay Timer</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_pmc_WavePMCsEnabled">@_pmc_WaveDelayTimer</MudButton>
+                    </MudItem>
+                    <MudItem xs="5">
+                        <MudSlider @bind-Value="_pmc_WaveDelayTimer" ValueLabel="true" Min="0" Max="900" Color="Color.Info" Size="Size.Medium" Disabled="!_pmc_WavePMCsEnabled" />
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WaveDelayTimer"))
+                        {
+                                <MudButton @onclick="undo_PMC_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WaveDelayTimer != 300)
+                        {
+                                    <MudButton @onclick="default_PMC_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
+
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
                             <MudTooltip Text="The amount of time that must pass from the previous wave, to trigger another PMC wave." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
                                 <MudText>Seconds Between Waves</MudText>
                             </MudTooltip>
@@ -395,7 +422,7 @@
                             <MudButton @onclick="undo_PMC_Wave_Timer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
                         }
                         else if (MainLayout._appDefaultButtonToggle &&
-                        _pmc_WaveTimer != 400)
+                        _pmc_WaveTimer != 240)
                         {
                             <MudButton @onclick="default_PMC_Wave_Timer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
@@ -422,7 +449,7 @@
                             <MudButton @onclick="undo_PMC_Wave_EndTimer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
                         }
                         else if (MainLayout._appDefaultButtonToggle &&
-                        _pmc_WaveEndTimer != 600)
+                        _pmc_WaveEndTimer != 300)
                         {
                             <MudButton @onclick="default_PMC_Wave_EndTimer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
@@ -591,6 +618,18 @@
     private void undo_PMC_Wave_MaxPMCCount() => _pmc_WaveBotsPerWave = OriginalConfig.pmcConfig.waves.maxBotsPerWave;
     private void default_PMC_Wave_MaxPMCCount() => _pmc_WaveBotsPerWave = 5;
 
+    private int _pmc_WaveDelayTimer
+    {
+        get => Data.pmcConfig.waves.delayBeforeFirstWave;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.delayBeforeFirstWave);
+            Data.pmcConfig.waves.delayBeforeFirstWave = value;
+        }
+    }
+    private void undo_PMC_Wave_DelayTimer() => _pmc_WaveTimer = OriginalConfig.pmcConfig.waves.delayBeforeFirstWave;
+    private void default_PMC_Wave_DelayTimer() => _pmc_WaveTimer = 300;
+
     private int _pmc_WaveTimer
     {
         get => Data.pmcConfig.waves.secondsBetweenWaves;
@@ -601,7 +640,7 @@
         }
     }
     private void undo_PMC_Wave_Timer() => _pmc_WaveTimer = OriginalConfig.pmcConfig.waves.secondsBetweenWaves;
-    private void default_PMC_Wave_Timer() => _pmc_WaveTimer = 400;
+    private void default_PMC_Wave_Timer() => _pmc_WaveTimer = 240;
 
     private int _pmc_WaveEndTimer
     {
@@ -613,7 +652,7 @@
         }
     }
     private void undo_PMC_Wave_EndTimer() => _pmc_WaveEndTimer = OriginalConfig.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit;
-    private void default_PMC_Wave_EndTimer() => _pmc_WaveEndTimer = 600;
+    private void default_PMC_Wave_EndTimer() => _pmc_WaveEndTimer = 300;
     #endregion
 
     #region CASCADING PARAMETERS

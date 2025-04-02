@@ -22,6 +22,8 @@ namespace ABPSConfig.Core
         public required MinMax progressiveChance { get; set; }
         public required Difficulty pmcDifficulty { get; set; }
         public required PMCConfig pmcConfig { get; set; }
+        public required Difficulty scavDifficulty { get; set; }
+        public required ScavConfig scavConfig { get; set; }
         public required Difficulty bossDifficulty { get; set; }
         public required BossConfig bossConfig { get; set; }
         public required ConfigAppSettings configAppSettings { get; set; }
@@ -36,8 +38,11 @@ namespace ABPSConfig.Core
     public class PMCConfig
     {
         public required StartingPMCConfig startingPMCs { get; set; }
-        public required PMCWaveConfig waves { get; set; }
-
+        public required WaveConfig waves { get; set; }
+    }
+    public class ScavConfig
+    {
+        public required WaveConfig waves { get; set; }
     }
     public class StartingPMCConfig
     {
@@ -46,13 +51,14 @@ namespace ABPSConfig.Core
         public int maxGroupSize { get; set; }
         public int maxGroupCount { get; set; }
     }
-    public class PMCWaveConfig
+    public class WaveConfig
     {
         public bool enable { get; set; }
         public int groupChance { get; set; }
         public int maxGroupSize { get; set; }
         public int maxGroupCount { get; set; }
         public int maxBotsPerWave { get; set; }
+        public int delayBeforeFirstWave { get; set; }
         public int secondsBetweenWaves { get; set; }
         public int stopWavesBeforeEndOfRaidLimit { get; set; }
     }

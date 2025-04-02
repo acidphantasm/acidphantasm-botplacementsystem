@@ -22,9 +22,28 @@
             "maxGroupSize": 2,
             "maxGroupCount": 3,
             "maxBotsPerWave": 5,
-            "secondsBetweenWaves": 400,
-            "stopWavesBeforeEndOfRaidLimit": 600
+            "delayBeforeFirstWave": 300,
+            "secondsBetweenWaves": 240,
+            "stopWavesBeforeEndOfRaidLimit": 300
         }        
+    },
+    "scavDifficulty": {
+        "easy": 10,
+        "normal": 60,
+        "hard": 20,
+        "impossible": 10
+    },
+    "scavConfig": {
+        "waves": {
+            "enable": true,
+            "groupChance": 33,
+            "maxGroupSize": 3,
+            "maxGroupCount": 5,
+            "maxBotsPerWave": 8,
+            "delayBeforeFirstWave": 300,
+            "secondsBetweenWaves": 120,
+            "stopWavesBeforeEndOfRaidLimit": 120
+        }
     },
     "bossDifficulty": {
         "easy": 0,
@@ -105,7 +124,7 @@
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
-                "factory4_day": 30,
+                "factory4_day": 100,
                 "factory4_night": 30,
                 "interchange": 0,
                 "laboratory": 0,
