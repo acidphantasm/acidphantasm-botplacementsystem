@@ -15,6 +15,7 @@ import { VanillaAdjustmentControl } from "./Controls/VanillaAdjustmentControl";
 import { PMCSpawnControl } from "./Controls/PMCSpawnControl";
 import { StaticRouterHooks } from "./Routers/StaticRouterHooks";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { ScavSpawnControl } from "./Controls/ScavSpawnControl";
 
 export class InstanceManager 
 {
@@ -37,6 +38,7 @@ export class InstanceManager
     public vanillaAdjustmentControl: VanillaAdjustmentControl;
     public bossSpawnControl: BossSpawnControl;
     public pmcSpawnControl: PMCSpawnControl;
+    public scavSpawnControl: ScavSpawnControl;
     public mapSpawnControl: MapSpawnControl;
     //#endregion
 
@@ -60,6 +62,7 @@ export class InstanceManager
         // Custom Classes
         this.container.register<VanillaAdjustmentControl>("VanillaAdjustmentControl", VanillaAdjustmentControl, { lifecycle: Lifecycle.Singleton })
         this.container.register<BossSpawnControl>("BossSpawnControl", BossSpawnControl, { lifecycle: Lifecycle.Singleton })
+        this.container.register<ScavSpawnControl>("ScavSpawnControl", ScavSpawnControl, { lifecycle: Lifecycle.Singleton })
         this.container.register<PMCSpawnControl>("PMCSpawnControl", PMCSpawnControl, { lifecycle: Lifecycle.Singleton })
         this.container.register<MapSpawnControl>("MapSpawnControl", MapSpawnControl, { lifecycle: Lifecycle.Singleton })
 
@@ -84,6 +87,7 @@ export class InstanceManager
         this.weightedRandomHelper = container.resolve<WeightedRandomHelper>("WeightedRandomHelper");
         this.vanillaAdjustmentControl = container.resolve<VanillaAdjustmentControl>("VanillaAdjustmentControl");
         this.bossSpawnControl = container.resolve<BossSpawnControl>("BossSpawnControl");
+        this.scavSpawnControl = container.resolve<ScavSpawnControl>("ScavSpawnControl");
         this.pmcSpawnControl = container.resolve<PMCSpawnControl>("PMCSpawnControl");
         this.mapSpawnControl = container.resolve<MapSpawnControl>("MapSpawnControl");
     }
