@@ -96,10 +96,11 @@ export class PMCSpawnControl
         const waveGroupLimit = ModConfig.config.pmcConfig.waves.maxGroupCount;
         const waveGroupSize = ModConfig.config.pmcConfig.waves.maxGroupSize;
         const waveGroupChance = ModConfig.config.pmcConfig.waves.groupChance;
-        const waveTimer = ModConfig.config.pmcConfig.waves.secondsBetweenWaves
+        const firstWaveTimer = ModConfig.config.pmcConfig.waves.delayBeforeFirstWave;
+        const waveTimer = ModConfig.config.pmcConfig.waves.secondsBetweenWaves;
         const endWavesAtRemainingTime = ModConfig.config.pmcConfig.waves.stopWavesBeforeEndOfRaidLimit;
-        const waveCount = Math.floor(((escapeTimeLimit * 60) - endWavesAtRemainingTime) / waveTimer);
-        let currentWaveTime = waveTimer;
+        const waveCount = Math.floor((((escapeTimeLimit * 60) - endWavesAtRemainingTime) - firstWaveTimer) / waveTimer);
+        let currentWaveTime = firstWaveTimer;
 
         //this.logger.warning(`[PMC Waves] Generating ${waveCount} waves for PMCs`)
         for (let i = 1; i <= waveCount; i++)
