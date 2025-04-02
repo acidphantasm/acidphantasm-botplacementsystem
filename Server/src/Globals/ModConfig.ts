@@ -23,6 +23,8 @@ export interface Config
     progressiveChance: MinMax
     pmcDifficulty: Record<DifficultyConfig, number>,
     pmcConfig: PMCConfig,
+    scavDifficulty: Record<DifficultyConfig, number>,
+    scavConfig: ScavConfig,
     bossDifficulty: Record<DifficultyConfig, number>,
     bossConfig: BossConfig,
     configAppSettings: ConfigAppSettings,
@@ -30,7 +32,11 @@ export interface Config
 export interface PMCConfig
 {
     startingPMCs: PMCStartingConfig,
-    waves: PMCWaveConfig,
+    waves: WaveConfig,
+}
+export interface ScavConfig
+{
+    waves: WaveConfig,
 }
 export type DifficultyConfig = "easy" | "normal" | "hard" | "impossible";
 export interface PMCStartingConfig
@@ -40,13 +46,14 @@ export interface PMCStartingConfig
     maxGroupSize: number,
     maxGroupCount: number
 }
-export interface PMCWaveConfig
+export interface WaveConfig
 {
     enable: boolean,
     groupChance: number,
     maxGroupSize: number,
     maxGroupCount: number,
     maxBotsPerWave: number,
+    delayBeforeFirstWave: number,
     secondsBetweenWaves: number,
     stopWavesBeforeEndOfRaidLimit: number
 }
