@@ -28,23 +28,26 @@ import {
     pmcBotLaboratoryData, 
     sectantPriestData 
 } from "../Defaults/Bosses"
+import { RandomUtil } from "@spt/utils/RandomUtil";
+import { LabsSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
 export class BossSpawnControl
 {
     constructor(
         @inject("WinstonLogger") protected logger: ILogger,
+        @inject("RandomUtil") protected randomUtil: RandomUtil,
         @inject("PrimaryCloner") protected cloner: ICloner,
         @inject("WeightedRandomHelper") protected weightedRandomHelper: WeightedRandomHelper
     )
     {}
 
-    public getCustomMapData(location: string): IBossLocationSpawn[]
+    public getCustomMapData(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
     {
-        return this.getConfigValueForLocation(location)
+        return this.getConfigValueForLocation(location, escapeTimeLimit)
     }
 
-    private getConfigValueForLocation(location: string): IBossLocationSpawn[]
+    private getConfigValueForLocation(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
     {
         const bossesForMap: IBossLocationSpawn[] = [];
         for (const boss in ModConfig.config.bossConfig)
@@ -70,6 +73,11 @@ export class BossSpawnControl
             if (!bossConfigData.spawnChance[location]) continue;
 
             if (location.includes("factory")) bossConfigData.bossZone[location] = "BotZone"
+            if ((boss == "pmcBot") && bossConfigData.addExtraSpawns) 
+            {
+                bossesForMap.push(...this.generateBossWaves(location, escapeTimeLimit));
+                continue;
+            }
             
             bossDefaultData[0].BossChance = bossConfigData.spawnChance[location];
             bossDefaultData[0].BossZone = bossConfigData.bossZone[location];
@@ -80,6 +88,59 @@ export class BossSpawnControl
         }
 
         return bossesForMap;
+    }
+
+    private generateBossWaves(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
+    {
+        const pmcWaveSpawnInfo: IBossLocationSpawn[] = [];
+
+        const difficultyWeights = ModConfig.config.bossDifficulty;
+        const waveMaxPMCCount = location != "laboratory" ? 4 : 10;
+        const waveGroupLimit = 4;
+        const waveGroupSize = 2;
+        const waveGroupChance = 100;
+        const waveTimer = 300;
+        const endWavesAtRemainingTime = 300;
+        const waveCount = Math.floor((((escapeTimeLimit * 60) - endWavesAtRemainingTime)) / waveTimer);
+        let currentWaveTime = waveTimer;
+        const bossConfigData = ModConfig.config.bossConfig["pmcBot"];
+
+        //this.logger.warning(`[Boss Waves] Generating ${waveCount} waves for Raiders`)
+        for (let i = 1; i <= waveCount; i++)
+        {
+            if (i == 1) currentWaveTime = -1;
+
+            let currentPMCCount = 0;
+            let groupCount = 0;
+            while (currentPMCCount < waveMaxPMCCount)
+            {
+                if (groupCount >= waveGroupLimit) break;
+                let groupSize = 0;
+                const remainingSpots = waveMaxPMCCount - currentPMCCount;
+                const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(waveGroupChance) : false;
+                if (isAGroup)
+                {
+                    groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
+                }
+                const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss("pmcBot", ""));
+
+                bossDefaultData[0].BossChance = bossConfigData.spawnChance[location];
+                bossDefaultData[0].BossZone = bossConfigData.bossZone[location];
+                bossDefaultData[0].BossEscortAmount = groupSize.toString();
+                bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+                bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+                bossDefaultData[0].Time = currentWaveTime;
+                currentPMCCount += groupSize + 1;
+                groupCount++
+                pmcWaveSpawnInfo.push(bossDefaultData[0]);
+
+                //this.logger.warning(`[Boss Waves] Adding 1 spawn for Raiders to ${location} | GroupSize: ${groupSize + 1}`);
+            }
+            //this.logger.warning(`[Boss Waves] Wave: ${i} | Time: ${currentWaveTime} | Groups: ${groupCount} | TotalRaiderss: ${currentPMCCount}/${waveMaxPMCCount}`);
+            currentWaveTime += waveTimer;
+        }
+
+        return pmcWaveSpawnInfo;
     }
 
     private getDefaultValuesForBoss(boss: string, location: string): IBossLocationSpawn[]
