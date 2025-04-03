@@ -39,6 +39,12 @@ export const LabsSpawnZones =
         "BotZoneGate1",
         "BotZoneGate2"
     ]
+export const LabsNonGateSpawnZones =
+    [
+        "BotZoneBasement", 
+        "BotZoneFloor1", 
+        "BotZoneFloor2"
+    ]
 export const LighthouseSpawnZones =
     [
         "Zone_Containers", 
