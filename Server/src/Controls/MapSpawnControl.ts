@@ -117,7 +117,7 @@ export class MapSpawnControl
         {
             const mapName = this.validMaps[map];
 
-            const mapData = this.bossSpawnControl.getCustomMapData(this.validMaps[map]);
+            const mapData = this.bossSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
         }
     }
@@ -182,7 +182,7 @@ export class MapSpawnControl
         this.logger.warning("[ABPS] Recreating boss waves");
         const mapName = location.toLowerCase();
 
-        const mapData = this.bossSpawnControl.getCustomMapData(mapName);
+        const mapData = this.bossSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
     }
 
@@ -214,6 +214,7 @@ export class MapSpawnControl
 
     public adjustWaves(mapBase: ILocationBase, raidAdjustments: IRaidChanges): void
     {
+        const locationName = mapBase.Id.toLowerCase();
         if (raidAdjustments.simulatedRaidStartSeconds > 60)
         {
             mapBase.BossLocationSpawn = mapBase.BossLocationSpawn.filter((x) => x.Time > raidAdjustments.simulatedRaidStartSeconds && (x.BossName == "pmcUSEC" || x.BossName == "pmcBEAR"));
@@ -224,8 +225,11 @@ export class MapSpawnControl
             }
 
             const totalRemainingTime = raidAdjustments.raidTimeMinutes * 60;
-            const newStartingPMCs = this.pmcSpawnControl.generateScavRaidRemainingPMCs(mapBase.Id, totalRemainingTime);
+            const newStartingPMCs = this.pmcSpawnControl.generateScavRaidRemainingPMCs(locationName, totalRemainingTime);
             newStartingPMCs.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
+
+            const newStartingScavs = this.scavSpawnControl.generateInitialScavsForRemainingRaidTime(locationName);
+            newStartingScavs.forEach((index) => (mapBase.waves.push(index)));
         }
     }
 }

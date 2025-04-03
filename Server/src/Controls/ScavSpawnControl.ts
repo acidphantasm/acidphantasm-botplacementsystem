@@ -129,4 +129,48 @@ export class ScavSpawnControl
                 return WoodsSpawnZones;
         }
     }
+
+    public generateInitialScavsForRemainingRaidTime(location: string): IWave[]
+    {
+        const scavWaveSpawnInfo: IWave[] = [];
+
+        const locationConfig = this.databaseService.getTables().locations[location].base;
+        const difficultyWeights = ModConfig.config.scavDifficulty;
+        const startingGroupLimit = 10;
+        const startingGroupSize = 3;
+        const startingGroupChance = 50;
+
+        const generatedInitialScavCount = this.randomUtil.getInt(6, 10);
+
+        let wavesAddedCount = 0;
+        //this.logger.warning(`[Scav Waves] Generating ${waveCount} waves for scavs`)
+
+        let currentscavCount = 0;
+        let groupCount = 0;
+        const scavDefaultData = this.cloner.clone(this.getDefaultValues());
+        while (currentscavCount < generatedInitialScavCount)
+        {
+            if (groupCount >= startingGroupLimit) break;
+            let groupSize = 0;
+            const remainingSpots = generatedInitialScavCount - currentscavCount;
+            const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(startingGroupChance) : false;
+            if (isAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, startingGroupSize));
+
+            scavDefaultData.slots_min = groupSize > 1 ? groupSize : 1;
+            scavDefaultData.slots_max = groupSize > 1 ? groupSize + 1 : 2;
+            scavDefaultData.time_min = -1;
+            scavDefaultData.time_max = -1;
+            scavDefaultData.BotPreset = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+            scavDefaultData.number = locationConfig.waves.length + wavesAddedCount;
+            scavDefaultData.SpawnPoints = this.randomUtil.getStringArrayValue(this.getAvailableMapSpawns(location));
+            currentscavCount += groupSize + 1;
+
+            groupCount++;
+            wavesAddedCount++;
+            scavWaveSpawnInfo.push(scavDefaultData);
+            //this.logger.warning(`[Scav Waves] Adding 1 spawn for assault to ${location} | GroupSize: ${groupSize + 1}`);
+        }
+
+        return scavWaveSpawnInfo;
+    }
 }
