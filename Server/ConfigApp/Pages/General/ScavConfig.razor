@@ -280,12 +280,12 @@
                         @if (MainLayout._appUndoButtonToggle &&
                         MainLayout.pendingChanges.Contains("_scav_WaveDelayTimer"))
                         {
-                                <MudButton @onclick="undo_Scav_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                            <MudButton @onclick="undo_Scav_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
                         }
                         else if (MainLayout._appDefaultButtonToggle &&
                         _scav_WaveDelayTimer != 300)
                         {
-                                    <MudButton @onclick="default_Scav_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                            <MudButton @onclick="default_Scav_Wave_DelayTimer" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
                     </MudItem>
 

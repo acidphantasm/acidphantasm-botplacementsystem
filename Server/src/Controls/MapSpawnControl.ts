@@ -140,6 +140,7 @@ export class MapSpawnControl
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
+            if (mapName == "laboratory") continue;
 
             const mapData = this.scavSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
@@ -160,6 +161,7 @@ export class MapSpawnControl
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
+            if (mapName == "laboratory") continue;
             this.scavMapCache[mapName].forEach((index) => (this.locationData[mapName].base.waves.push(index)));
         }
     }
