@@ -29,7 +29,6 @@ import {
     sectantPriestData 
 } from "../Defaults/Bosses"
 import { RandomUtil } from "@spt/utils/RandomUtil";
-import { LabsSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
 export class BossSpawnControl
@@ -62,8 +61,8 @@ export class BossSpawnControl
             {
                 for (const bossSpawn in bossDefaultData)
                 {
-                    // These require specific spawns & triggers
-                    bossDefaultData[bossSpawn].BossChance = bossConfigData.spawnChance[location];
+                    // Create the vanilla spawns
+                    //bossDefaultData[bossSpawn].BossChance = bossConfigData.spawnChance[location];
                     bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                     bossesForMap.push(bossDefaultData[bossSpawn]);
                 }
