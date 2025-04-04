@@ -4,11 +4,12 @@ import { ConfigServer } from "@spt/servers/ConfigServer";
 import { DatabaseService } from "@spt/services/DatabaseService";
 import { ConfigTypes } from "@spt/models/enums/ConfigTypes";
 import { ILocationConfig } from "@spt/models/spt/config/ILocationConfig";
-import { ILocationBase } from "@spt/models/eft/common/ILocationBase";
+import { ILocationBase, IWave } from "@spt/models/eft/common/ILocationBase";
 import { newPMCHostilitySettings } from "../Defaults/Hostility";
 import { ICloner } from "@spt/utils/cloners/ICloner";
 import { IPmcConfig } from "@spt/models/spt/config/IPmcConfig";
 import { IBotConfig } from "@spt/models/spt/config/IBotConfig";
+import { ILocation } from "@spt/models/eft/itemEvent/IItemEventRouterRequest";
 
 @injectable()
 export class VanillaAdjustmentControl
@@ -42,6 +43,14 @@ export class VanillaAdjustmentControl
     {
         base.NewSpawn = false;
         base.OfflineNewSpawn = false;
+        base.OldSpawn = true;
+        base.OfflineOldSpawn = true;
+    }
+
+    public enableAllSpawnSystem(base: any): void
+    {
+        base.NewSpawn = true;
+        base.OfflineNewSpawn = true;
         base.OldSpawn = true;
         base.OfflineOldSpawn = true;
     }
