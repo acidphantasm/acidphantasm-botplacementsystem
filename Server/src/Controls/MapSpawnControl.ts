@@ -31,7 +31,6 @@ export class MapSpawnControl
 
     public botMapCache: Record<string, IBossLocationSpawn[]> = {};
     public scavMapCache: Record<string, IWave[]> = {};
-    public originalScavMapCache: Record<string, IWave[]> = {};
     public locationData: ILocations = {};
 
     constructor(
@@ -54,10 +53,8 @@ export class MapSpawnControl
             this.locationData[mapName].base.BossLocationSpawn = [];
             this.botMapCache[mapName] = [];
             this.scavMapCache[mapName] = [];
-            this.originalScavMapCache[mapName] = [];
-            this.originalScavMapCache[mapName] = this.cloner.clone(this.locationData[mapName].base.waves);
-            this.vanillaAdjustmentControl.disableNewSpawnSystem(this.locationData[mapName].base);
-            //this.vanillaAdjustmentControl.disableWaves(this.locationData[mapName].base);
+            if (mapName != "laboratory") this.vanillaAdjustmentControl.enableAllSpawnSystem(this.locationData[mapName].base);
+            this.vanillaAdjustmentControl.disableWaves(this.locationData[mapName].base);
             this.vanillaAdjustmentControl.fixPMCHostility(this.locationData[mapName].base);
             /*
             This is how you make a spawn point properly
@@ -105,17 +102,16 @@ export class MapSpawnControl
     {
         this.buildBossWaves();
         this.buildPMCWaves();
-        this.buildScavWaves();
+        this.buildStartingScavs();
         this.replaceOriginalLocations();
-        this.addScavWaves();
     }
 
     private buildBossWaves(): void 
     {
-        this.logger.warning("[ABPS] Creating boss waves");
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
+            this.logger.warning(`[ABPS] Creating boss waves for ${mapName}`);
 
             const mapData = this.bossSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
@@ -124,25 +120,25 @@ export class MapSpawnControl
 
     private buildPMCWaves(): void 
     {
-        this.logger.warning("[ABPS] Creating pmc waves");
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
+            this.logger.warning(`[ABPS] Creating pmc waves for ${mapName}`);
 
             const mapData = this.pmcSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
         }
     }
 
-    private buildScavWaves(): void 
+    private buildStartingScavs(): void 
     {
-        this.logger.warning("[ABPS] Creating scav waves");
+        this.logger.warning("[ABPS] Creating initial scav spawns");
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
             if (mapName == "laboratory") continue;
 
-            const mapData = this.scavSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
+            const mapData = this.scavSpawnControl.getCustomMapData(this.validMaps[map]);
             if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
         }
     }
@@ -152,17 +148,8 @@ export class MapSpawnControl
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
-            this.locationData[mapName].base.BossLocationSpawn = this.botMapCache[mapName];
-        }
-    }
-
-    private addScavWaves(): void 
-    {
-        for (const map in this.validMaps) 
-        {
-            const mapName = this.validMaps[map];
-            if (mapName == "laboratory") continue;
-            this.scavMapCache[mapName].forEach((index) => (this.locationData[mapName].base.waves.push(index)));
+            this.locationData[mapName].base.BossLocationSpawn = this.cloner.clone(this.botMapCache[mapName]);
+            this.locationData[mapName].base.waves = this.cloner.clone(this.scavMapCache[mapName]);
         }
     }
 
@@ -172,15 +159,15 @@ export class MapSpawnControl
         this.botMapCache[location] = [];
         this.scavMapCache[location] = [];
         this.rebuildBossWave(location);
-        this.rebuildPMCWave(location);   
-        this.rebuildScavWave(location)     
+        this.rebuildPMCWave(location);    
+        this.rebuildStartingScavs(location) 
         this.rebuildLocation(location);
     }
 
     private rebuildBossWave(location: string): void 
     {
-        this.logger.warning("[ABPS] Recreating boss waves");
         const mapName = location.toLowerCase();
+        this.logger.warning(`[ABPS] Recreating boss waves for ${mapName}`);
 
         const mapData = this.bossSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
@@ -188,28 +175,28 @@ export class MapSpawnControl
 
     private rebuildPMCWave(location: string): void 
     {
-        this.logger.warning("[ABPS] Recreating pmc waves");
         const mapName = location.toLowerCase();
+        this.logger.warning(`[ABPS] Recreating PMC waves for ${mapName}`);
 
         const mapData = this.pmcSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
     }
 
-    private rebuildScavWave(location: string): void 
+    private rebuildStartingScavs(location: string): void 
     {
-        this.logger.warning("[ABPS] Recreating scav waves");
         const mapName = location.toLowerCase();
+        if (mapName == "laboratory") return;
+        this.logger.warning("[ABPS] Recreating starting scavs");
 
-        const mapData = this.scavSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
+        const mapData = this.scavSpawnControl.getCustomMapData(mapName);
         if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
     }
 
     private rebuildLocation(location: string): void 
     {
         const mapName = location.toLowerCase();
-        this.locationData[mapName].base.BossLocationSpawn = this.botMapCache[mapName];
-        this.locationData[mapName].base.waves = this.cloner.clone(this.originalScavMapCache[mapName]);
-        this.scavMapCache[mapName].forEach((index) => (this.locationData[mapName].base.waves.push(index)));
+        this.locationData[mapName].base.BossLocationSpawn = this.cloner.clone(this.botMapCache[mapName]);
+        this.locationData[mapName].base.waves = this.cloner.clone(this.scavMapCache[mapName]);
     }
 
     public adjustWaves(mapBase: ILocationBase, raidAdjustments: IRaidChanges): void
@@ -228,7 +215,7 @@ export class MapSpawnControl
             const newStartingPMCs = this.pmcSpawnControl.generateScavRaidRemainingPMCs(locationName, totalRemainingTime);
             newStartingPMCs.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
 
-            const newStartingScavs = this.scavSpawnControl.generateInitialScavsForRemainingRaidTime(locationName);
+            const newStartingScavs = this.scavSpawnControl.generateInitialScavsForRemainingRaidTime(locationName, "assault");
             newStartingScavs.forEach((index) => (mapBase.waves.push(index)));
         }
     }
