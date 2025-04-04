@@ -14,7 +14,7 @@ import {
 
 import { ModConfig } from "../Globals/ModConfig";
 import { pmcMapLimitCounts } from "../Defaults/PMCMapLimits";
-import { LabsNonGateSpawnZones } from "../Defaults/MapSpawnZones";
+import { Labs_NonGateSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
 export class PMCSpawnControl
@@ -37,7 +37,7 @@ export class PMCSpawnControl
         let pmcSpawnInfo: IBossLocationSpawn[] = [];
         if (ModConfig.config.pmcConfig.startingPMCs.enable)
         {
-            pmcSpawnInfo = pmcSpawnInfo.concat(this.generateStartingPMCWaves(location, escapeTimeLimit));
+            pmcSpawnInfo = pmcSpawnInfo.concat(this.generateStartingPMCWaves(location));
         }
         if (ModConfig.config.pmcConfig.waves.enable)
         {
@@ -46,7 +46,7 @@ export class PMCSpawnControl
         return pmcSpawnInfo;
     }
 
-    private generateStartingPMCWaves(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
+    private generateStartingPMCWaves(location: string): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
         const minPMCCount = pmcMapLimitCounts[location].min;
@@ -77,7 +77,7 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
             currentPMCCount += groupSize + 1;
             groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
@@ -126,7 +126,7 @@ export class PMCSpawnControl
                 bossDefaultData[0].Time = currentWaveTime;
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-                bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+                bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
                 currentPMCCount += groupSize + 1;
                 groupCount++
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
@@ -191,7 +191,7 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
             currentPMCCount += groupSize + 1;
             groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
