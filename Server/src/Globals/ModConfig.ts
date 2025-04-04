@@ -23,7 +23,6 @@ export interface Config
     progressiveChance: MinMax
     pmcDifficulty: Record<DifficultyConfig, number>,
     pmcConfig: PMCConfig,
-    scavDifficulty: Record<DifficultyConfig, number>,
     scavConfig: ScavConfig,
     bossDifficulty: Record<DifficultyConfig, number>,
     bossConfig: BossConfig,
@@ -36,7 +35,20 @@ export interface PMCConfig
 }
 export interface ScavConfig
 {
-    waves: WaveConfig,
+    startingScavs: ScavStartingConfig,
+    waves: ScavWaveConfig,
+}
+export interface ScavStartingConfig
+{
+    enable: boolean,
+    difficulty: Record<DifficultyConfig, number>,
+    maxBotSpawns: ValidLocations,
+    maxBotsPerZone: number,
+    startingMarksman: boolean,
+}
+export interface ScavWaveConfig
+{
+
 }
 export type DifficultyConfig = "easy" | "normal" | "hard" | "impossible";
 export interface PMCStartingConfig

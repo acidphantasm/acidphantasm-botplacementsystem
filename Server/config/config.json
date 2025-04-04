@@ -27,22 +27,31 @@
             "stopWavesBeforeEndOfRaidLimit": 300
         }        
     },
-    "scavDifficulty": {
-        "easy": 10,
-        "normal": 60,
-        "hard": 20,
-        "impossible": 10
-    },
     "scavConfig": {
-        "waves": {
+        "startingScavs": {
             "enable": true,
-            "groupChance": 33,
-            "maxGroupSize": 3,
-            "maxGroupCount": 5,
-            "maxBotsPerWave": 8,
-            "delayBeforeFirstWave": 300,
-            "secondsBetweenWaves": 120,
-            "stopWavesBeforeEndOfRaidLimit": 120
+            "difficulty": {
+                "easy": 10,
+                "normal": 60,
+                "hard": 20,
+                "impossible": 10
+            },
+            "maxBotSpawns": {
+                "bigmap": 10,
+                "factory4_day": 6,
+                "factory4_night": 6,
+                "interchange": 10,
+                "laboratory": 0,
+                "lighthouse": 8,
+                "rezervbase": 10,
+                "sandbox": 10,
+                "sandbox_high": 10,
+                "shoreline": 10,
+                "tarkovstreets": 10,
+                "woods": 10
+            },
+            "maxBotsPerZone": 2,
+            "startingMarksman": true
         }
     },
     "bossDifficulty": {
