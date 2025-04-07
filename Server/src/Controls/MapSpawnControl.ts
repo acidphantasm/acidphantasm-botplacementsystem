@@ -53,9 +53,10 @@ export class MapSpawnControl
             this.locationData[mapName].base.BossLocationSpawn = [];
             this.botMapCache[mapName] = [];
             this.scavMapCache[mapName] = [];
-            if (mapName != "laboratory") this.vanillaAdjustmentControl.enableAllSpawnSystem(this.locationData[mapName].base);
-            this.vanillaAdjustmentControl.disableWaves(this.locationData[mapName].base);
+            if (ModConfig.config.scavConfig.waves.enable) this.vanillaAdjustmentControl.enableAllSpawnSystem(this.locationData[mapName].base);
+            this.vanillaAdjustmentControl.removeExistingWaves(this.locationData[mapName].base);
             this.vanillaAdjustmentControl.fixPMCHostility(this.locationData[mapName].base);
+            this.vanillaAdjustmentControl.adjustNewWaveSettings(this.locationData[mapName].base);
             /*
             This is how you make a spawn point properly
             if (this.validMaps[map] == "bigmap") {

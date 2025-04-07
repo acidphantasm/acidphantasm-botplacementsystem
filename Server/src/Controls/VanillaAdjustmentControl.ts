@@ -41,6 +41,8 @@ export class VanillaAdjustmentControl
 
     public disableNewSpawnSystem(base: any): void
     {
+        if (base.Id == "laboratory") return;
+
         base.NewSpawn = false;
         base.OfflineNewSpawn = false;
         base.OldSpawn = true;
@@ -49,13 +51,41 @@ export class VanillaAdjustmentControl
 
     public enableAllSpawnSystem(base: any): void
     {
+        if (base.Id == "laboratory") return;
+
         base.NewSpawn = true;
         base.OfflineNewSpawn = true;
         base.OldSpawn = true;
         base.OfflineOldSpawn = true;
     }
 
-    public disableWaves(base: any): void
+    public adjustNewWaveSettings(base: any): void
+    {
+        if (base.Id == "laboratory") return;
+
+        // Start-Stop Time for spawns
+        base.BotStart = ModConfig.config.scavConfig.waves.startSpawns;
+        base.BotStop = (base.EscapeTimeLimit * 60) - ModConfig.config.scavConfig.waves.stopSpawns;
+
+        // Start-Stop wave times for active spawning
+        base.BotSpawnTimeOnMin = ModConfig.config.scavConfig.waves.activeTimeMin;
+        base.BotSpawnTimeOnMax = ModConfig.config.scavConfig.waves.activeTimeMax;
+
+        // Start-Stop wave wait times between active spawning
+        base.BotSpawnTimeOffMin = ModConfig.config.scavConfig.waves.quietTimeMin;
+        base.BotSpawnTimeOffMax = ModConfig.config.scavConfig.waves.quietTimeMax;
+
+        // Probably how often it checks to spawn while active spawning
+        base.BotSpawnPeriodCheck = ModConfig.config.scavConfig.waves.checkToSpawnTimer;
+
+        // Bot count required to trigger a spawn
+        base.BotSpawnCountStep = ModConfig.config.scavConfig.waves.pendingBotsToTrigger;
+
+        base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayer = 100;
+        base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayerPvE = 100;
+    }
+
+    public removeExistingWaves(base: any): void
     {
         base.waves = [];
     }
