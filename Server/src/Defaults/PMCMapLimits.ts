@@ -1,15 +1,15 @@
 export const pmcMapLimitCounts =
 {
     "bigmap": {
-        "min": 9,
-        "max": 11
+        "min": 8,
+        "max": 10
     },
     "factory4_day": {
-        "min": 6,
+        "min": 5,
         "max": 9
     },
     "factory4_night": {
-        "min": 6,
+        "min": 5,
         "max": 9
     },
     "interchange": {
@@ -30,7 +30,7 @@ export const pmcMapLimitCounts =
     },
     "sandbox": {
         "min": 8,
-        "max": 9
+        "max": 11
     },
     "sandbox_high": {
         "min": 8,
