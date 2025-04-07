@@ -15,7 +15,7 @@ export const pmcUSECData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve"
             ],
             "Supports": null,
@@ -42,7 +42,7 @@ export const pmcBEARData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve"
             ],
             "Supports": null,
