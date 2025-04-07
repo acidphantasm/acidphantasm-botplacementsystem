@@ -123,6 +123,7 @@ export class PMCSpawnControl
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
+                bossDefaultData[0].IgnoreMaxBots = false;
                 currentPMCCount += groupSize + 1;
                 groupCount++
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
