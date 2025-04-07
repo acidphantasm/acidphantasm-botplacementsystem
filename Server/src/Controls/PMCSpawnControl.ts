@@ -1,7 +1,7 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { ICloner } from "@spt/utils/cloners/ICloner";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ICloner } from "@spt/utils/cloners/ICloner";
 import { RandomUtil } from "@spt/utils/RandomUtil";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
 
