@@ -1,6 +1,6 @@
 import { injectable, inject } from "tsyringe";
 import { ILocationBase, IBossLocationSpawn, IWave } from "@spt/models/eft/common/ILocationBase";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
 
 import { BossSpawnControl } from "./BossSpawnControl";
 import { DatabaseService } from "@spt/services/DatabaseService";
@@ -9,7 +9,8 @@ import { VanillaAdjustmentControl } from "./VanillaAdjustmentControl";
 import { PMCSpawnControl } from "./PMCSpawnControl";
 import { ScavSpawnControl } from "./ScavSpawnControl";
 import { IRaidChanges } from "@spt/models/spt/location/IRaidChanges";
-import { ICloner } from "@spt/utils/cloners/ICloner";
+import type { ICloner } from "@spt/utils/cloners/ICloner";
+import { ModConfig } from "../Globals/ModConfig";
 
 @injectable()
 export class MapSpawnControl 
