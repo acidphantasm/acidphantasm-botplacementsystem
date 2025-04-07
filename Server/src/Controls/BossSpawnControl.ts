@@ -1,8 +1,9 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { ICloner } from "@spt/utils/cloners/ICloner";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ICloner } from "@spt/utils/cloners/ICloner";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { RandomUtil } from "@spt/utils/RandomUtil";
 import { ModConfig } from "../Globals/ModConfig";
 
 // Default Boss Data
@@ -28,7 +29,6 @@ import {
     pmcBotLaboratoryData, 
     sectantPriestData 
 } from "../Defaults/Bosses"
-import { RandomUtil } from "@spt/utils/RandomUtil";
 
 @injectable()
 export class BossSpawnControl
@@ -128,6 +128,7 @@ export class BossSpawnControl
                 bossDefaultData[0].BossEscortAmount = groupSize.toString();
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+                bossDefaultData[0].IgnoreMaxBots = false;
                 bossDefaultData[0].Time = currentWaveTime;
                 currentPMCCount += groupSize + 1;
                 groupCount++
