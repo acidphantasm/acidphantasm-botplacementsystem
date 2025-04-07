@@ -205,6 +205,8 @@ export class MapSpawnControl
         const locationName = mapBase.Id.toLowerCase();
         if (raidAdjustments.simulatedRaidStartSeconds > 60)
         {
+            const mapBosses = mapBase.BossLocationSpawn.filter((x) => x.Time == -1 && x.BossName != "pmcUSEC" && x.BossName != "pmcBEAR");
+            console.log(mapBosses.length);
             mapBase.BossLocationSpawn = mapBase.BossLocationSpawn.filter((x) => x.Time > raidAdjustments.simulatedRaidStartSeconds && (x.BossName == "pmcUSEC" || x.BossName == "pmcBEAR"));
 
             for (const bossWave of mapBase.BossLocationSpawn)
@@ -215,6 +217,7 @@ export class MapSpawnControl
             const totalRemainingTime = raidAdjustments.raidTimeMinutes * 60;
             const newStartingPMCs = this.pmcSpawnControl.generateScavRaidRemainingPMCs(locationName, totalRemainingTime);
             newStartingPMCs.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
+            mapBosses.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
 
             const newStartingScavs = this.scavSpawnControl.generateInitialScavsForRemainingRaidTime(locationName, "assault");
             newStartingScavs.forEach((index) => (mapBase.waves.push(index)));
