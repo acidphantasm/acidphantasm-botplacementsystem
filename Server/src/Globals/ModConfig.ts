@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { FileSystemSync } from "@spt/utils/FileSystemSync";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
+import type  { FileSystemSync } from "@spt/utils/FileSystemSync";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
 import path from "node:path";
 import { MinMax } from "@spt/models/common/MinMax";
 
@@ -11,8 +11,8 @@ export class ModConfig
     private lol: string;
 
     constructor(
-        @inject("PrimaryLogger") protected logger: ILogger,
-        @inject("FileSystemSync") protected fileSystemSync: FileSystemSync
+        @inject("PrimaryLogger") private logger: ILogger,
+        @inject("FileSystemSync") private fileSystemSync: FileSystemSync
     )
     {
         ModConfig.config = this.fileSystemSync.readJson(path.resolve(__dirname, "../../config/config.json"));
@@ -41,14 +41,21 @@ export interface ScavConfig
 export interface ScavStartingConfig
 {
     enable: boolean,
-    difficulty: Record<DifficultyConfig, number>,
     maxBotSpawns: ValidLocations,
     maxBotsPerZone: number,
     startingMarksman: boolean,
 }
 export interface ScavWaveConfig
 {
-
+    enable: boolean,
+    startSpawns: number,
+    stopSpawns: number,
+    activeTimeMin: number,
+    activeTimeMax: number,
+    quietTimeMin: number,
+    quietTimeMax: number,
+    checkToSpawnTimer: number,
+    pendingBotsToTrigger: number,
 }
 export type DifficultyConfig = "easy" | "normal" | "hard" | "impossible";
 export interface PMCStartingConfig
@@ -56,7 +63,8 @@ export interface PMCStartingConfig
     enable: boolean,
     groupChance: number,
     maxGroupSize: number,
-    maxGroupCount: number
+    maxGroupCount: number,
+    mapLimits: MinMaxLocations
 }
 export interface WaveConfig
 {
@@ -122,6 +130,21 @@ export interface ValidLocations
     shoreline: number | string,
     tarkovstreets: number | string,
     woods: number | string,
+}
+export interface MinMaxLocations
+{
+    bigmap: MinMax,
+    factory4_day: MinMax,
+    factory4_night: MinMax,
+    interchange: MinMax,
+    laboratory: MinMax,
+    lighthouse: MinMax,
+    rezervbase: MinMax,
+    sandbox: MinMax,
+    sandbox_high: MinMax,
+    shoreline: MinMax,
+    tarkovstreets: MinMax,
+    woods: MinMax,
 }
 
 export interface ConfigAppSettings

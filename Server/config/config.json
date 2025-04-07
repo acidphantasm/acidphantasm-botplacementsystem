@@ -12,46 +12,101 @@
     "pmcConfig": {
         "startingPMCs": {
             "enable": true,
-            "groupChance": 25,
-            "maxGroupSize": 4,
-            "maxGroupCount": 6
+            "groupChance": 10,
+            "maxGroupSize": 3,
+            "maxGroupCount": 4,
+            "mapLimits": {
+                "bigmap": {
+                    "min": 8,
+                    "max": 10
+                },
+                "factory4_day": {
+                    "min": 5,
+                    "max": 9
+                },
+                "factory4_night": {
+                    "min": 5,
+                    "max": 9
+                },
+                "interchange": {
+                    "min": 9,
+                    "max": 13
+                },
+                "laboratory": {
+                    "min": 7,
+                    "max": 9
+                },
+                "lighthouse": {
+                    "min": 7,
+                    "max": 10
+                },
+                "rezervbase": {
+                    "min": 8,
+                    "max": 10
+                },
+                "sandbox": {
+                    "min": 8,
+                    "max": 11
+                },
+                "sandbox_high": {
+                    "min": 8,
+                    "max": 11
+                },
+                "shoreline": {
+                    "min": 9,
+                    "max": 13
+                },
+                "tarkovstreets": {
+                    "min": 7,
+                    "max": 10
+                },
+                "woods": {
+                    "min": 9,
+                    "max": 13
+                }
+            }
         },
         "waves": {
             "enable": false,
-            "groupChance": 20,
+            "groupChance": 10,
             "maxGroupSize": 2,
             "maxGroupCount": 3,
             "maxBotsPerWave": 5,
-            "delayBeforeFirstWave": 300,
-            "secondsBetweenWaves": 240,
+            "delayBeforeFirstWave": 500,
+            "secondsBetweenWaves": 360,
             "stopWavesBeforeEndOfRaidLimit": 300
         }        
     },
     "scavConfig": {
         "startingScavs": {
             "enable": true,
-            "difficulty": {
-                "easy": 10,
-                "normal": 60,
-                "hard": 20,
-                "impossible": 10
-            },
             "maxBotSpawns": {
-                "bigmap": 10,
-                "factory4_day": 6,
-                "factory4_night": 6,
-                "interchange": 10,
+                "bigmap": 5,
+                "factory4_day": 3,
+                "factory4_night": 3,
+                "interchange": 5,
                 "laboratory": 0,
-                "lighthouse": 8,
-                "rezervbase": 10,
-                "sandbox": 10,
-                "sandbox_high": 10,
-                "shoreline": 10,
-                "tarkovstreets": 10,
-                "woods": 10
+                "lighthouse": 5,
+                "rezervbase": 5,
+                "sandbox": 5,
+                "sandbox_high": 5,
+                "shoreline": 5,
+                "tarkovstreets": 5,
+                "woods": 5
             },
-            "maxBotsPerZone": 2,
+            "maxBotsPerZone": 1,
             "startingMarksman": true
+        },
+        "waves": {
+            "enable": true,
+            "startSpawns": 60,
+            "stopSpawns": 600,
+            "activeTimeMin": 180,
+            "activeTimeMax": 240,
+            "quietTimeMin": 120,
+            "quietTimeMax": 180,
+            "checkToSpawnTimer": 15,
+            "pendingBotsToTrigger": 3
         }
     },
     "bossDifficulty": {
