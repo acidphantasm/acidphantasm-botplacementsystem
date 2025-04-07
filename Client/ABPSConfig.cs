@@ -36,43 +36,43 @@ namespace acidphantasm_botplacementsystem
 
 
             // Location Settings
-            customs_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Customs PMC Spawn Distance Limit", 125f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            customs_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Customs PMC Spawn Distance Limit", 125f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.customs_PMCSpawnDistanceCheck = customs_PMCSpawnDistanceCheck.Value;
             customs_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            factory_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Factory PMC Spawn Distance Limit", 70f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            factory_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Factory PMC Spawn Distance Limit", 70f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.factory_PMCSpawnDistanceCheck = factory_PMCSpawnDistanceCheck.Value;
             factory_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            interchange_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Interchange PMC Spawn Distance Limit", 150f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            interchange_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Interchange PMC Spawn Distance Limit", 150f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.interchange_PMCSpawnDistanceCheck = interchange_PMCSpawnDistanceCheck.Value;
             interchange_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            labs_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Labs PMC Spawn Distance Limit", 70f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            labs_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Labs PMC Spawn Distance Limit", 70f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.labs_PMCSpawnDistanceCheck = labs_PMCSpawnDistanceCheck.Value;
             labs_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            lighthouse_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Lighthouse PMC Spawn Distance Limit", 150f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            lighthouse_PMCSpawnDistanceCheck = config.Bind(LocationConfig   , "Lighthouse PMC Spawn Distance Limit", 150f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.lighthouse_PMCSpawnDistanceCheck = lighthouse_PMCSpawnDistanceCheck.Value;
             lighthouse_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            reserve_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Reserve PMC Spawn Distance Limit", 125f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            reserve_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Reserve PMC Spawn Distance Limit", 125f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.reserve_PMCSpawnDistanceCheck = reserve_PMCSpawnDistanceCheck.Value;
             reserve_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
             
-            groundZero_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "GroundZero PMC Spawn Distance Limit", 125f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            groundZero_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "GroundZero PMC Spawn Distance Limit", 125f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.groundZero_PMCSpawnDistanceCheck = groundZero_PMCSpawnDistanceCheck.Value;
             groundZero_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            shoreline_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Shoreline PMC Spawn Distance Limit", 150f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            shoreline_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Shoreline PMC Spawn Distance Limit", 150f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.shoreline_PMCSpawnDistanceCheck = shoreline_PMCSpawnDistanceCheck.Value;
             shoreline_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            streets_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Streets PMC Spawn Distance Limit", 150f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            streets_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Streets PMC Spawn Distance Limit", 150f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.streets_PMCSpawnDistanceCheck = streets_PMCSpawnDistanceCheck.Value;
             streets_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
 
-            woods_PMCSpawnDistanceCheck = config.Bind(ConfigGeneral, "Woods PMC Spawn Distance Limit", 175f, new ConfigDescription("How far PMCs must be to allow a spawn point to be enabled.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            woods_PMCSpawnDistanceCheck = config.Bind(LocationConfig, "Woods PMC Spawn Distance Limit", 175f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", null, new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.woods_PMCSpawnDistanceCheck = woods_PMCSpawnDistanceCheck.Value;
             woods_PMCSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
         }
