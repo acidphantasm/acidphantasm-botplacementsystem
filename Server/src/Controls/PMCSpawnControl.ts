@@ -49,8 +49,8 @@ export class PMCSpawnControl
     private generateStartingPMCWaves(location: string): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
-        const minPMCCount = pmcMapLimitCounts[location].min;
-        const maxPMCCount = pmcMapLimitCounts[location].max;
+        const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
+        const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         const generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
         const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
         const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
@@ -154,8 +154,8 @@ export class PMCSpawnControl
     public generateScavRaidRemainingPMCs(location: string, remainingRaidTime: number): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
-        const minPMCCount = pmcMapLimitCounts[location].min;
-        const maxPMCCount = pmcMapLimitCounts[location].max;
+        const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
+        const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         let generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
         const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
         const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
