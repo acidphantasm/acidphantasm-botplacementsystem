@@ -51,47 +51,56 @@ export class ScavSpawnControl
     private getConfigValueForLocation(location: string): IWave[]
     {
         const scavSpawnInfo: IWave[] = [];
-        if (ModConfig.config.scavConfig.startingScavs.enable)
+        if (ModConfig.config.scavConfig.startingScavs.enable) scavSpawnInfo.push(...this.generateStartingScavs(location));
+        if (ModConfig.config.scavConfig.startingScavs.startingMarksman) 
         {
-            scavSpawnInfo.push(...this.generateStartingScavs(location, "assault"));
+            const marksmanSpawn = this.generateStartingScavs(location, "marksman");
+            if (marksmanSpawn.length)
+            {
+                scavSpawnInfo.push(...marksmanSpawn);
+            } 
         }
         return scavSpawnInfo;
     }
 
-    private generateStartingScavs(location: string, botRole: string): IWave[]
+    public generateStartingScavs(location: string, botRole = "assault", lateStart = false): IWave[]
     {
         const scavWaveSpawnInfo: IWave[] = [];
 
         const waveLength = this.databaseService.getTables().locations[location].base.waves.length;
 
-        const difficulties = ModConfig.config.scavConfig.startingScavs.difficulty;
         const maxStartingSpawns: number = ModConfig.config.scavConfig.startingScavs.maxBotSpawns[location];
-        const maxBotsPerZone = ModConfig.config.scavConfig.startingScavs.maxBotsPerZone;
-        const checkMarksman = ModConfig.config.scavConfig.startingScavs.startingMarksman;
+        const scavCap = lateStart ? maxStartingSpawns * 0.75 : maxStartingSpawns;
+        const playerScavChance = lateStart ? 60 : 10;
 
+        const maxBotsPerZone = location.includes("factory") || location.includes("sandbox") ? maxStartingSpawns : ModConfig.config.scavConfig.startingScavs.maxBotsPerZone;
         const availableSpawnZones = botRole == "assault" ? createExhaustableArray(this.getNonMarksmanSpawnZones(location), this.randomUtil, this.cloner) : createExhaustableArray(this.getMarksmanSpawnZones(location), this.randomUtil, this.cloner);
         let spawnsAdded = botRole == "assault" ? 0 : waveLength;
 
-        while (spawnsAdded < maxStartingSpawns)
+        while (spawnsAdded < scavCap)
         {
             if (spawnsAdded >= maxStartingSpawns) break;
+            if (botRole != "assault" && !availableSpawnZones.hasValues()) break;
+
             const scavDefaultData = this.cloner.clone(this.getDefaultValues());
             const selectedSpawnZone = location.includes("factory") || location.includes("sandbox") || !availableSpawnZones.hasValues() ? "" : availableSpawnZones.getRandomValue();
-            const remainingSpots = maxStartingSpawns - spawnsAdded;
-            const groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, maxBotsPerZone));
+            if (botRole == "marksman" && selectedSpawnZone == undefined) return scavWaveSpawnInfo;
 
-            scavDefaultData.slots_min = groupSize > 1 ? 1 : 1;
+            const remainingSpots = maxStartingSpawns - spawnsAdded;
+            const groupSize = botRole == "assault" ? Math.min(remainingSpots - 1, this.randomUtil.getInt(1, maxBotsPerZone)) : 1;
+
+            scavDefaultData.slots_min = groupSize > 1 ? 1 : 0;
             scavDefaultData.slots_max = groupSize > 1 ? groupSize : 1;
             scavDefaultData.time_min = -1;
             scavDefaultData.time_max = -1;
-            scavDefaultData.BotPreset = this.weightedRandomHelper.getWeightedValue(difficulties);
             scavDefaultData.number = spawnsAdded;
-            scavDefaultData.isPlayers = botRole == "assault" ? this.randomUtil.getChance100(10) ? true : false : false;
+            scavDefaultData.WildSpawnType = botRole == "assault" ? WildSpawnType.ASSAULT : WildSpawnType.MARKSMAN;
+            scavDefaultData.isPlayers = botRole == "assault" ? this.randomUtil.getChance100(playerScavChance) ? true : false : false;
             scavDefaultData.SpawnPoints = selectedSpawnZone;
             
             spawnsAdded++;
             scavWaveSpawnInfo.push(scavDefaultData);
-            //this.logger.warning(`[Scav Waves] ${scavDefaultData.number} - Adding 1 spawn for assault to ${location} | Zone: ${selectedSpawnZone} Min: ${scavDefaultData.slots_min} | Max: ${scavDefaultData.slots_max}`);
+            //this.logger.warning(`[Scav Waves] ${scavDefaultData.number} - Adding 1 spawn for ${botRole} to ${location} | Zone: ${selectedSpawnZone} Min: ${scavDefaultData.slots_min} | Max: ${scavDefaultData.slots_max}`);
         }
 
         return scavWaveSpawnInfo;

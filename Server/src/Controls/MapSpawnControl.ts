@@ -219,7 +219,7 @@ export class MapSpawnControl
             newStartingPMCs.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
             mapBosses.forEach((index) => (mapBase.BossLocationSpawn.push(index)));
 
-            const newStartingScavs = this.scavSpawnControl.generateInitialScavsForRemainingRaidTime(locationName, "assault");
+            const newStartingScavs = this.scavSpawnControl.generateStartingScavs(locationName, "assault", true);
             newStartingScavs.forEach((index) => (mapBase.waves.push(index)));
         }
     }
