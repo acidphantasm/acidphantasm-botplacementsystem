@@ -62,15 +62,13 @@ export class PMCSpawnControl
 
         while (currentPMCCount < generatedPMCCount)
         {
-            if (groupCount >= groupLimit) break;
+            const canBeAGroup = groupCount >= groupLimit ? false : true;
             let groupSize = 0;
             const remainingSpots = generatedPMCCount - currentPMCCount;
 
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup)
-            {
-                groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
-            }
+            if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
@@ -111,14 +109,12 @@ export class PMCSpawnControl
             let groupCount = 0;
             while (currentPMCCount < waveMaxPMCCount)
             {
-                if (groupCount >= waveGroupLimit) break;
+                const canBeAGroup = groupCount >= waveGroupLimit ? false : true;
                 let groupSize = 0;
                 const remainingSpots = waveMaxPMCCount - currentPMCCount;
                 const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(waveGroupChance) : false;
-                if (isAGroup)
-                {
-                    groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
-                }
+                if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
+
                 const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
                 const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
@@ -176,15 +172,12 @@ export class PMCSpawnControl
 
         while (currentPMCCount < generatedPMCCount)
         {
-            if (groupCount >= groupLimit) break;
+            const canBeAGroup = groupCount >= groupLimit ? false : true;
             let groupSize = 0;
             const remainingSpots = generatedPMCCount - currentPMCCount;
-
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup)
-            {
-                groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
-            }
+            if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
