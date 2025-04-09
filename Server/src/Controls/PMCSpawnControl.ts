@@ -67,7 +67,11 @@ export class PMCSpawnControl
             const remainingSpots = generatedPMCCount - currentPMCCount;
 
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+            if (isAGroup && canBeAGroup) 
+            {
+                groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+                groupCount++
+            }
 
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
@@ -77,7 +81,6 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
             currentPMCCount += groupSize + 1;
-            groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
             //this.logger.warning(`[Starting PMC] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
@@ -113,7 +116,11 @@ export class PMCSpawnControl
                 let groupSize = 0;
                 const remainingSpots = waveMaxPMCCount - currentPMCCount;
                 const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(waveGroupChance) : false;
-                if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
+                if (isAGroup && canBeAGroup) 
+                {
+                    groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
+                    groupCount++
+                }
 
                 const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
                 const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
@@ -125,7 +132,6 @@ export class PMCSpawnControl
                 bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
                 bossDefaultData[0].IgnoreMaxBots = false;
                 currentPMCCount += groupSize + 1;
-                groupCount++
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
 
                 //this.logger.warning(`[PMC Waves] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
@@ -177,7 +183,11 @@ export class PMCSpawnControl
             let groupSize = 0;
             const remainingSpots = generatedPMCCount - currentPMCCount;
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup && canBeAGroup) groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+            if (isAGroup && canBeAGroup) 
+            {
+                groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+                groupCount++
+            }
 
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
@@ -187,7 +197,6 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
             currentPMCCount += groupSize + 1;
-            groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
             //this.logger.warning(`[Starting PMC] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
