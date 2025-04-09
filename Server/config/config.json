@@ -12,7 +12,7 @@
     "pmcConfig": {
         "startingPMCs": {
             "enable": true,
-            "groupChance": 10,
+            "groupChance": 25,
             "maxGroupSize": 3,
             "maxGroupCount": 4,
             "mapLimits": {
@@ -22,11 +22,11 @@
                 },
                 "factory4_day": {
                     "min": 5,
-                    "max": 9
+                    "max": 7
                 },
                 "factory4_night": {
                     "min": 5,
-                    "max": 9
+                    "max": 7
                 },
                 "interchange": {
                     "min": 9,
