@@ -109,6 +109,11 @@ export const GroundZero_SpawnZones =
     [
         "ZoneSandbox"
     ]
+export const GroundZero_SnipeSpawnZones =
+    [
+        "ZoneSandSnipeCenter",
+        "ZoneSandSnipeCenter2"
+    ]
 export const Shoreline_SpawnZones =
     [
         "ZoneGreenHouses", 
