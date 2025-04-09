@@ -27,7 +27,8 @@ import {
     Streets_SpawnZones,
     Streets_SnipeSpawnZones,
     Woods_SpawnZones,
-    Woods_SnipeSpawnZones 
+    Woods_SnipeSpawnZones, 
+    GroundZero_SnipeSpawnZones
 } from "../Defaults/MapSpawnZones";
 import { createExhaustableArray } from "../Utils/GlobalUtils";
 
@@ -76,16 +77,21 @@ export class ScavSpawnControl
         const maxBotsPerZone = location.includes("factory") || location.includes("sandbox") ? maxStartingSpawns : ModConfig.config.scavConfig.startingScavs.maxBotsPerZone;
         const availableSpawnZones = botRole == "assault" ? createExhaustableArray(this.getNonMarksmanSpawnZones(location), this.randomUtil, this.cloner) : createExhaustableArray(this.getMarksmanSpawnZones(location), this.randomUtil, this.cloner);
         let spawnsAdded = botRole == "assault" ? 0 : waveLength;
+        let marksmanCount = 0;
 
         while (spawnsAdded < scavCap)
         {
             if (spawnsAdded >= maxStartingSpawns) break;
-            if (botRole != "assault" && !availableSpawnZones.hasValues()) break;
-
             const scavDefaultData = this.cloner.clone(this.getDefaultValues());
-            const selectedSpawnZone = location.includes("factory") || location.includes("sandbox") || !availableSpawnZones.hasValues() ? "" : availableSpawnZones.getRandomValue();
-            if (botRole == "marksman" && selectedSpawnZone == undefined) return scavWaveSpawnInfo;
-
+            let selectedSpawnZone = location.includes("factory") || location.includes("sandbox") || !availableSpawnZones.hasValues() ? "" : availableSpawnZones.getRandomValue();
+            if (botRole != "assault")
+            {
+                if (!availableSpawnZones.hasValues()) break;
+                if (selectedSpawnZone == undefined) break;
+                if (marksmanCount >= 2) break;
+                selectedSpawnZone = availableSpawnZones.getRandomValue();
+                marksmanCount++;
+            }
             const remainingSpots = maxStartingSpawns - spawnsAdded;
             const groupSize = botRole == "assault" ? Math.min(remainingSpots - 1, this.randomUtil.getInt(1, maxBotsPerZone)) : 1;
 
@@ -159,7 +165,7 @@ export class ScavSpawnControl
                 return undefined;
             case "sandbox":
             case "sandbox_high":
-                return undefined;
+                return GroundZero_SnipeSpawnZones;
             case "shoreline":
                 return Shoreline_SnipeSpawnZones;
             case "tarkovstreets":
