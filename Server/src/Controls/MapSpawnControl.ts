@@ -98,6 +98,7 @@ export class MapSpawnControl
 
         this.vanillaAdjustmentControl.disableVanillaSettings();
         this.vanillaAdjustmentControl.removeCustomPMCWaves();
+        this.vanillaAdjustmentControl.changeBotCaps();
         this.buildInitialCache();
     }
     public buildInitialCache(): void 
@@ -113,8 +114,6 @@ export class MapSpawnControl
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
-            this.logger.warning(`[ABPS] Creating boss waves for ${mapName}`);
-
             const mapData = this.bossSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
         }
@@ -125,8 +124,6 @@ export class MapSpawnControl
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
-            this.logger.warning(`[ABPS] Creating pmc waves for ${mapName}`);
-
             const mapData = this.pmcSpawnControl.getCustomMapData(this.validMaps[map], this.locationData[mapName].base.EscapeTimeLimit);
             if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
         }
@@ -134,12 +131,10 @@ export class MapSpawnControl
 
     private buildStartingScavs(): void 
     {
-        this.logger.warning("[ABPS] Creating initial scav spawns");
         for (const map in this.validMaps) 
         {
             const mapName = this.validMaps[map];
             if (mapName == "laboratory") continue;
-
             const mapData = this.scavSpawnControl.getCustomMapData(this.validMaps[map]);
             if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
         }
@@ -157,6 +152,7 @@ export class MapSpawnControl
 
     public rebuildCache(location: string): void
     {
+        location = location.toLowerCase();
         this.locationData = this.databaseService.getTables().locations;
         this.botMapCache[location] = [];
         this.scavMapCache[location] = [];
@@ -188,7 +184,7 @@ export class MapSpawnControl
     {
         const mapName = location.toLowerCase();
         if (mapName == "laboratory") return;
-        this.logger.warning("[ABPS] Recreating starting scavs");
+        this.logger.warning(`[ABPS] Recreating starting scavs for ${mapName}`);
 
         const mapData = this.scavSpawnControl.getCustomMapData(mapName);
         if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
