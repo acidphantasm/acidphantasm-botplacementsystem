@@ -44,7 +44,7 @@ namespace acidphantasm_botplacementsystem
             customs_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - Customs", 
-                75f, 
+                100f, 
                 new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -63,7 +63,7 @@ namespace acidphantasm_botplacementsystem
             interchange_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - Interchange",
-                75f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                125f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.interchange_PMCSpawnDistanceCheck = interchange_PMCSpawnDistanceCheck.Value;
@@ -80,8 +80,8 @@ namespace acidphantasm_botplacementsystem
 
             lighthouse_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
-                "Distance Limit - Lighthouse", 
-                100f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                "Distance Limit - Lighthouse",
+                125f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.lighthouse_PMCSpawnDistanceCheck = lighthouse_PMCSpawnDistanceCheck.Value;
@@ -90,7 +90,7 @@ namespace acidphantasm_botplacementsystem
             reserve_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - Reserve",
-                75f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                90f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.reserve_PMCSpawnDistanceCheck = reserve_PMCSpawnDistanceCheck.Value;
@@ -99,7 +99,7 @@ namespace acidphantasm_botplacementsystem
             groundZero_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - GroundZero",
-                75f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                85f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.groundZero_PMCSpawnDistanceCheck = groundZero_PMCSpawnDistanceCheck.Value;
@@ -108,7 +108,7 @@ namespace acidphantasm_botplacementsystem
             shoreline_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - Shoreline", 
-                110f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                130f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.shoreline_PMCSpawnDistanceCheck = shoreline_PMCSpawnDistanceCheck.Value;
@@ -117,7 +117,7 @@ namespace acidphantasm_botplacementsystem
             streets_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
                 "Distance Limit - Streets", 
-                100f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
+                120f, new ConfigDescription("How far all PMCs must be from a spawn point for it to be enabled for other PMC spawns.\n Setting this too high will cause PMCs to fail to spawn.", 
                 new AcceptableValueRange<float>(10f, 175f), 
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             PMCDistancePatch.streets_PMCSpawnDistanceCheck = streets_PMCSpawnDistanceCheck.Value;
@@ -159,7 +159,7 @@ namespace acidphantasm_botplacementsystem
             customs_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig, 
                 "Distance Limit - Customs", 
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(5f, 100f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -169,7 +169,7 @@ namespace acidphantasm_botplacementsystem
             factory_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig, 
                 "Distance Limit - Factory", 
-                20f, 
+                30f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(5f, 100f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -179,7 +179,7 @@ namespace acidphantasm_botplacementsystem
             interchange_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Interchange",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -189,7 +189,7 @@ namespace acidphantasm_botplacementsystem
             labs_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Labs", 
-                20f, 
+                40f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -199,7 +199,7 @@ namespace acidphantasm_botplacementsystem
             lighthouse_ScavSpawnDistanceCheck = config.Bind
                 (ScavConfig,
                 "Distance Limit - Lighthouse",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -209,7 +209,7 @@ namespace acidphantasm_botplacementsystem
             reserve_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Reserve",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -219,7 +219,7 @@ namespace acidphantasm_botplacementsystem
             groundZero_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - GroundZero",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -229,7 +229,7 @@ namespace acidphantasm_botplacementsystem
             shoreline_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Shoreline",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -239,7 +239,7 @@ namespace acidphantasm_botplacementsystem
             streets_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Streets",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
@@ -249,7 +249,7 @@ namespace acidphantasm_botplacementsystem
             woods_ScavSpawnDistanceCheck = config.Bind(
                 ScavConfig,
                 "Distance Limit - Woods",
-                25f, 
+                45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
                 new AcceptableValueRange<float>(1f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
