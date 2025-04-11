@@ -115,10 +115,18 @@ namespace acidphantasm_botplacementsystem.Patches
 
             list = list.OrderBy(_ => Guid.NewGuid()).ToList();
 
+            bool foundInitialPoint = false;
+
             for (int i = 0; i < list.Count; i++)
             {
                 ISpawnPoint checkPoint = list[i];
-                if (IsValid(checkPoint, pmcPlayers, distance) && IsValid(checkPoint, scavPlayers, 25f))
+                if (!foundInitialPoint && IsValid(checkPoint, pmcPlayers, distance) && IsValid(checkPoint, scavPlayers, 25f))
+                {
+                    validSpawnPoints.Add(checkPoint);
+                    foundInitialPoint = true;
+                    neededPoints++;
+                }
+                if (foundInitialPoint && Vector3.Distance(checkPoint.Position, validSpawnPoints[0].Position) <= 15f)
                 {
                     validSpawnPoints.Add(checkPoint);
                     neededPoints++;
