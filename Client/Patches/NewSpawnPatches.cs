@@ -69,6 +69,7 @@ namespace acidphantasm_botplacementsystem.Patches
             {
                 return false;
             }
+
             int num = (___botsController_0._maxCount - _softCap) - ___botsController_0.AliveLoadingDelayedBotsCount;
             if (___bool_0)
             {
@@ -100,7 +101,7 @@ namespace acidphantasm_botplacementsystem.Patches
                 //Logger.LogInfo("Sending spawn data from new spawn system");
                 var wildSpawn = WildSpawnType.assault;
                 var botZone = GetValidBotZone(wildSpawn, 1, ___botsController_0.BotSpawner._allBotZones);
-                string botZones = String.Join(",", botZone);
+
                 BotWaveDataClass botWaveDataClass = new BotWaveDataClass
                 {
                     BotsCount = 1,
@@ -109,7 +110,9 @@ namespace acidphantasm_botplacementsystem.Patches
                     IsPlayers = GClass835.IsTrue100(_pScavChance) ? true : false,
                     Side = EPlayerSide.Savage,
                     WildSpawnType = wildSpawn,
-                    SpawnAreaName = botZones,
+                    SpawnAreaName = botZone,
+                    WithCheckMinMax = false,
+                    ChanceGroup = 0,
                 };
 
                 ___botsController_0.ActivateBotsByWave(botWaveDataClass);
@@ -128,22 +131,22 @@ namespace acidphantasm_botplacementsystem.Patches
             */
         }
 
-        private static List<string> GetValidBotZone(WildSpawnType botType, int count, BotZone[] allZones)
+        private static string GetValidBotZone(WildSpawnType botType, int count, BotZone[] allZones)
         {
             List<BotZone> botZones = allZones.ToList().Where(x => !x.SnipeZone).ToList();
             botZones = botZones.OrderBy(_ => Guid.NewGuid()).ToList();
-            List<string> selectedZones = new List<string>();
 
             for (int i = 0; i < botZones.Count; i++)
             {
                 BotZone currentZone = botZones[i];
-                if (currentZone.HaveFreeSpace(count))
+                if (currentZone.HaveFreeSpace(1))
                 {
-                    selectedZones.Add(currentZone.NameZone);
+                    //Logger.LogInfo($"Selected BotZone: {currentZone.NameZone}");
+                    return currentZone.NameZone;
                 }
             }
 
-            return selectedZones;
+            return "";
         }
     }
     internal class TryToSpawnInZonePatch : ModulePatch
@@ -161,11 +164,12 @@ namespace acidphantasm_botplacementsystem.Patches
                 //Logger.LogInfo("TryToSpawnInZoneAndDelay Hit with empty spawn points and is a scav/marksman");
 
                 string mapName = Utility.GetCurrentLocation();
-                List<IPlayer> players = Utility.GetAllPMCs();
+                List<IPlayer> pmcList = Utility.GetAllPMCs();
+                List<IPlayer> scavList = Utility.GetAllPMCs();
                 float distance = GetDistanceForMap(mapName);
                 WildSpawnType botType = data.Profiles[0].Info.Settings.Role;
 
-                pointsToSpawn = GetValidSpawnPoints(botZone, mapName, players, distance, botType);
+                pointsToSpawn = GetValidSpawnPoints(botZone, mapName, pmcList, scavList, distance, botType);
             }
         }
 
@@ -180,7 +184,7 @@ namespace acidphantasm_botplacementsystem.Patches
         public static float streets_ScavSpawnDistanceCheck;
         public static float woods_ScavSpawnDistanceCheck;
 
-        private static List<ISpawnPoint> GetValidSpawnPoints(BotZone botZone, string location, IReadOnlyCollection<IPlayer> players, float distance, WildSpawnType botType)
+        private static List<ISpawnPoint> GetValidSpawnPoints(BotZone botZone, string location, IReadOnlyCollection<IPlayer> pmcList, IReadOnlyCollection<IPlayer> scavList, float distance, WildSpawnType botType)
         {
             List<ISpawnPoint> validSpawnPoints = new List<ISpawnPoint>();
             List<ISpawnPoint> allSpawnPoints = botZone.SpawnPoints.ToList()
@@ -195,7 +199,7 @@ namespace acidphantasm_botplacementsystem.Patches
                 ISpawnPoint checkPoint = allSpawnPoints[i];
                 count++;
                 //Logger.LogInfo($"Checking spawn point: {count}/{allSpawnPoints.Count}");
-                if (IsValid(checkPoint, players, distance))
+                if (IsValid(checkPoint, pmcList, distance) && IsValid(checkPoint, scavList, 15f))
                 {
                     //Logger.LogInfo($"Adding initial point: {count}/{allSpawnPoints.Count}");
                     validSpawnPoints.Add(checkPoint); 
