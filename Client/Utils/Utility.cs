@@ -15,6 +15,8 @@ namespace acidphantasm_botplacementsystem.Utils
         public static List<IPlayer> allPMCs = new List<IPlayer>();
         public static List<IPlayer> allBots = new List<IPlayer>();
         public static List<IPlayer> allScavs = new List<IPlayer>();
+        public static List<ISpawnPoint> allSpawnPoints = new List<ISpawnPoint>();
+        public static List<ISpawnPoint> playerSpawnPoints = new List<ISpawnPoint>();
         public static List<BotZone> currentMapZones = new List<BotZone>();
 
         public void Awake()
@@ -63,7 +65,6 @@ namespace acidphantasm_botplacementsystem.Utils
             }
             return new List<IPlayer>();
         }
-
         public static List<IPlayer> GetAllBots()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
@@ -73,6 +74,29 @@ namespace acidphantasm_botplacementsystem.Utils
                 return allBots;
             }
             return new List<IPlayer>();
+        }
+
+        public static List<ISpawnPoint> GetAllSpawnPoints()
+        {
+            if (allSpawnPoints.Count == 0)
+            {
+                Plugin.LogSource.LogInfo("Getting All SpawnPoints");
+                allSpawnPoints = SpawnPointManagerClass.CreateFromScene().ToList();
+            }
+            return allSpawnPoints;
+        }
+
+        public static List<ISpawnPoint> GetPlayerSpawnPoints()
+        {
+            if (playerSpawnPoints.Count == 0 || allSpawnPoints.Count == 0)
+            {
+                Plugin.LogSource.LogInfo("Getting All Player SpawnPoints");
+                playerSpawnPoints = GetAllSpawnPoints()
+                .Where(x => x.Categories.ContainPlayerCategory())
+                .Where(x => x.Infiltration != null)
+                .ToList();
+            }
+            return playerSpawnPoints;
         }
         public static List<BotZone> GetMapBotZones()
         {
