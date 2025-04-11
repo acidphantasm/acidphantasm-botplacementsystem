@@ -1,15 +1,13 @@
 ﻿using acidphantasm_botplacementsystem.Utils;
-using BepInEx.Configuration;
-using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
 using HarmonyLib;
 using SPT.Reflection.Patching;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace acidphantasm_botplacementsystem.Patches
 {
@@ -47,13 +45,10 @@ namespace acidphantasm_botplacementsystem.Patches
                 return true;
             }
 
-            Logger.LogInfo($"Spawn Attempt: {creationData.Profiles[0].Nickname} | WaveBossType: {wave.BossType}");
             if (wave.BossType != WildSpawnType.pmcBEAR && wave.BossType != WildSpawnType.pmcUSEC)
             {
                 return true;
             }
-
-            if (PMCWaveCountPatch._BossWaveCount <= usedSpawnPoints.Count) usedSpawnPoints.Clear();
 
             if (Utility.currentMapZones.Count == 0)
             {
@@ -61,10 +56,11 @@ namespace acidphantasm_botplacementsystem.Patches
             }
 
             List<BotZone> botZones = Utility.GetMapBotZones();
+            List<IPlayer> pmcList = Utility.GetAllPMCs();
+            List<IPlayer> scavList = Utility.GetAllScavs();
 
-            List<IPlayer> playerList = Utility.GetAllPMCs();
+            Logger.LogInfo($"Spawn Attempt: {creationData.Profiles[0].Nickname} | WildSpawnType: {wave.BossType} | Count: {1 + wave.EscortCount}");
 
-            bool flag2 = wave.BossType.IsSectant();
             for (int i = 0; i < botZones.Count; i++)
             {
                 BotZone botZone = botZones[i];
@@ -74,7 +70,7 @@ namespace acidphantasm_botplacementsystem.Patches
 
                 string location = Utility.GetCurrentLocation() ?? "default";
                 float distance = GetDistanceForMap(location);
-                List<ISpawnPoint> validSpawnLocations = GetValidSpawnPoints(botZone, playerList, distance);
+                List<ISpawnPoint> validSpawnLocations = GetValidSpawnPoints(botZone, location, pmcList, scavList, distance, escortPointCount);
                 if (validSpawnLocations.Count >= soloPointCount)
                 {
                     if (validSpawnLocations.Count < escortPointCount && validSpawnLocations.Count > 0)
@@ -104,69 +100,34 @@ namespace acidphantasm_botplacementsystem.Patches
                 }
             }
 
+            Logger.LogInfo($"No valid spawnpoints outside defined distance, consider adjusting limits: {creationData.Profiles[0].Nickname} | WildSpawnType: {wave.BossType} | Count: {1 + wave.EscortCount}");
+
             return true;
         }
-        public static List<ISpawnPoint> usedSpawnPoints = new List<ISpawnPoint>();
-        private static List<ISpawnPoint> GetValidSpawnPoints(BotZone botZone, IReadOnlyCollection<IPlayer> players, float distance)
+        private static List<ISpawnPoint> GetValidSpawnPoints(BotZone botZone, string location, IReadOnlyCollection<IPlayer> pmcPlayers, IReadOnlyCollection<IPlayer> scavPlayers, float distance, int neededPoints)
         {
             List<ISpawnPoint> validSpawnPoints = new List<ISpawnPoint>();
+            location = location.ToLower();
+
             List<ISpawnPoint> list = botZone.SpawnPoints.ToList()
-                .Where(x => !x.Categories.ContainBossCategory())
+                .Where(x => !x.Categories.ContainBossCategory() || x.Categories == ESpawnCategoryMask.All)
                 .ToList();
-            
-            int count = 1;
+
+            list = list.OrderBy(_ => Guid.NewGuid()).ToList();
+
             for (int i = 0; i < list.Count; i++)
             {
-                //Logger.LogInfo($"Checking point: {count}/{list.Count} for Zone: {botZone.NameZone}");
                 ISpawnPoint checkPoint = list[i];
-                if (IsValid(checkPoint, players, distance))
+                if (IsValid(checkPoint, pmcPlayers, distance) && IsValid(checkPoint, scavPlayers, 25f))
                 {
-                    //Logger.LogInfo($"Point is valid distance away: {count}/{list.Count}");
-                    if (usedSpawnPoints.Contains(checkPoint))
-                    {
-                        //Logger.LogInfo($"Point is already used: {count}/{list.Count}");
-                        count++;
-                        continue;
-                    }
-
-                    bool pointIsDistantFromAlreadySelectedPoints = false;
-                    if (usedSpawnPoints.Count == 0)
-                    {
-                        //Logger.LogInfo($"Used Spawn Point Count is 0: {count}/{list.Count}");
-                        pointIsDistantFromAlreadySelectedPoints = true;
-                    }
-
-                    if (!pointIsDistantFromAlreadySelectedPoints)
-                    {
-                        //Logger.LogInfo($"Checking used points for distance: {count}/{list.Count}");
-                        for (int j = 0; j < usedSpawnPoints.Count; j++)
-                        {
-                            //Logger.LogInfo($"Checking used point: {j+1}/{usedSpawnPoints.Count}");
-                            if (pointIsDistantFromAlreadySelectedPoints) break;
-                            ISpawnPoint pointToCheckAgainst = usedSpawnPoints[j];
-                            //Logger.LogInfo($"Checking used point distance: {j+1}/{usedSpawnPoints.Count}");
-                            if (Vector3.Distance(checkPoint.Position, pointToCheckAgainst.Position) <= distance)
-                            {
-                                //Logger.LogInfo($"Used point is too close, skip to next: {j+1}/{usedSpawnPoints.Count}");
-                                continue;
-                            }
-                            //Logger.LogInfo($"Used point is far enough: {j+1}/{usedSpawnPoints.Count - 1}");
-                            pointIsDistantFromAlreadySelectedPoints = true;
-                        }
-                    }                    
-
-                    if (pointIsDistantFromAlreadySelectedPoints)
-                    {
-                        //Logger.LogInfo($"Adding initial point: {count}/{list.Count}");
-                        validSpawnPoints.Add(checkPoint);
-                        usedSpawnPoints.Add(checkPoint);
-                        break;
-                    }
+                    validSpawnPoints.Add(checkPoint);
+                    neededPoints++;
                 }
-                //else Logger.LogInfo($"Point is not valid: {count}/{list.Count}");
-                count++;
+                if (validSpawnPoints.Count == neededPoints)
+                {
+                    return validSpawnPoints;
+                }
             }
-            //Logger.LogInfo($"Returning collected valid points {validSpawnPoints.Count}");
             return validSpawnPoints;
         }
         private static bool IsValid(ISpawnPoint spawnPoint, IReadOnlyCollection<IPlayer> players, float distance)
@@ -179,7 +140,6 @@ namespace acidphantasm_botplacementsystem.Patches
                 {
                     if (player == null || player.Profile.GetCorrectedNickname().StartsWith("headless_"))
                     {
-                        Logger.LogInfo("Player is null or headless client, skip");
                         continue;
                     }
                     if (spawnPoint.Collider.Contains(player.Position))
@@ -210,54 +170,42 @@ namespace acidphantasm_botplacementsystem.Patches
         private static float GetDistanceForMap(string mapName)
         {
             mapName = mapName.ToLower();
-            float distanceLimit = 100f;
+            float distanceLimit = 50f;
             switch (mapName)
             {
                 case "bigmap":
                     distanceLimit = customs_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Customs Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "factory4_day":
                 case "factory4_night":
                     distanceLimit = factory_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Factory Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "interchange":
                     distanceLimit = interchange_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Interchange Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "laboratory":
                     distanceLimit = labs_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Labs Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "lighthouse":
                     distanceLimit = lighthouse_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Lighthouse Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "rezervbase":
                     distanceLimit = reserve_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Reserve Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "sandbox":
                 case "sandbox_high":
                     distanceLimit = groundZero_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"GroundZero Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "shoreline":
                     distanceLimit = shoreline_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Shoreline Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "tarkovstreets":
                     distanceLimit = streets_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Streets Distance Limit {distanceLimit}");
                     return distanceLimit;
                 case "woods":
                     distanceLimit = woods_PMCSpawnDistanceCheck;
-                    Logger.LogInfo($"Woods Distance Limit {distanceLimit}");
                     return distanceLimit;
                 default:
-                    distanceLimit = 100f;
-                    Logger.LogInfo($"Map not found? Using default distance: {distanceLimit}");
                     return distanceLimit;
             }
         }
