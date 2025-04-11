@@ -38,7 +38,7 @@
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="Patches\GameWorldPatch.cs" />
     <Compile Include="Patches\BossSpawnPatches.cs" />
-    <Compile Include="Patches\NewSpawnScenarioPatches.cs" />
+    <Compile Include="Patches\NewSpawnPatches.cs" />
     <Compile Include="Utils\SpawnPointGetter.cs" />
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Plugin.cs" />
@@ -120,6 +120,10 @@
     <Reference Include="UnityEngine.PhysicsModule">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(TarkovManagedDir)UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonExtensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(TarkovManagedDir)CommonExtensions.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>$(TarkovManagedDir)UnityEngine.InputLegacyModule.dll</HintPath>
