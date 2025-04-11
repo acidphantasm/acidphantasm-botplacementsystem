@@ -13,6 +13,8 @@ namespace acidphantasm_botplacementsystem.Utils
         public static string mainProfileID = string.Empty;
         public static string mapName = string.Empty;
         public static List<IPlayer> allPMCs = new List<IPlayer>();
+        public static List<IPlayer> allBots = new List<IPlayer>();
+        public static List<IPlayer> allScavs = new List<IPlayer>();
         public static List<BotZone> currentMapZones = new List<BotZone>();
 
         public void Awake()
@@ -46,6 +48,29 @@ namespace acidphantasm_botplacementsystem.Utils
                     .Where(x => x.Profile.Side == EPlayerSide.Bear || x.Profile.Side == EPlayerSide.Usec)
                     .ToList();
                 return allPMCs;
+            }
+            return new List<IPlayer>();
+        }
+        public static List<IPlayer> GetAllScavs()
+        {
+            var gameWorld = Singleton<GameWorld>.Instance;
+            if (gameWorld != null)
+            {
+                allScavs = gameWorld.RegisteredPlayers
+                    .Where(x => x.Profile.Info.Settings.Role == WildSpawnType.assault)
+                    .ToList();
+                return allScavs;
+            }
+            return new List<IPlayer>();
+        }
+
+        public static List<IPlayer> GetAllBots()
+        {
+            var gameWorld = Singleton<GameWorld>.Instance;
+            if (gameWorld != null)
+            {
+                allBots = gameWorld.RegisteredPlayers.ToList();
+                return allBots;
             }
             return new List<IPlayer>();
         }
