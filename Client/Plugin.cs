@@ -16,8 +16,9 @@ namespace acidphantasm_botplacementsystem
             //new OnGameStartedPatch().Enable();
             new PMCWaveCountPatch().Enable();
             new PMCDistancePatch().Enable();
-            new NewSpawnAssaultGroupPatch().Enable();
+            new AssaultGroupPatch().Enable();
             new NonWavesSpawnScenarioUpdatePatch().Enable();
+            new TryToSpawnInZonePatch().Enable();
 
             ABPSConfig.InitABPSConfig(Config);
         }
