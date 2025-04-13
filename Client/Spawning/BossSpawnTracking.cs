@@ -35,9 +35,13 @@ namespace acidphantasm_botplacementsystem.Spawning
             WildSpawnType.bossZryachiy,
             WildSpawnType.arenaFighterEvent,
             WildSpawnType.sectantPriest,
-            (WildSpawnType) 199,                // Legion
-            (WildSpawnType) 801,                // Punisher
         };
+
+        /*
+         * 
+         *  (WildSpawnType) 199,                // Legion
+         *  (WildSpawnType) 801,                // Punisher
+        */
 
         public static void UpdateBossSpawnChance(WildSpawnType boss)
         {
