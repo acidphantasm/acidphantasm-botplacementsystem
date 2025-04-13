@@ -20,7 +20,6 @@ export class ModConfig
 }
 export interface Config
 {
-    progressiveChance: MinMax
     pmcDifficulty: Record<DifficultyConfig, number>,
     pmcConfig: PMCConfig,
     scavConfig: ScavConfig,
@@ -95,13 +94,10 @@ export interface BossConfig
     pmcBot: SpecialLocationInfo,
     exUsec: SpecialLocationInfo,
     gifter: BossLocationInfo,
-    bossPunisher: BossLocationInfo,
-    bossLegion: BossLocationInfo,
 }
 export interface BossLocationInfo
 {
     enable: boolean,
-    useProgressiveChances: boolean,
     time: number,
     spawnChance: ValidLocations,
     bossZone: ValidLocations;
@@ -111,7 +107,6 @@ export interface SpecialLocationInfo
     enable: boolean,
     addExtraSpawns: boolean,
     disableVanillaSpawns: boolean,
-    useProgressiveChances: boolean,
     time: number,
     spawnChance: ValidLocations,
     bossZone: ValidLocations;
