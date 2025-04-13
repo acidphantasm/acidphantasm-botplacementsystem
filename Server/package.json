@@ -2,7 +2,10 @@
     "name": "Acids Bot Placement System",
     "version": "1.0.0",
     "sptVersion": "~3.11",
-    "loadBefore": [],
+    "loadBefore": [
+        "RaidOverhaul",
+        "WTT-RogueJustice"
+    ],
     "loadAfter": [],
     "incompatibilities": [],
     "isBundleMod": false,
