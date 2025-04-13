@@ -129,7 +129,7 @@ export class PMCSpawnControl
                 bossDefaultData[0].Time = currentWaveTime;
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-                bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
+                bossDefaultData[0].BossZone = "";
                 bossDefaultData[0].IgnoreMaxBots = false;
                 currentPMCCount += groupSize + 1;
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
@@ -195,7 +195,7 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = "";
             currentPMCCount += groupSize + 1;
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
