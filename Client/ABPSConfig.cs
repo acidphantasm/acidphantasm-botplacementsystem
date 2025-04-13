@@ -1,4 +1,5 @@
 ﻿using acidphantasm_botplacementsystem.Patches;
+using acidphantasm_botplacementsystem.Spawning;
 using BepInEx.Configuration;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,13 @@ namespace acidphantasm_botplacementsystem
     {
         private static int loadOrder = 100;
 
-        private const string PMCConfig = "1. PMC Settings";
+        private const string GeneralConfig = "1. General Settings";
+        private static ConfigEntry<bool> progressiveChances;
+        private static ConfigEntry<int> chanceStep;
+        private static ConfigEntry<int> minimumChance;
+        private static ConfigEntry<int> maximumChance;
+
+        private const string PMCConfig = "2. PMC Settings";
         public static ConfigEntry<float> customs_PMCSpawnDistanceCheck;
         public static ConfigEntry<float> factory_PMCSpawnDistanceCheck;
         public static ConfigEntry<float> interchange_PMCSpawnDistanceCheck;
@@ -24,7 +31,7 @@ namespace acidphantasm_botplacementsystem
         public static ConfigEntry<float> streets_PMCSpawnDistanceCheck;
         public static ConfigEntry<float> woods_PMCSpawnDistanceCheck;
 
-        private const string ScavConfig = "2. Scav Settings";
+        private const string ScavConfig = "3. Scav Settings";
         public static ConfigEntry<int> _softCap;
         public static ConfigEntry<int> _pScavChance;
         public static ConfigEntry<float> customs_ScavSpawnDistanceCheck;
@@ -40,6 +47,47 @@ namespace acidphantasm_botplacementsystem
 
         public static void InitABPSConfig(ConfigFile config)
         {
+            // General Settings
+            progressiveChances = config.Bind(
+                GeneralConfig,
+                "Progressive Boss Chances",
+                false,
+                new ConfigDescription("Whether or not bosses will have progressive chances",
+                null,
+                new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            BossSpawnTracking.progressiveChances = progressiveChances.Value;
+            progressiveChances.SettingChanged += ABPS_SettingChanged;
+
+            chanceStep = config.Bind(
+                GeneralConfig,
+                "Progressive - Step Increase",
+                5,
+                new ConfigDescription("If a boss fails to spawn, how much to increase their spawn chance by.",
+                new AcceptableValueRange<int>(1, 15),
+                new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            BossSpawnTracking.chanceStep = chanceStep.Value;
+            chanceStep.SettingChanged += ABPS_SettingChanged;
+
+            minimumChance = config.Bind(
+                GeneralConfig,
+                "Progressive - Minimum Chance",
+                5,
+                new ConfigDescription("The value that a bosses chance will reset to if it spawns.",
+                new AcceptableValueRange<int>(1, 25),
+                new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            BossSpawnTracking.minimumChance = minimumChance.Value;
+            minimumChance.SettingChanged += ABPS_SettingChanged;
+
+            maximumChance = config.Bind(
+                GeneralConfig,
+                "Progressive - Maximum Chance",
+                100,
+                new ConfigDescription("The maximum value that a boss can have to spawn.",
+                new AcceptableValueRange<int>(26, 100),
+                new ConfigurationManagerAttributes { Order = loadOrder-- }));
+            BossSpawnTracking.maximumChance = maximumChance.Value;
+            maximumChance.SettingChanged += ABPS_SettingChanged;
+
             // PMC Settings
             customs_PMCSpawnDistanceCheck = config.Bind(
                 PMCConfig,
@@ -258,6 +306,11 @@ namespace acidphantasm_botplacementsystem
         }
         private static void ABPS_SettingChanged(object sender, EventArgs e)
         {
+            BossSpawnTracking.progressiveChances = progressiveChances.Value;
+            BossSpawnTracking.chanceStep = chanceStep.Value;
+            BossSpawnTracking.minimumChance = minimumChance.Value;
+            BossSpawnTracking.maximumChance = maximumChance.Value;
+
             PMCDistancePatch.customs_PMCSpawnDistanceCheck = customs_PMCSpawnDistanceCheck.Value;
             PMCDistancePatch.factory_PMCSpawnDistanceCheck = factory_PMCSpawnDistanceCheck.Value;
             PMCDistancePatch.interchange_PMCSpawnDistanceCheck = interchange_PMCSpawnDistanceCheck.Value;

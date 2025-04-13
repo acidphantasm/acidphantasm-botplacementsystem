@@ -38,7 +38,10 @@
     <Compile Include="ConfigurationManagerAttributes.cs" />
     <Compile Include="Patches\GameWorldPatch.cs" />
     <Compile Include="Patches\BossSpawnPatches.cs" />
+    <Compile Include="Patches\LocalGameProgressivePatch.cs" />
+    <Compile Include="Patches\MenuLoadPatch.cs" />
     <Compile Include="Patches\NewSpawnPatches.cs" />
+    <Compile Include="Spawning\BossSpawnTracking.cs" />
     <Compile Include="Spawning\PMCSpawning.cs" />
     <Compile Include="Utils\SpawnPointGetter.cs" />
     <Compile Include="Utils\Utility.cs" />
