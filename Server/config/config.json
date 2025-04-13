@@ -1,8 +1,4 @@
 {
-    "progressiveChance": {
-        "min": 5,
-        "max": 100
-    },
     "pmcDifficulty": {
         "easy": 10,
         "normal": 50,
@@ -118,7 +114,6 @@
     "bossConfig": {
         "bossKnight": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -151,7 +146,6 @@
         },
         "bossBully": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -184,11 +178,10 @@
         },
         "bossTagilla": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
-                "factory4_day": 100,
+                "factory4_day": 30,
                 "factory4_night": 30,
                 "interchange": 0,
                 "laboratory": 0,
@@ -217,7 +210,6 @@
         },
         "bossKilla": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -250,7 +242,6 @@
         },
         "bossZryachiy": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -283,7 +274,6 @@
         },
         "bossGluhar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -316,7 +306,6 @@
         },
         "bossSanitar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -349,7 +338,6 @@
         },
         "bossKolontay": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -382,7 +370,6 @@
         },
         "bossBoar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -415,7 +402,6 @@
         },
         "bossKojaniy": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -448,7 +434,6 @@
         },
         "bossPartisan": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -481,7 +466,6 @@
         },
         "sectantPriest": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 15,
@@ -514,7 +498,6 @@
         },
         "arenaFighterEvent": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 5,
@@ -549,7 +532,6 @@
             "enable": true,
             "addExtraSpawns": true,
             "disableVanillaSpawns": false,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -584,7 +566,6 @@
             "enable": true,
             "addExtraSpawns": false,
             "disableVanillaSpawns": false,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -617,73 +598,6 @@
         },
         "gifter": {
             "enable": true,
-            "useProgressiveChances": false,
-            "time": -1,
-            "spawnChance": {
-                "bigmap": 0,
-                "factory4_day": 0,
-                "factory4_night": 0,
-                "interchange": 0,
-                "laboratory": 0,
-                "lighthouse": 0,
-                "rezervbase": 0,
-                "sandbox": 0,
-                "sandbox_high": 0,
-                "shoreline": 0,
-                "tarkovstreets": 0,
-                "woods": 0
-            },
-            "bossZone": {
-                "bigmap": "",
-                "factory4_day": "",
-                "factory4_night": "",
-                "interchange": "",
-                "laboratory": "",
-                "lighthouse": "",
-                "rezervbase": "",
-                "sandbox": "",
-                "sandbox_high": "",
-                "shoreline": "",
-                "tarkovstreets": "",
-                "woods": ""
-            }
-        },
-        "bossPunisher": {
-            "enable": true,
-            "useProgressiveChances": false,
-            "time": -1,
-            "spawnChance": {
-                "bigmap": 0,
-                "factory4_day": 0,
-                "factory4_night": 0,
-                "interchange": 0,
-                "laboratory": 0,
-                "lighthouse": 0,
-                "rezervbase": 0,
-                "sandbox": 0,
-                "sandbox_high": 0,
-                "shoreline": 0,
-                "tarkovstreets": 0,
-                "woods": 0
-            },
-            "bossZone": {
-                "bigmap": "",
-                "factory4_day": "",
-                "factory4_night": "",
-                "interchange": "",
-                "laboratory": "",
-                "lighthouse": "",
-                "rezervbase": "",
-                "sandbox": "",
-                "sandbox_high": "",
-                "shoreline": "",
-                "tarkovstreets": "",
-                "woods": ""
-            }
-        },
-        "bossLegion": {
-            "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
