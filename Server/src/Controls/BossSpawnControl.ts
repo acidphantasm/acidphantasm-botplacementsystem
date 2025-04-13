@@ -16,9 +16,7 @@ import {
     bossKnightData, 
     bossKojaniyData, 
     bossKolontayData, 
-    bossLegionData, 
-    bossPartisanData, 
-    bossPunisherData, 
+    bossPartisanData,  
     bossSanitarData, 
     bossTagillaData, 
     bossZryachiyData, 
@@ -181,10 +179,6 @@ export class BossSpawnControl
                 return exUsecData;
             case "gifter":
                 return gifterData;
-            case "bossPunisher":
-                return bossPunisherData;
-            case "bossLegion":
-                return bossLegionData;
             default:
                 this.logger.error(`[ABPS] Boss not found in config ${boss}`)
                 return undefined;
