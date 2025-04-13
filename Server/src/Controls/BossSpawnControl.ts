@@ -98,7 +98,7 @@ export class BossSpawnControl
         const waveGroupLimit = 4;
         const waveGroupSize = 2;
         const waveGroupChance = 100;
-        const waveTimer = 300;
+        const waveTimer = 450;
         const endWavesAtRemainingTime = 300;
         const waveCount = Math.floor((((escapeTimeLimit * 60) - endWavesAtRemainingTime)) / waveTimer);
         let currentWaveTime = waveTimer;
