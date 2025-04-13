@@ -110,8 +110,6 @@ namespace ABPSConfig.Core
         public required SpecialLocationInfo pmcBot { get; set; }
         public required SpecialLocationInfo exUsec { get; set; }
         public required BossLocationInfo gifter { get; set; }
-        public required BossLocationInfo bossPunisher { get; set; }
-        public required BossLocationInfo bossLegion { get; set; }
     }
     public class BossLocationInfo
     {
