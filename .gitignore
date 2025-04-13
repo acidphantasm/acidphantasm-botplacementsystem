@@ -23,5 +23,5 @@ Client/.vs
 Client/bin
 Client/obj
 Client/release
-
-Client/
+Client/Patches/GameWorldPatch.cs
+Client/Utils/SpawnPointGetter.cs

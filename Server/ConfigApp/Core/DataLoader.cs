@@ -19,10 +19,8 @@ namespace ABPSConfig.Core
 {
     public class ABPSServerConfig
     {
-        public required MinMax progressiveChance { get; set; }
         public required Difficulty pmcDifficulty { get; set; }
         public required PMCConfig pmcConfig { get; set; }
-        public required Difficulty scavDifficulty { get; set; }
         public required ScavConfig scavConfig { get; set; }
         public required Difficulty bossDifficulty { get; set; }
         public required BossConfig bossConfig { get; set; }
@@ -38,11 +36,7 @@ namespace ABPSConfig.Core
     public class PMCConfig
     {
         public required StartingPMCConfig startingPMCs { get; set; }
-        public required WaveConfig waves { get; set; }
-    }
-    public class ScavConfig
-    {
-        public required WaveConfig waves { get; set; }
+        public required PMCWaveConfig waves { get; set; }
     }
     public class StartingPMCConfig
     {
@@ -50,8 +44,9 @@ namespace ABPSConfig.Core
         public int groupChance { get; set; }
         public int maxGroupSize { get; set; }
         public int maxGroupCount { get; set; }
+        public required ValidLocationsMinMax mapLimits { get; set; }
     }
-    public class WaveConfig
+    public class PMCWaveConfig
     {
         public bool enable { get; set; }
         public int groupChance { get; set; }
@@ -61,6 +56,30 @@ namespace ABPSConfig.Core
         public int delayBeforeFirstWave { get; set; }
         public int secondsBetweenWaves { get; set; }
         public int stopWavesBeforeEndOfRaidLimit { get; set; }
+    }
+    public class ScavConfig
+    {
+        public required StartingScavConfig startingScavs { get; set; }
+        public required ScavWaveConfig waves { get; set; }
+    }
+    public class StartingScavConfig
+    {
+        public bool enable { get; set; }
+        public required ValidLocationsNumber maxBotSpawns { get; set; }
+        public int maxBotsPerZone { get; set; }
+        public bool startingMarksman { get; set; }
+    }
+    public class ScavWaveConfig
+    {
+        public bool enable { get; set; }
+        public int startSpawns { get; set; }
+        public int stopSpawns { get; set; }
+        public int activeTimeMin { get; set; }
+        public int activeTimeMax { get; set; }
+        public int quietTimeMin { get; set; }
+        public int quietTimeMax { get; set; }
+        public int checkToSpawnTimer { get; set; }
+        public int pendingBotsToTrigger { get; set; }
     }
     public class MinMax
     {
@@ -97,7 +116,6 @@ namespace ABPSConfig.Core
     public class BossLocationInfo
     {
         public bool enable { get; set; }
-        public bool useProgressiveChances { get; set; }
         public int time { get; set; }
         public required ValidLocationsNumber spawnChance { get; set; }
         public required ValidLocationsString bossZone { get; set; }
@@ -107,7 +125,6 @@ namespace ABPSConfig.Core
         public bool enable { get; set; }
         public bool addExtraSpawns { get; set; }
         public bool disableVanillaSpawns { get; set; }
-        public bool useProgressiveChances { get; set; }
         public int time { get; set; }
         public required ValidLocationsNumber spawnChance { get; set; }
         public required ValidLocationsString bossZone { get; set; }
@@ -126,6 +143,21 @@ namespace ABPSConfig.Core
         public int shoreline { get; set; }
         public int tarkovstreets { get; set; }
         public int woods { get; set; }
+    }
+    public class ValidLocationsMinMax
+    {
+        public required MinMax bigmap { get; set; }
+        public required MinMax factory4_day { get; set; }
+        public required MinMax factory4_night { get; set; }
+        public required MinMax interchange { get; set; }
+        public required MinMax laboratory { get; set; }
+        public required MinMax lighthouse { get; set; }
+        public required MinMax rezervbase { get; set; }
+        public required MinMax sandbox { get; set; }
+        public required MinMax sandbox_high { get; set; }
+        public required MinMax shoreline { get; set; }
+        public required MinMax tarkovstreets { get; set; }
+        public required MinMax woods { get; set; }
     }
     public class ValidLocationsString
     {

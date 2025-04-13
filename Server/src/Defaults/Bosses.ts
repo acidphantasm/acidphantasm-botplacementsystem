@@ -14,7 +14,7 @@ export const bossKnightData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": true,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -55,7 +55,7 @@ export const bossBullyData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -77,7 +77,7 @@ export const bossTagillaData =
         "BossZone": "BotZone",
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -101,7 +101,7 @@ export const bossKillaData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "pve",
             "regular"
         ],
@@ -127,7 +127,7 @@ export const bossZryachiyData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -151,7 +151,7 @@ export const bossGluharData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "pve",
             "regular"
         ],
@@ -199,7 +199,7 @@ export const bossSanitarData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "pve",
             "regular"
         ],
@@ -223,7 +223,7 @@ export const bossKolontayData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -269,7 +269,7 @@ export const bossBoarData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -317,7 +317,7 @@ export const bossKojaniyData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -340,10 +340,10 @@ export const bossPartisanData =
         "Delay": 0,
         "DependKarma": true,
         "DependKarmaPVE": false,
-        "ForceSpawn": false,
+        "ForceSpawn": true,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -369,7 +369,7 @@ export const sectantPriestData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -395,7 +395,7 @@ export const arenaFighterEventData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -420,7 +420,7 @@ export const pmcBotData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve",
                 "regular"
             ],
@@ -445,7 +445,7 @@ export const pmcBotReserveData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve",
                 "regular"
             ],
@@ -467,7 +467,7 @@ export const pmcBotReserveData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve",
                 "regular"
             ],
@@ -489,7 +489,7 @@ export const pmcBotReserveData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve",
                 "regular"
             ],
@@ -511,7 +511,7 @@ export const pmcBotReserveData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "pve",
                 "regular"
             ],
@@ -536,7 +536,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -557,7 +557,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -578,7 +578,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -599,7 +599,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -620,7 +620,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -641,7 +641,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -662,7 +662,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -683,7 +683,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -704,7 +704,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -725,7 +725,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -746,7 +746,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -767,7 +767,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -788,7 +788,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -809,7 +809,7 @@ export const pmcBotLaboratoryData =
             "Delay": 0,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -830,7 +830,7 @@ export const pmcBotLaboratoryData =
             "Delay": 8,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -851,7 +851,7 @@ export const pmcBotLaboratoryData =
             "Delay": 8,
             "IgnoreMaxBots": false,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -879,7 +879,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -903,7 +903,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -927,7 +927,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -951,7 +951,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -975,7 +975,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -999,7 +999,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -1023,7 +1023,7 @@ export const exUsecData =
             "ForceSpawn": false,
             "IgnoreMaxBots": true,
             "RandomTimeSpawn": false,
-            "spawnMode": [
+            "SpawnMode": [
                 "regular",
                 "pve"
             ],
@@ -1050,7 +1050,7 @@ export const gifterData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -1076,7 +1076,7 @@ export const bossPunisherData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],
@@ -1102,7 +1102,7 @@ export const bossLegionData =
         "ForceSpawn": false,
         "IgnoreMaxBots": true,
         "RandomTimeSpawn": false,
-        "spawnMode": [
+        "SpawnMode": [
             "regular",
             "pve"
         ],

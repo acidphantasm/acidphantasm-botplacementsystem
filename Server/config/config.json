@@ -1,8 +1,4 @@
 {
-    "progressiveChance": {
-        "min": 5,
-        "max": 100
-    },
     "pmcDifficulty": {
         "easy": 10,
         "normal": 50,
@@ -13,36 +9,100 @@
         "startingPMCs": {
             "enable": true,
             "groupChance": 25,
-            "maxGroupSize": 4,
-            "maxGroupCount": 6
+            "maxGroupSize": 3,
+            "maxGroupCount": 4,
+            "mapLimits": {
+                "bigmap": {
+                    "min": 8,
+                    "max": 10
+                },
+                "factory4_day": {
+                    "min": 5,
+                    "max": 7
+                },
+                "factory4_night": {
+                    "min": 5,
+                    "max": 7
+                },
+                "interchange": {
+                    "min": 9,
+                    "max": 13
+                },
+                "laboratory": {
+                    "min": 7,
+                    "max": 9
+                },
+                "lighthouse": {
+                    "min": 7,
+                    "max": 10
+                },
+                "rezervbase": {
+                    "min": 8,
+                    "max": 10
+                },
+                "sandbox": {
+                    "min": 8,
+                    "max": 11
+                },
+                "sandbox_high": {
+                    "min": 8,
+                    "max": 11
+                },
+                "shoreline": {
+                    "min": 9,
+                    "max": 13
+                },
+                "tarkovstreets": {
+                    "min": 7,
+                    "max": 10
+                },
+                "woods": {
+                    "min": 9,
+                    "max": 13
+                }
+            }
         },
         "waves": {
             "enable": false,
-            "groupChance": 20,
+            "groupChance": 10,
             "maxGroupSize": 2,
             "maxGroupCount": 3,
             "maxBotsPerWave": 5,
-            "delayBeforeFirstWave": 300,
-            "secondsBetweenWaves": 240,
+            "delayBeforeFirstWave": 500,
+            "secondsBetweenWaves": 360,
             "stopWavesBeforeEndOfRaidLimit": 300
         }        
     },
-    "scavDifficulty": {
-        "easy": 10,
-        "normal": 60,
-        "hard": 20,
-        "impossible": 10
-    },
     "scavConfig": {
+        "startingScavs": {
+            "enable": true,
+            "maxBotSpawns": {
+                "bigmap": 5,
+                "factory4_day": 3,
+                "factory4_night": 3,
+                "interchange": 5,
+                "laboratory": 0,
+                "lighthouse": 5,
+                "rezervbase": 5,
+                "sandbox": 5,
+                "sandbox_high": 5,
+                "shoreline": 5,
+                "tarkovstreets": 5,
+                "woods": 5
+            },
+            "maxBotsPerZone": 1,
+            "startingMarksman": true
+        },
         "waves": {
             "enable": true,
-            "groupChance": 33,
-            "maxGroupSize": 3,
-            "maxGroupCount": 5,
-            "maxBotsPerWave": 8,
-            "delayBeforeFirstWave": 300,
-            "secondsBetweenWaves": 120,
-            "stopWavesBeforeEndOfRaidLimit": 120
+            "startSpawns": 60,
+            "stopSpawns": 600,
+            "activeTimeMin": 180,
+            "activeTimeMax": 240,
+            "quietTimeMin": 120,
+            "quietTimeMax": 180,
+            "checkToSpawnTimer": 15,
+            "pendingBotsToTrigger": 3
         }
     },
     "bossDifficulty": {
@@ -54,7 +114,6 @@
     "bossConfig": {
         "bossKnight": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -87,7 +146,6 @@
         },
         "bossBully": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -120,11 +178,10 @@
         },
         "bossTagilla": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
-                "factory4_day": 100,
+                "factory4_day": 30,
                 "factory4_night": 30,
                 "interchange": 0,
                 "laboratory": 0,
@@ -153,7 +210,6 @@
         },
         "bossKilla": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -186,7 +242,6 @@
         },
         "bossZryachiy": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -219,7 +274,6 @@
         },
         "bossGluhar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -252,7 +306,6 @@
         },
         "bossSanitar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -285,7 +338,6 @@
         },
         "bossKolontay": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -318,7 +370,6 @@
         },
         "bossBoar": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -351,7 +402,6 @@
         },
         "bossKojaniy": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -384,7 +434,6 @@
         },
         "bossPartisan": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 30,
@@ -417,7 +466,6 @@
         },
         "sectantPriest": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 15,
@@ -450,7 +498,6 @@
         },
         "arenaFighterEvent": {
             "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 5,
@@ -485,7 +532,6 @@
             "enable": true,
             "addExtraSpawns": true,
             "disableVanillaSpawns": false,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -520,7 +566,6 @@
             "enable": true,
             "addExtraSpawns": false,
             "disableVanillaSpawns": false,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,
@@ -553,73 +598,6 @@
         },
         "gifter": {
             "enable": true,
-            "useProgressiveChances": false,
-            "time": -1,
-            "spawnChance": {
-                "bigmap": 0,
-                "factory4_day": 0,
-                "factory4_night": 0,
-                "interchange": 0,
-                "laboratory": 0,
-                "lighthouse": 0,
-                "rezervbase": 0,
-                "sandbox": 0,
-                "sandbox_high": 0,
-                "shoreline": 0,
-                "tarkovstreets": 0,
-                "woods": 0
-            },
-            "bossZone": {
-                "bigmap": "",
-                "factory4_day": "",
-                "factory4_night": "",
-                "interchange": "",
-                "laboratory": "",
-                "lighthouse": "",
-                "rezervbase": "",
-                "sandbox": "",
-                "sandbox_high": "",
-                "shoreline": "",
-                "tarkovstreets": "",
-                "woods": ""
-            }
-        },
-        "bossPunisher": {
-            "enable": true,
-            "useProgressiveChances": false,
-            "time": -1,
-            "spawnChance": {
-                "bigmap": 0,
-                "factory4_day": 0,
-                "factory4_night": 0,
-                "interchange": 0,
-                "laboratory": 0,
-                "lighthouse": 0,
-                "rezervbase": 0,
-                "sandbox": 0,
-                "sandbox_high": 0,
-                "shoreline": 0,
-                "tarkovstreets": 0,
-                "woods": 0
-            },
-            "bossZone": {
-                "bigmap": "",
-                "factory4_day": "",
-                "factory4_night": "",
-                "interchange": "",
-                "laboratory": "",
-                "lighthouse": "",
-                "rezervbase": "",
-                "sandbox": "",
-                "sandbox_high": "",
-                "shoreline": "",
-                "tarkovstreets": "",
-                "woods": ""
-            }
-        },
-        "bossLegion": {
-            "enable": true,
-            "useProgressiveChances": false,
             "time": -1,
             "spawnChance": {
                 "bigmap": 0,

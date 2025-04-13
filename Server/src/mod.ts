@@ -10,6 +10,7 @@ import { FileSystemSync } from "@spt/utils/FileSystemSync";
 
 import { minVersion, satisfies, SemVer } from "semver";
 import path from "node:path";
+
 import { ILocationBase } from "@spt/models/eft/common/ILocationBase";
 import { IRaidChanges } from "@spt/models/spt/location/IRaidChanges";
 
@@ -38,7 +39,6 @@ class ABPS implements IPreSptLoadMod, IPostDBLoadMod
             {
                 this.instance.mapSpawnControl.adjustWaves(mapBase, raidAdjustments);
             }
-
         }, {frequency: "Always"});
     }
 

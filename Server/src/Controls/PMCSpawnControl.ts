@@ -1,7 +1,7 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { ICloner } from "@spt/utils/cloners/ICloner";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ICloner } from "@spt/utils/cloners/ICloner";
 import { RandomUtil } from "@spt/utils/RandomUtil";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
 
@@ -14,7 +14,7 @@ import {
 
 import { ModConfig } from "../Globals/ModConfig";
 import { pmcMapLimitCounts } from "../Defaults/PMCMapLimits";
-import { LabsNonGateSpawnZones } from "../Defaults/MapSpawnZones";
+import { Labs_NonGateSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
 export class PMCSpawnControl
@@ -37,7 +37,7 @@ export class PMCSpawnControl
         let pmcSpawnInfo: IBossLocationSpawn[] = [];
         if (ModConfig.config.pmcConfig.startingPMCs.enable)
         {
-            pmcSpawnInfo = pmcSpawnInfo.concat(this.generateStartingPMCWaves(location, escapeTimeLimit));
+            pmcSpawnInfo = pmcSpawnInfo.concat(this.generateStartingPMCWaves(location));
         }
         if (ModConfig.config.pmcConfig.waves.enable)
         {
@@ -46,11 +46,11 @@ export class PMCSpawnControl
         return pmcSpawnInfo;
     }
 
-    private generateStartingPMCWaves(location: string, escapeTimeLimit: number): IBossLocationSpawn[]
+    private generateStartingPMCWaves(location: string): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
-        const minPMCCount = pmcMapLimitCounts[location].min;
-        const maxPMCCount = pmcMapLimitCounts[location].max;
+        const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
+        const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         const generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
         const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
         const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
@@ -62,24 +62,25 @@ export class PMCSpawnControl
 
         while (currentPMCCount < generatedPMCCount)
         {
-            if (groupCount >= groupLimit) break;
+            const canBeAGroup = groupCount >= groupLimit ? false : true;
             let groupSize = 0;
             const remainingSpots = generatedPMCCount - currentPMCCount;
 
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup)
+            if (isAGroup && canBeAGroup) 
             {
                 groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+                groupCount++
             }
+
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
             currentPMCCount += groupSize + 1;
-            groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
             //this.logger.warning(`[Starting PMC] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
@@ -111,14 +112,16 @@ export class PMCSpawnControl
             let groupCount = 0;
             while (currentPMCCount < waveMaxPMCCount)
             {
-                if (groupCount >= waveGroupLimit) break;
+                const canBeAGroup = groupCount >= waveGroupLimit ? false : true;
                 let groupSize = 0;
                 const remainingSpots = waveMaxPMCCount - currentPMCCount;
                 const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(waveGroupChance) : false;
-                if (isAGroup)
+                if (isAGroup && canBeAGroup) 
                 {
                     groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, waveGroupSize));
+                    groupCount++
                 }
+
                 const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
                 const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
@@ -126,9 +129,9 @@ export class PMCSpawnControl
                 bossDefaultData[0].Time = currentWaveTime;
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-                bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+                bossDefaultData[0].BossZone = "";
+                bossDefaultData[0].IgnoreMaxBots = false;
                 currentPMCCount += groupSize + 1;
-                groupCount++
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
 
                 //this.logger.warning(`[PMC Waves] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);
@@ -157,8 +160,8 @@ export class PMCSpawnControl
     public generateScavRaidRemainingPMCs(location: string, remainingRaidTime: number): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
-        const minPMCCount = pmcMapLimitCounts[location].min;
-        const maxPMCCount = pmcMapLimitCounts[location].max;
+        const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
+        const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         let generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
         const groupChance = ModConfig.config.pmcConfig.startingPMCs.groupChance;
         const groupLimit = ModConfig.config.pmcConfig.startingPMCs.maxGroupCount;
@@ -176,24 +179,24 @@ export class PMCSpawnControl
 
         while (currentPMCCount < generatedPMCCount)
         {
-            if (groupCount >= groupLimit) break;
+            const canBeAGroup = groupCount >= groupLimit ? false : true;
             let groupSize = 0;
             const remainingSpots = generatedPMCCount - currentPMCCount;
-
             const isAGroup = remainingSpots > 1 ? this.randomUtil.getChance100(groupChance) : false;
-            if (isAGroup)
+            if (isAGroup && canBeAGroup) 
             {
                 groupSize = Math.min(remainingSpots - 1, this.randomUtil.getInt(1, groupMaxSize));
+                groupCount++
             }
+
             const pmcType = this.randomUtil.getChance100(50) ? "pmcUSEC" : "pmcBEAR";
             const bossDefaultData = this.cloner.clone(this.getDefaultValuesForBoss(pmcType));
 
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(LabsNonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = "";
             currentPMCCount += groupSize + 1;
-            groupCount++
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
             //this.logger.warning(`[Starting PMC] Adding 1 spawn for ${pmcType} to ${location} | GroupSize: ${groupSize + 1}`);

@@ -70,10 +70,6 @@ export class InstanceManager
         this.staticRouterHooks = container.resolve<StaticRouterHooks>("StaticRouterHooks");
 
         // Custom Special
-
-        // Class Extension Override
-        //this.container.register<APBSBotGenerator>("APBSBotGenerator", APBSBotGenerator);
-        //this.container.register("BotGenerator", { useToken: "APBSBotGenerator" });
         
         // Resolve this last to set mod configs
         this.container.register<ModConfig>("ModConfig", ModConfig, { lifecycle: Lifecycle.Singleton })

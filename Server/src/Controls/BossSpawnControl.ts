@@ -1,8 +1,9 @@
 import { injectable, inject } from "tsyringe";
 import { IBossLocationSpawn } from "@spt/models/eft/common/ILocationBase";
-import { ILogger } from "@spt/models/spt/utils/ILogger";
-import { ICloner } from "@spt/utils/cloners/ICloner";
+import type { ILogger } from "@spt/models/spt/utils/ILogger";
+import type { ICloner } from "@spt/utils/cloners/ICloner";
 import { WeightedRandomHelper } from "@spt/helpers/WeightedRandomHelper";
+import { RandomUtil } from "@spt/utils/RandomUtil";
 import { ModConfig } from "../Globals/ModConfig";
 
 // Default Boss Data
@@ -15,9 +16,7 @@ import {
     bossKnightData, 
     bossKojaniyData, 
     bossKolontayData, 
-    bossLegionData, 
-    bossPartisanData, 
-    bossPunisherData, 
+    bossPartisanData,  
     bossSanitarData, 
     bossTagillaData, 
     bossZryachiyData, 
@@ -28,8 +27,6 @@ import {
     pmcBotLaboratoryData, 
     sectantPriestData 
 } from "../Defaults/Bosses"
-import { RandomUtil } from "@spt/utils/RandomUtil";
-import { LabsSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
 export class BossSpawnControl
@@ -62,8 +59,8 @@ export class BossSpawnControl
             {
                 for (const bossSpawn in bossDefaultData)
                 {
-                    // These require specific spawns & triggers
-                    bossDefaultData[bossSpawn].BossChance = bossConfigData.spawnChance[location];
+                    // Create the vanilla spawns
+                    //bossDefaultData[bossSpawn].BossChance = bossConfigData.spawnChance[location];
                     bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                     bossesForMap.push(bossDefaultData[bossSpawn]);
                 }
@@ -99,7 +96,7 @@ export class BossSpawnControl
         const waveGroupLimit = 4;
         const waveGroupSize = 2;
         const waveGroupChance = 100;
-        const waveTimer = 300;
+        const waveTimer = 450;
         const endWavesAtRemainingTime = 300;
         const waveCount = Math.floor((((escapeTimeLimit * 60) - endWavesAtRemainingTime)) / waveTimer);
         let currentWaveTime = waveTimer;
@@ -129,6 +126,7 @@ export class BossSpawnControl
                 bossDefaultData[0].BossEscortAmount = groupSize.toString();
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
+                bossDefaultData[0].IgnoreMaxBots = false;
                 bossDefaultData[0].Time = currentWaveTime;
                 currentPMCCount += groupSize + 1;
                 groupCount++
@@ -181,10 +179,6 @@ export class BossSpawnControl
                 return exUsecData;
             case "gifter":
                 return gifterData;
-            case "bossPunisher":
-                return bossPunisherData;
-            case "bossLegion":
-                return bossLegionData;
             default:
                 this.logger.error(`[ABPS] Boss not found in config ${boss}`)
                 return undefined;
