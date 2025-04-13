@@ -165,7 +165,7 @@ export class MapSpawnControl
     private rebuildBossWave(location: string): void 
     {
         const mapName = location.toLowerCase();
-        this.logger.warning(`[ABPS] Recreating boss waves for ${mapName}`);
+        this.logger.warning(`[ABPS] Recreating bosses for ${mapName}`);
 
         const mapData = this.bossSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
@@ -174,7 +174,7 @@ export class MapSpawnControl
     private rebuildPMCWave(location: string): void 
     {
         const mapName = location.toLowerCase();
-        this.logger.warning(`[ABPS] Recreating PMC waves for ${mapName}`);
+        this.logger.warning(`[ABPS] Recreating PMCs for ${mapName}`);
 
         const mapData = this.pmcSpawnControl.getCustomMapData(mapName, this.locationData[mapName].base.EscapeTimeLimit);
         if (mapData.length) mapData.forEach((index) => (this.botMapCache[mapName].push(index)));
@@ -184,7 +184,7 @@ export class MapSpawnControl
     {
         const mapName = location.toLowerCase();
         if (mapName == "laboratory") return;
-        this.logger.warning(`[ABPS] Recreating starting scavs for ${mapName}`);
+        this.logger.warning(`[ABPS] Recreating scavs for ${mapName}`);
 
         const mapData = this.scavSpawnControl.getCustomMapData(mapName);
         if (mapData.length) mapData.forEach((index) => (this.scavMapCache[mapName].push(index)));
@@ -203,7 +203,6 @@ export class MapSpawnControl
         if (raidAdjustments.simulatedRaidStartSeconds > 60)
         {
             const mapBosses = mapBase.BossLocationSpawn.filter((x) => x.Time == -1 && x.BossName != "pmcUSEC" && x.BossName != "pmcBEAR");
-            console.log(mapBosses.length);
             mapBase.BossLocationSpawn = mapBase.BossLocationSpawn.filter((x) => x.Time > raidAdjustments.simulatedRaidStartSeconds && (x.BossName == "pmcUSEC" || x.BossName == "pmcBEAR"));
 
             for (const bossWave of mapBase.BossLocationSpawn)
