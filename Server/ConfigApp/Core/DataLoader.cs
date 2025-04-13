@@ -19,7 +19,6 @@ namespace ABPSConfig.Core
 {
     public class ABPSServerConfig
     {
-        public required MinMax progressiveChance { get; set; }
         public required Difficulty pmcDifficulty { get; set; }
         public required PMCConfig pmcConfig { get; set; }
         public required ScavConfig scavConfig { get; set; }
@@ -117,7 +116,6 @@ namespace ABPSConfig.Core
     public class BossLocationInfo
     {
         public bool enable { get; set; }
-        public bool useProgressiveChances { get; set; }
         public int time { get; set; }
         public required ValidLocationsNumber spawnChance { get; set; }
         public required ValidLocationsString bossZone { get; set; }
@@ -127,7 +125,6 @@ namespace ABPSConfig.Core
         public bool enable { get; set; }
         public bool addExtraSpawns { get; set; }
         public bool disableVanillaSpawns { get; set; }
-        public bool useProgressiveChances { get; set; }
         public int time { get; set; }
         public required ValidLocationsNumber spawnChance { get; set; }
         public required ValidLocationsString bossZone { get; set; }
