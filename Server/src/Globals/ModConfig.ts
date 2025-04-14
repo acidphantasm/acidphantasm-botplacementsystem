@@ -47,6 +47,7 @@ export interface ScavStartingConfig
 export interface ScavWaveConfig
 {
     enable: boolean,
+    enableCustomFactory: boolean,
     startSpawns: number,
     stopSpawns: number,
     activeTimeMin: number,

@@ -71,26 +71,52 @@ export class VanillaAdjustmentControl
     {
         if (base.Id == "laboratory") return;
 
-        // Start-Stop Time for spawns
-        base.BotStart = ModConfig.config.scavConfig.waves.startSpawns;
-        base.BotStop = (base.EscapeTimeLimit * 60) - ModConfig.config.scavConfig.waves.stopSpawns;
+        if (ModConfig.config.scavConfig.waves.enableCustomFactory && base.Id.includes("factory"))
+        {
+            // Start-Stop Time for spawns
+            base.BotStart = ModConfig.config.scavConfig.waves.startSpawns;
+            base.BotStop = (base.EscapeTimeLimit * 60) - ModConfig.config.scavConfig.waves.stopSpawns;
+    
+            // Start-Stop wave times for active spawning
+            base.BotSpawnTimeOnMin = 10;
+            base.BotSpawnTimeOnMax = 30;
+    
+            // Start-Stop wave wait times between active spawning
+            base.BotSpawnTimeOffMin = 240;
+            base.BotSpawnTimeOffMax = 300;
+    
+            // Probably how often it checks to spawn while active spawning
+            base.BotSpawnPeriodCheck = 15;
+    
+            // Bot count required to trigger a spawn
+            base.BotSpawnCountStep = 3;
+    
+            base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayer = 20;
+            base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayerPvE = 20;
+        }
+        else
+        {
+            // Start-Stop Time for spawns
+            base.BotStart = ModConfig.config.scavConfig.waves.startSpawns;
+            base.BotStop = (base.EscapeTimeLimit * 60) - ModConfig.config.scavConfig.waves.stopSpawns;
 
-        // Start-Stop wave times for active spawning
-        base.BotSpawnTimeOnMin = ModConfig.config.scavConfig.waves.activeTimeMin;
-        base.BotSpawnTimeOnMax = ModConfig.config.scavConfig.waves.activeTimeMax;
+            // Start-Stop wave times for active spawning
+            base.BotSpawnTimeOnMin = ModConfig.config.scavConfig.waves.activeTimeMin;
+            base.BotSpawnTimeOnMax = ModConfig.config.scavConfig.waves.activeTimeMax;
 
-        // Start-Stop wave wait times between active spawning
-        base.BotSpawnTimeOffMin = ModConfig.config.scavConfig.waves.quietTimeMin;
-        base.BotSpawnTimeOffMax = ModConfig.config.scavConfig.waves.quietTimeMax;
+            // Start-Stop wave wait times between active spawning
+            base.BotSpawnTimeOffMin = ModConfig.config.scavConfig.waves.quietTimeMin;
+            base.BotSpawnTimeOffMax = ModConfig.config.scavConfig.waves.quietTimeMax;
 
-        // Probably how often it checks to spawn while active spawning
-        base.BotSpawnPeriodCheck = ModConfig.config.scavConfig.waves.checkToSpawnTimer;
+            // Probably how often it checks to spawn while active spawning
+            base.BotSpawnPeriodCheck = ModConfig.config.scavConfig.waves.checkToSpawnTimer;
 
-        // Bot count required to trigger a spawn
-        base.BotSpawnCountStep = ModConfig.config.scavConfig.waves.pendingBotsToTrigger;
+            // Bot count required to trigger a spawn
+            base.BotSpawnCountStep = ModConfig.config.scavConfig.waves.pendingBotsToTrigger;
 
-        base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayer = 100;
-        base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayerPvE = 100;
+            base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayer = 20;
+            base.BotLocationModifier.NonWaveSpawnBotsLimitPerPlayerPvE = 20;
+        }
     }
 
     public removeExistingWaves(base: any): void

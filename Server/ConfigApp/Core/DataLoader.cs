@@ -72,6 +72,7 @@ namespace ABPSConfig.Core
     public class ScavWaveConfig
     {
         public bool enable { get; set; }
+        public bool enableCustomFactory { get; set; }
         public int startSpawns { get; set; }
         public int stopSpawns { get; set; }
         public int activeTimeMin { get; set; }

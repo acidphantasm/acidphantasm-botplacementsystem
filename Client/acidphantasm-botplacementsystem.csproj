@@ -43,6 +43,8 @@
     <Compile Include="Patches\NewSpawnPatches.cs" />
     <Compile Include="Spawning\BossSpawnTracking.cs" />
     <Compile Include="Spawning\PMCSpawning.cs" />
+    <Compile Include="Utils\DebugMaster.cs" />
+    <Compile Include="Utils\NewSpawnDebugGUI.cs" />
     <Compile Include="Utils\SpawnPointGetter.cs" />
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Plugin.cs" />

@@ -51,7 +51,8 @@ namespace acidphantasm_botplacementsystem.Patches
             ref bool ___bool_1,
             ref bool ___bool_2,
             ref float ___nullable_0,
-            ref float ___float_2)
+            ref float ___float_2,
+            ref float ___float_0)
         {
             if (__instance == null || !___bool_1) return true;
 
@@ -69,7 +70,11 @@ namespace acidphantasm_botplacementsystem.Patches
             {
                 return false;
             }
-
+            if (___abstractGame_0.PastTime - ___float_0 < ___float_2)
+            {
+                return false;
+            }
+            ___float_0 = ___abstractGame_0.PastTime;
             int num = (___botsController_0._maxCount - _softCap) - ___botsController_0.AliveLoadingDelayedBotsCount;
             if (___bool_0)
             {
@@ -94,8 +99,8 @@ namespace acidphantasm_botplacementsystem.Patches
                 return false;
             }
 
-            num = ___gclass1647_0.TrySpawn(num, ___botsController_0, ___gclass1652_0);            
-            
+            num = ___gclass1647_0.TrySpawn(num, ___botsController_0, ___gclass1652_0);
+
             for (int i = 0; i < num; i++)
             {
                 //Logger.LogInfo("Sending spawn data from new spawn system");

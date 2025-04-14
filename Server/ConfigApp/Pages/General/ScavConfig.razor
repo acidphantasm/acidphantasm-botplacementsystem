@@ -481,6 +481,43 @@
                             <MudButton @onclick="default_Scav_Wave_Enabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
                     </MudItem>
+                    
+                    <MudItem xs="1">
+                        <MudPaper Class="d-flex justify-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <ChildContent>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Warning" Size="Size.Small" />
+                                </ChildContent>
+                                <TooltipContent>
+                                    <MudText Typo="Typo.caption">Enables custom hardcoded values for Factory. If disabled, will use the values you set below.</MudText>
+                                </TooltipContent>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Enables a custom built timer for Factory. Will help alleviate the feeling of constant spawns on Factory." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Enable Custom Factory Timers</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Class="d-flex align-center mud-width-full" Elevation="0">
+                            <MudSwitch T="bool" @bind-Value="_scav_WaveScavsCustomFactoryTimersEnabled" Color="Color.Success" UncheckedColor="Color.Default" LabelPlacement="Placement.End">@_scav_WaveScavsCustomFactoryTimersEnabled</MudSwitch>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_scav_WaveScavsCustomFactoryTimersEnabled"))
+                        {
+                            <MudButton @onclick="undo_Scav_Wave_CustomFactoryTimersEnabled" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _scav_WaveScavsCustomFactoryTimersEnabled != true)
+                        {
+                            <MudButton @onclick="default_Scav_Wave_CustomFactoryTimersEnabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
 
                     <MudItem xs="1" />
                     <MudItem xs="4">
@@ -884,6 +921,17 @@
     }
     private void undo_Scav_Wave_Enabled() => _scav_WaveScavsEnabled = OriginalConfig.scavConfig.waves.enable;
     private void default_Scav_Wave_Enabled() => _scav_WaveScavsEnabled = true;
+    private bool _scav_WaveScavsCustomFactoryTimersEnabled
+    {
+        get => Data.scavConfig.waves.enableCustomFactory;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.scavConfig.waves.enableCustomFactory);
+            Data.scavConfig.waves.enableCustomFactory = value;
+        }
+    }
+    private void undo_Scav_Wave_CustomFactoryTimersEnabled() => _scav_WaveScavsCustomFactoryTimersEnabled = OriginalConfig.scavConfig.waves.enableCustomFactory;
+    private void default_Scav_Wave_CustomFactoryTimersEnabled() => _scav_WaveScavsCustomFactoryTimersEnabled = true;
 
     private int _scav_Wave_StartTimer
     {

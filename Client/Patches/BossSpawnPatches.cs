@@ -1,5 +1,6 @@
 ﻿using acidphantasm_botplacementsystem.Spawning;
 using acidphantasm_botplacementsystem.Utils;
+using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
 using HarmonyLib;
@@ -133,6 +134,17 @@ namespace acidphantasm_botplacementsystem.Patches
         {
             if (spawnPoint == null) return false;
             if (spawnPoint.Collider == null) return false;
+            if (Singleton<GameWorld>.Instance.MainPlayer != null)
+            {
+                var mainPlayer = Singleton<GameWorld>.Instance.MainPlayer;
+                if (!mainPlayer.Profile.GetCorrectedNickname().StartsWith("headless_"))
+                {
+                    if (Vector3.Distance(spawnPoint.Position, mainPlayer.Position) < distance)
+                    {
+                        return false;
+                    }
+                }
+            }
             if (players != null && players.Count != 0)
             {
                 foreach (IPlayer player in players)

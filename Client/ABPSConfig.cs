@@ -1,5 +1,6 @@
 ﻿using acidphantasm_botplacementsystem.Patches;
 using acidphantasm_botplacementsystem.Spawning;
+using acidphantasm_botplacementsystem.Utils;
 using BepInEx.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,11 @@ namespace acidphantasm_botplacementsystem
         private static int loadOrder = 100;
 
         private const string GeneralConfig = "1. General Settings";
-        private static ConfigEntry<bool> progressiveChances;
-        private static ConfigEntry<int> chanceStep;
-        private static ConfigEntry<int> minimumChance;
-        private static ConfigEntry<int> maximumChance;
+        public static ConfigEntry<bool> progressiveChances;
+        public static ConfigEntry<int> chanceStep;
+        public static ConfigEntry<int> minimumChance;
+        public static ConfigEntry<int> maximumChance;
+        public static ConfigEntry<bool> enableSpawnModeDebug;
 
         private const string PMCConfig = "2. PMC Settings";
         public static ConfigEntry<float> customs_PMCSpawnDistanceCheck;
@@ -87,6 +89,14 @@ namespace acidphantasm_botplacementsystem
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             BossSpawnTracking.maximumChance = maximumChance.Value;
             maximumChance.SettingChanged += ABPS_SettingChanged;
+
+            enableSpawnModeDebug = config.Bind(
+                GeneralConfig,
+                "Show NewSpawn Activity Debug GUI",
+                false,
+                new ConfigDescription("Whether or not the debug GUI will show when new spawn is active/inactive.",
+                null,
+                new ConfigurationManagerAttributes { IsAdvanced = true, Order = loadOrder-- }));
 
             // PMC Settings
             customs_PMCSpawnDistanceCheck = config.Bind(

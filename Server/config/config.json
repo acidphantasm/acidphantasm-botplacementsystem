@@ -95,6 +95,7 @@
         },
         "waves": {
             "enable": true,
+            "enableCustomFactory": true,
             "startSpawns": 60,
             "stopSpawns": 600,
             "activeTimeMin": 180,
