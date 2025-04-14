@@ -19,7 +19,6 @@ namespace acidphantasm_botplacementsystem
         public static ConfigEntry<int> chanceStep;
         public static ConfigEntry<int> minimumChance;
         public static ConfigEntry<int> maximumChance;
-        public static ConfigEntry<bool> enableSpawnModeDebug;
 
         private const string PMCConfig = "2. PMC Settings";
         public static ConfigEntry<float> customs_PMCSpawnDistanceCheck;
@@ -89,14 +88,6 @@ namespace acidphantasm_botplacementsystem
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             BossSpawnTracking.maximumChance = maximumChance.Value;
             maximumChance.SettingChanged += ABPS_SettingChanged;
-
-            enableSpawnModeDebug = config.Bind(
-                GeneralConfig,
-                "Show NewSpawn Activity Debug GUI",
-                false,
-                new ConfigDescription("Whether or not the debug GUI will show when new spawn is active/inactive.",
-                null,
-                new ConfigurationManagerAttributes { IsAdvanced = true, Order = loadOrder-- }));
 
             // PMC Settings
             customs_PMCSpawnDistanceCheck = config.Bind(
