@@ -19,7 +19,16 @@ namespace acidphantasm_botplacementsystem.Utils
         public static List<ISpawnPoint> playerSpawnPoints = new List<ISpawnPoint>();
         public static List<BotZone> currentMapZones = new List<BotZone>();
 
-        public void Awake()
+        public static Dictionary<string, string[]> mapHotSpots = new Dictionary<string, string[]>()
+        {
+            {"rezervbase", ["ZoneSubStorage", "ZoneBarrack"]},
+            {"shoreline", ["ZoneSanatorium1", "ZoneSanatorium2"]},
+            {"lighthouse", ["Zone_LongRoad", "Zone_Chalet", "Zone_Village"]},
+            {"interchange", ["ZoneCenter", "ZoneCenterBot"]},
+            {"bigmap", ["ZoneDormitory", "ZoneScavBase"]}
+        };
+
+    public void Awake()
         {
             mainProfileID = GetPlayerProfile().ProfileId;
             Plugin.LogSource.LogInfo(mainProfileID);

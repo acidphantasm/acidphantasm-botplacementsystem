@@ -22,7 +22,7 @@ namespace acidphantasm_botplacementsystem.Patches
         [PatchPrefix]
         private static void PatchPrefix(BossLocationSpawn[] bossWaves, Action<BossLocationSpawn> spawnBossAction)
         {
-            if (progressiveChances)
+            if (Plugin.progressiveChances)
             {
                 foreach (var wave in bossWaves)
                 {
@@ -41,18 +41,18 @@ namespace acidphantasm_botplacementsystem.Patches
                         if (didBossSpawnLastRaid)
                         {
                             BossInfoForProfile[bossName].spawnedLastRaid = false;
-                            newChance = minimumChance;
+                            newChance = Plugin.minimumChance;
                         }
                         else
                         {
-                            if (BossInfoForProfile[bossName].chance + chanceStep > maximumChance)
+                            if (BossInfoForProfile[bossName].chance + Plugin.chanceStep > Plugin.maximumChance)
                             {
-                                BossInfoForProfile[bossName].chance = maximumChance;
-                                newChance = maximumChance;
+                                BossInfoForProfile[bossName].chance = Plugin.maximumChance;
+                                newChance = Plugin.maximumChance;
                             }
                             else
                             {
-                                BossInfoForProfile[bossName].chance += chanceStep;
+                                BossInfoForProfile[bossName].chance += Plugin.chanceStep;
                                 newChance = BossInfoForProfile[bossName].chance;
                             }
                         }
@@ -62,10 +62,10 @@ namespace acidphantasm_botplacementsystem.Patches
                     }
                     else
                     {
-                        Plugin.LogSource.LogInfo($"Setting chance to {minimumChance} for {bossName}");
+                        Plugin.LogSource.LogInfo($"Setting chance to {Plugin.minimumChance} for {bossName}");
                         CustomizedObject values = new CustomizedObject();
                         values.spawnedLastRaid = false;
-                        values.chance = minimumChance;
+                        values.chance = Plugin.minimumChance;
                         BossInfoForProfile.Add(bossName, values);
                         chance = values.chance;
                     }

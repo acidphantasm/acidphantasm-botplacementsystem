@@ -122,7 +122,7 @@ namespace acidphantasm_botplacementsystem.Patches
                 {
                     validSpawnPoints.Add(checkPoint);
                 }
-                if (!foundInitialPoint && IsValid(checkPoint, pmcPlayers, distance))
+                if (!foundInitialPoint && IsValid(checkPoint, pmcPlayers, distance, true) && IsValid(checkPoint, scavPlayers, 50f))
                 {
                     validSpawnPoints.Add(checkPoint);
                     foundInitialPoint = true;
@@ -130,17 +130,18 @@ namespace acidphantasm_botplacementsystem.Patches
             }
             return validSpawnPoints;
         }
-        private static bool IsValid(ISpawnPoint spawnPoint, IReadOnlyCollection<IPlayer> players, float distance)
+        private static bool IsValid(ISpawnPoint spawnPoint, IReadOnlyCollection<IPlayer> players, float distance, bool checkAgainstMainPlayer = false)
         {
             if (spawnPoint == null) return false;
             if (spawnPoint.Collider == null) return false;
             if (Singleton<GameWorld>.Instance.MainPlayer != null)
             {
                 var mainPlayer = Singleton<GameWorld>.Instance.MainPlayer;
-                if (!mainPlayer.Profile.GetCorrectedNickname().StartsWith("headless_"))
+                if (checkAgainstMainPlayer && !mainPlayer.Profile.GetCorrectedNickname().StartsWith("headless_") && mainPlayer.Side == EPlayerSide.Savage)
                 {
                     if (Vector3.Distance(spawnPoint.Position, mainPlayer.Position) < distance)
                     {
+                        Logger.LogInfo($"Player is a scav and PMC group is going to spawn too close. Move them.");
                         return false;
                     }
                 }
@@ -168,16 +169,6 @@ namespace acidphantasm_botplacementsystem.Patches
             return true;
         }
 
-        public static float customs_PMCSpawnDistanceCheck;
-        public static float factory_PMCSpawnDistanceCheck;
-        public static float interchange_PMCSpawnDistanceCheck;
-        public static float labs_PMCSpawnDistanceCheck;
-        public static float lighthouse_PMCSpawnDistanceCheck;
-        public static float reserve_PMCSpawnDistanceCheck;
-        public static float groundZero_PMCSpawnDistanceCheck;
-        public static float shoreline_PMCSpawnDistanceCheck;
-        public static float streets_PMCSpawnDistanceCheck;
-        public static float woods_PMCSpawnDistanceCheck;
         private static float GetDistanceForMap(string mapName)
         {
             mapName = mapName.ToLower();
@@ -185,36 +176,36 @@ namespace acidphantasm_botplacementsystem.Patches
             switch (mapName)
             {
                 case "bigmap":
-                    distanceLimit = customs_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.customs_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "factory4_day":
                 case "factory4_night":
-                    distanceLimit = factory_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.factory_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "interchange":
-                    distanceLimit = interchange_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.interchange_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "laboratory":
-                    distanceLimit = labs_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.labs_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "lighthouse":
-                    distanceLimit = lighthouse_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.lighthouse_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "rezervbase":
-                    distanceLimit = reserve_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.reserve_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "sandbox":
                 case "sandbox_high":
-                    distanceLimit = groundZero_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.groundZero_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "shoreline":
-                    distanceLimit = shoreline_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.shoreline_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "tarkovstreets":
-                    distanceLimit = streets_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.streets_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 case "woods":
-                    distanceLimit = woods_PMCSpawnDistanceCheck;
+                    distanceLimit = Plugin.woods_PMCSpawnDistanceCheck;
                     return distanceLimit;
                 default:
                     return distanceLimit;
@@ -234,7 +225,7 @@ namespace acidphantasm_botplacementsystem.Patches
             if (data.Profiles[0].Info.Settings.Role.IsBoss())
             {
                 var bossName = data.Profiles[0].Info.Settings.Role;
-                if (BossSpawnTracking.TrackedBosses.Contains(bossName) && BossSpawnTracking.progressiveChances)
+                if (BossSpawnTracking.TrackedBosses.Contains(bossName) && Plugin.progressiveChances)
                 {
                     Logger.LogInfo($"Saving boss as spawned: {bossName}");
                     BossSpawnTracking.UpdateBossSpawnChance(bossName);

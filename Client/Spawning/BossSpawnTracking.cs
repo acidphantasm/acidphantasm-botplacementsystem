@@ -13,10 +13,6 @@ namespace acidphantasm_botplacementsystem.Spawning
 {
     public class BossSpawnTracking
     {
-        public static bool progressiveChances;
-        public static int chanceStep;
-        public static int minimumChance;
-        public static int maximumChance;
         public static Dictionary<string, Dictionary<string, CustomizedObject>> BossInfoOutOfRaid { get; set; } = [];
         public static Dictionary<string, CustomizedObject> BossInfoForProfile { get; set; } = [];
 
@@ -50,7 +46,7 @@ namespace acidphantasm_botplacementsystem.Spawning
             string bossName = boss.ToString();
 
             values.spawnedLastRaid = true;
-            values.chance = minimumChance;
+            values.chance = Plugin.minimumChance;
 
             if (!BossInfoForProfile.ContainsKey(bossName)) BossInfoForProfile.Add(bossName, values);
             else
