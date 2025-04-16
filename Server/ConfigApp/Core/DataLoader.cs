@@ -41,6 +41,7 @@ namespace ABPSConfig.Core
     public class StartingPMCConfig
     {
         public bool enable { get; set; }
+        public bool ignoreMaxBotCaps { get; set; }
         public int groupChance { get; set; }
         public int maxGroupSize { get; set; }
         public int maxGroupCount { get; set; }
@@ -49,6 +50,7 @@ namespace ABPSConfig.Core
     public class PMCWaveConfig
     {
         public bool enable { get; set; }
+        public bool ignoreMaxBotCaps { get; set; }
         public int groupChance { get; set; }
         public int maxGroupSize { get; set; }
         public int maxGroupCount { get; set; }

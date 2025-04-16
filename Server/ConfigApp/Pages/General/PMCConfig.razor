@@ -153,6 +153,32 @@
                             <MudButton @onclick="default_PMC_Starting_Enabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
                     </MudItem>
+                    
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Whether or not starting PMCs will ignore the max bot caps set in game (F12)" Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Ignore Max Bots</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Class="d-flex align-center mud-width-full" Elevation="0">
+                            <MudSwitch T="bool" @bind-Value="_pmc_StartingPMCsIgnoreMaxBotCaps" Color="Color.Success" UncheckedColor="Color.Default" LabelPlacement="Placement.End">@_pmc_StartingPMCsIgnoreMaxBotCaps</MudSwitch>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_StartingPMCsIgnoreMaxBotCaps"))
+                        {
+                            <MudButton @onclick="undo_PMC_Starting_IgnoreMaxBotCaps" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_StartingPMCsIgnoreMaxBotCaps != true)
+                        {
+                            <MudButton @onclick="default_PMC_Starting_IgnoreMaxBotCaps" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
 
                     <MudItem xs="1" />
                     <MudItem xs="4">
@@ -778,6 +804,32 @@
                             <MudButton @onclick="default_PMC_Wave_Enabled" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
                         }
                     </MudItem>
+                    
+                    <MudItem xs="1" />
+                    <MudItem xs="4">
+                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
+                            <MudTooltip Text="Whether or not wave PMCs will ignore the max bot caps set in game (F12)" Color="Color.Primary" Placement="Placement.Right" Arrow="true">
+                                <MudText>Ignore Max Bots</MudText>
+                            </MudTooltip>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudPaper Class="d-flex align-center mud-width-full" Elevation="0">
+                            <MudSwitch T="bool" @bind-Value="_pmc_WavePMCsIgnoreMaxBotCaps" Color="Color.Success" UncheckedColor="Color.Default" LabelPlacement="Placement.End">@_pmc_WavePMCsIgnoreMaxBotCaps</MudSwitch>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="1">
+                        @if (MainLayout._appUndoButtonToggle &&
+                        MainLayout.pendingChanges.Contains("_pmc_WavePMCsIgnoreMaxBotCaps"))
+                        {
+                            <MudButton @onclick="undo_PMC_Waves_IgnoreMaxBotCaps" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
+                        }
+                        else if (MainLayout._appDefaultButtonToggle &&
+                        _pmc_WavePMCsIgnoreMaxBotCaps != false)
+                        {
+                            <MudButton @onclick="default_PMC_Waves_IgnoreMaxBotCaps" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
+                        }
+                    </MudItem>
 
                     <MudItem xs="1" />
                     <MudItem xs="4">
@@ -1033,6 +1085,18 @@
     }
     private void undo_PMC_Starting_Enabled() => _pmc_StartingPMCsEnabled = OriginalConfig.pmcConfig.startingPMCs.enable;
     private void default_PMC_Starting_Enabled() => _pmc_StartingPMCsEnabled = true;
+
+    private bool _pmc_StartingPMCsIgnoreMaxBotCaps
+    {
+        get => Data.pmcConfig.startingPMCs.ignoreMaxBotCaps;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.startingPMCs.ignoreMaxBotCaps);
+            Data.pmcConfig.startingPMCs.ignoreMaxBotCaps = value;
+        }
+    }
+    private void undo_PMC_Starting_IgnoreMaxBotCaps() => _pmc_StartingPMCsIgnoreMaxBotCaps = OriginalConfig.pmcConfig.startingPMCs.ignoreMaxBotCaps;
+    private void default_PMC_Starting_IgnoreMaxBotCaps() => _pmc_StartingPMCsIgnoreMaxBotCaps = true;
 
     private int _pmc_StartingGroupChance
     {
@@ -1439,6 +1503,18 @@
     }
     private void undo_PMC_Wave_Enabled() => _pmc_WavePMCsEnabled = OriginalConfig.pmcConfig.waves.enable;
     private void default_PMC_Wave_Enabled() => _pmc_WavePMCsEnabled = false;
+
+    private bool _pmc_WavePMCsIgnoreMaxBotCaps
+    {
+        get => Data.pmcConfig.waves.ignoreMaxBotCaps;
+        set
+        {
+            Utils.UpdateView(value, OriginalConfig.pmcConfig.waves.ignoreMaxBotCaps);
+            Data.pmcConfig.waves.ignoreMaxBotCaps = value;
+        }
+    }
+    private void undo_PMC_Waves_IgnoreMaxBotCaps() => _pmc_WavePMCsIgnoreMaxBotCaps = OriginalConfig.pmcConfig.waves.ignoreMaxBotCaps;
+    private void default_PMC_Waves_IgnoreMaxBotCaps() => _pmc_WavePMCsIgnoreMaxBotCaps = false;
 
     private int _pmc_WaveGroupChance
     {
