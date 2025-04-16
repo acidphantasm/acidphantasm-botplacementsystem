@@ -13,7 +13,6 @@ import {
 } from "../Defaults/PMCs";
 
 import { ModConfig } from "../Globals/ModConfig";
-import { pmcMapLimitCounts } from "../Defaults/PMCMapLimits";
 import { Labs_NonGateSpawnZones } from "../Defaults/MapSpawnZones";
 
 @injectable()
@@ -49,6 +48,7 @@ export class PMCSpawnControl
     private generateStartingPMCWaves(location: string): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
+        const ignoreMaxBotCaps = ModConfig.config.pmcConfig.startingPMCs.ignoreMaxBotCaps;
         const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
         const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         const generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
@@ -79,7 +79,8 @@ export class PMCSpawnControl
             bossDefaultData[0].BossEscortAmount = groupSize.toString();
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
-            bossDefaultData[0].BossZone = location == "laboratory" ? this.randomUtil.getArrayValue(Labs_NonGateSpawnZones) : "";
+            bossDefaultData[0].BossZone = "";
+            bossDefaultData[0].IgnoreMaxBots = ignoreMaxBotCaps;
             currentPMCCount += groupSize + 1;
             startingPMCWaveInfo.push(bossDefaultData[0]);
 
@@ -94,6 +95,7 @@ export class PMCSpawnControl
     {
         const pmcWaveSpawnInfo: IBossLocationSpawn[] = [];
 
+        const ignoreMaxBotCaps = ModConfig.config.pmcConfig.waves.ignoreMaxBotCaps;
         const difficultyWeights = ModConfig.config.pmcDifficulty;
         const waveMaxPMCCount = location.includes("factory") ? Math.min(2, ModConfig.config.pmcConfig.waves.maxBotsPerWave - 2) : ModConfig.config.pmcConfig.waves.maxBotsPerWave;
         const waveGroupLimit = ModConfig.config.pmcConfig.waves.maxGroupCount;
@@ -130,7 +132,7 @@ export class PMCSpawnControl
                 bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
                 bossDefaultData[0].BossZone = "";
-                bossDefaultData[0].IgnoreMaxBots = false;
+                bossDefaultData[0].IgnoreMaxBots = ignoreMaxBotCaps;
                 currentPMCCount += groupSize + 1;
                 pmcWaveSpawnInfo.push(bossDefaultData[0]);
 
@@ -160,6 +162,7 @@ export class PMCSpawnControl
     public generateScavRaidRemainingPMCs(location: string, remainingRaidTime: number): IBossLocationSpawn[]
     {
         const startingPMCWaveInfo: IBossLocationSpawn[] = [];
+        const ignoreMaxBotCaps = ModConfig.config.pmcConfig.startingPMCs.ignoreMaxBotCaps;
         const minPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].min;
         const maxPMCCount = ModConfig.config.pmcConfig.startingPMCs.mapLimits[location].max;
         let generatedPMCCount = this.randomUtil.getInt(minPMCCount, maxPMCCount);
@@ -196,6 +199,7 @@ export class PMCSpawnControl
             bossDefaultData[0].BossDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossEscortDifficult = this.weightedRandomHelper.getWeightedValue(difficultyWeights);
             bossDefaultData[0].BossZone = "";
+            bossDefaultData[0].IgnoreMaxBots = ignoreMaxBotCaps;
             currentPMCCount += groupSize + 1;
             startingPMCWaveInfo.push(bossDefaultData[0]);
 

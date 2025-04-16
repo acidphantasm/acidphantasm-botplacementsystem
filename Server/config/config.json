@@ -8,6 +8,7 @@
     "pmcConfig": {
         "startingPMCs": {
             "enable": true,
+            "ignoreMaxBotCaps": true,
             "groupChance": 25,
             "maxGroupSize": 3,
             "maxGroupCount": 4,
@@ -64,6 +65,7 @@
         },
         "waves": {
             "enable": false,
+            "ignoreMaxBotCaps": false,
             "groupChance": 10,
             "maxGroupSize": 2,
             "maxGroupCount": 3,

@@ -61,6 +61,7 @@ export type DifficultyConfig = "easy" | "normal" | "hard" | "impossible";
 export interface PMCStartingConfig
 {
     enable: boolean,
+    ignoreMaxBotCaps: boolean,
     groupChance: number,
     maxGroupSize: number,
     maxGroupCount: number,
@@ -69,6 +70,7 @@ export interface PMCStartingConfig
 export interface WaveConfig
 {
     enable: boolean,
+    ignoreMaxBotCaps: boolean,
     groupChance: number,
     maxGroupSize: number,
     maxGroupCount: number,
