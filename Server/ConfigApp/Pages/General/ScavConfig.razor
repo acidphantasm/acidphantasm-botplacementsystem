@@ -745,14 +745,14 @@
     #region StartingScavs
     private bool _scav_Starting_Enabled
     {
-        get => Data.scavConfig.waves.enable;
+        get => Data.scavConfig.startingScavs.enable;
         set
         {
-            Utils.UpdateView(value, OriginalConfig.scavConfig.waves.enable);
-            Data.scavConfig.waves.enable = value;
+            Utils.UpdateView(value, OriginalConfig.scavConfig.startingScavs.enable);
+            Data.scavConfig.startingScavs.enable = value;
         }
     }
-    private void undo_Scav_Starting_Enabled() => _scav_Starting_Enabled = OriginalConfig.scavConfig.waves.enable;
+    private void undo_Scav_Starting_Enabled() => _scav_Starting_Enabled = OriginalConfig.scavConfig.startingScavs.enable;
     private void default_Scav_Starting_Enabled() => _scav_Starting_Enabled = true;
     private int _scav_Starting_MapLimits_Customs
     {
