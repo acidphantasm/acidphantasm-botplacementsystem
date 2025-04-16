@@ -39,14 +39,6 @@ export class VanillaAdjustmentControl
         this.locationConfig.enableBotTypeLimits = false;
     }
 
-    public changeBotCaps(): void
-    {
-        this.botConfig.maxBotCap.factory4_day = 13;
-        this.botConfig.maxBotCap.factory4_night = 13;
-        this.botConfig.maxBotCap.sandbox = 17;
-        this.botConfig.maxBotCap.sandbox_high = 17;
-    }
-
     public disableNewSpawnSystem(base: any): void
     {
         if (base.Id == "laboratory") return;

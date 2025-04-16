@@ -98,7 +98,6 @@ export class MapSpawnControl
 
         this.vanillaAdjustmentControl.disableVanillaSettings();
         this.vanillaAdjustmentControl.removeCustomPMCWaves();
-        this.vanillaAdjustmentControl.changeBotCaps();
         this.buildInitialCache();
     }
     public buildInitialCache(): void 
