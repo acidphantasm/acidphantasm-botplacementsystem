@@ -39,6 +39,7 @@
     <Compile Include="Patches\GameWorldPatch.cs" />
     <Compile Include="Patches\BossSpawnPatches.cs" />
     <Compile Include="Patches\LocalGameProgressivePatch.cs" />
+    <Compile Include="Patches\MaxBotLimitPatch.cs" />
     <Compile Include="Patches\MenuLoadPatch.cs" />
     <Compile Include="Patches\NewSpawnPatches.cs" />
     <Compile Include="Spawning\BossSpawnTracking.cs" />
