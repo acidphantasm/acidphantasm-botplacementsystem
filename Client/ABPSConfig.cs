@@ -324,7 +324,7 @@ namespace acidphantasm_botplacementsystem
                 "Zone Cap",
                 2,
                 new ConfigDescription("How many scavs can spawn in any one zone (excluding Factory/Ground Zero).",
-                new AcceptableValueRange<int>(0, 5),
+                new AcceptableValueRange<int>(0, 15),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.zoneScavCap = zoneScavCap.Value;
             zoneScavCap.SettingChanged += ABPS_SettingChanged;
@@ -344,7 +344,7 @@ namespace acidphantasm_botplacementsystem
                 "Hotzone Cap",
                 4,
                 new ConfigDescription("How many scavs can spawn in a hotzone, if you enable hotzones (excluding Factory/Ground Zero).",
-                new AcceptableValueRange<int>(0, 5),
+                new AcceptableValueRange<int>(0, 15),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.hotzoneScavCap = hotzoneScavCap.Value;
             hotzoneScavCap.SettingChanged += ABPS_SettingChanged;
