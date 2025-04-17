@@ -354,7 +354,7 @@ namespace acidphantasm_botplacementsystem
                 "Hotzone Chance",
                 20,
                 new ConfigDescription("How likely a scav is to spawn in a hotzone (excluding Factory/Ground Zero).",
-                new AcceptableValueRange<int>(0, 5),
+                new AcceptableValueRange<int>(0, 100),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.hotzoneScavChance = hotzoneScavChance.Value;
             hotzoneScavChance.SettingChanged += ABPS_SettingChanged;
