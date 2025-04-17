@@ -68,7 +68,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Customs",
                 23,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.customsMapLimit = customsMapLimit.Value;
             customsMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -78,7 +78,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Factory",
                 13,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.factoryMapLimit = factoryMapLimit.Value;
             factoryMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -88,7 +88,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Interchange",
                 22,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.interchangeMapLimit = interchangeMapLimit.Value;
             interchangeMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -98,7 +98,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Labs",
                 19,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.labsMapLimit = labsMapLimit.Value;
             labsMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -108,7 +108,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Lighthouse",
                 22,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.lighthouseMapLimit = lighthouseMapLimit.Value;
             lighthouseMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -118,7 +118,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Reserve",
                 22,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.reserveMapLimit = reserveMapLimit.Value;
             reserveMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -128,7 +128,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Ground Zero",
                 16,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.groundZeroMapLimit = groundZeroMapLimit.Value;
             groundZeroMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -138,7 +138,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Shoreline",
                 22,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.shorelineMapLimit = shorelineMapLimit.Value;
             shorelineMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -148,7 +148,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Streets",
                 23,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.streetsMapLimit = streetsMapLimit.Value;
             streetsMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -158,7 +158,7 @@ namespace acidphantasm_botplacementsystem
                 "Max Bots - Woods",
                 22,
                 new ConfigDescription("Max bots allowed on map, value is ignored by certain bots.\nStarting PMCs ignore the cap by default, if you want to change this you must do so in the server config.\n\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(1, 30),
+                new AcceptableValueRange<int>(1, 50),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.woodsMapLimit = woodsMapLimit.Value;
             woodsMapLimit.SettingChanged += ABPS_SettingChanged;
@@ -198,7 +198,7 @@ namespace acidphantasm_botplacementsystem
                 "Progressive - Maximum Chance",
                 100,
                 new ConfigDescription("The maximum value that a boss can have to spawn.\nChanges do not take effect until next raid.",
-                new AcceptableValueRange<int>(26, 100),
+                new AcceptableValueRange<int>(25, 100),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.maximumChance = maximumChance.Value;
             maximumChance.SettingChanged += ABPS_SettingChanged;
@@ -364,7 +364,7 @@ namespace acidphantasm_botplacementsystem
                 "Distance Limit - Customs", 
                 45f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
-                new AcceptableValueRange<float>(5f, 100f),
+                new AcceptableValueRange<float>(5f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.customs_ScavSpawnDistanceCheck = customs_ScavSpawnDistanceCheck.Value;
             customs_ScavSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
@@ -374,7 +374,7 @@ namespace acidphantasm_botplacementsystem
                 "Distance Limit - Factory", 
                 30f, 
                 new ConfigDescription("How far PMCs must be from a spawn point for it to be enabled for Scav spawns.\n Setting this too high will cause Scavs to fail to spawn.",
-                new AcceptableValueRange<float>(5f, 100f),
+                new AcceptableValueRange<float>(5f, 50f),
                 new ConfigurationManagerAttributes { Order = loadOrder-- }));
             Plugin.factory_ScavSpawnDistanceCheck = factory_ScavSpawnDistanceCheck.Value;
             factory_ScavSpawnDistanceCheck.SettingChanged += ABPS_SettingChanged;
