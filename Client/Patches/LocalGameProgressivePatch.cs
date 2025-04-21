@@ -1,13 +1,7 @@
-﻿using acidphantasm_botplacementsystem.Spawning;
-using EFT;
-using HarmonyLib;
+﻿using HarmonyLib;
 using SPT.Reflection.Patching;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using static acidphantasm_botplacementsystem.Spawning.BossSpawnTracking;
 
 namespace acidphantasm_botplacementsystem.Patches

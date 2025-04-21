@@ -1,5 +1,4 @@
 ﻿using acidphantasm_botplacementsystem.Utils;
-using Comfort.Common;
 using EFT;
 using EFT.Game.Spawning;
 using HarmonyLib;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 
 namespace acidphantasm_botplacementsystem.Patches

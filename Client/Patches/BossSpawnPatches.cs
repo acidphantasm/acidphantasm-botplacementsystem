@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using UnityEngine;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace acidphantasm_botplacementsystem.Patches
 {
@@ -110,10 +109,11 @@ namespace acidphantasm_botplacementsystem.Patches
 
             bool foundInitialPoint = false;
 
+            var counter = 0;
             for (int i = 0; i < list.Count; i++)
             {
                 ISpawnPoint checkPoint = list[i];
-
+                counter++;
                 if (validSpawnPoints.Count == neededPoints)
                 {
                     return validSpawnPoints;
@@ -122,12 +122,16 @@ namespace acidphantasm_botplacementsystem.Patches
                 {
                     validSpawnPoints.Add(checkPoint);
                 }
-                if (!foundInitialPoint && IsValid(checkPoint, pmcPlayers, distance, true) && IsValid(checkPoint, scavPlayers, 50f))
+                if (!foundInitialPoint && IsValid(checkPoint, pmcPlayers, distance, true))
                 {
-                    validSpawnPoints.Add(checkPoint);
-                    foundInitialPoint = true;
+                    if (IsValid(checkPoint, scavPlayers, 50f))
+                    {
+                        validSpawnPoints.Add(checkPoint);
+                        foundInitialPoint = true;
+                    }
                 }
             }
+            Logger.LogInfo($"PMC spawnpoints being returned isn't matching required amount | Found: {validSpawnPoints.Count}/{neededPoints}");
             return validSpawnPoints;
         }
         private static bool IsValid(ISpawnPoint spawnPoint, IReadOnlyCollection<IPlayer> players, float distance, bool checkAgainstMainPlayer = false)
@@ -141,7 +145,6 @@ namespace acidphantasm_botplacementsystem.Patches
                 {
                     if (Vector3.Distance(spawnPoint.Position, mainPlayer.Position) < distance)
                     {
-                        Logger.LogInfo($"Player is a scav and PMC group is going to spawn too close. Move them.");
                         return false;
                     }
                 }
