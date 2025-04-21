@@ -97,8 +97,8 @@ export class ScavSpawnControl
 
             scavDefaultData.slots_min = groupSize > 1 ? 1 : 0;
             scavDefaultData.slots_max = groupSize > 1 ? groupSize : 1;
-            scavDefaultData.time_min = -1;
-            scavDefaultData.time_max = -1;
+            scavDefaultData.time_min = 1;
+            scavDefaultData.time_max = 3;
             scavDefaultData.number = spawnsAdded;
             scavDefaultData.WildSpawnType = botRole == "assault" ? WildSpawnType.ASSAULT : WildSpawnType.MARKSMAN;
             scavDefaultData.isPlayers = botRole == "assault" ? this.randomUtil.getChance100(playerScavChance) ? true : false : false;
@@ -198,8 +198,8 @@ export class ScavSpawnControl
 
             scavDefaultData.slots_min = groupSize > 1 ? 1 : 1;
             scavDefaultData.slots_max = groupSize > 1 ? groupSize : 1;
-            scavDefaultData.time_min = -1;
-            scavDefaultData.time_max = -1;
+            scavDefaultData.time_min = 1;
+            scavDefaultData.time_max = 3;
             scavDefaultData.number = spawnsAdded;
             scavDefaultData.isPlayers = botRole == "assault" ? this.randomUtil.getChance100(60) ? true : false : false;
             scavDefaultData.SpawnPoints = selectedSpawnZone;
