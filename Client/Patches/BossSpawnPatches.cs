@@ -64,7 +64,6 @@ namespace acidphantasm_botplacementsystem.Patches
             string location = Utility.GetCurrentLocation() ?? "default";
             float distance = GetDistanceForMap(location);
             List<ISpawnPoint> validSpawnLocations = GetValidSpawnPoints(pmcList, scavList, distance, escortPointCount);
-            var botZone = __instance.botSpawner_0.GetClosestZone(validSpawnLocations[0].Position, out float _);
 
             if (validSpawnLocations.Count >= soloPointCount)
             {
@@ -79,6 +78,7 @@ namespace acidphantasm_botplacementsystem.Patches
                 }
                 if (validSpawnLocations.Count >= escortPointCount)
                 {
+                    var botZone = __instance.botSpawner_0.GetClosestZone(validSpawnLocations[0].Position, out float _);
                     __instance.float_1 = Time.time;
                     __instance.wildSpawnType_0 = wave.BossType;
                     __instance.botZone_1 = botZone;
