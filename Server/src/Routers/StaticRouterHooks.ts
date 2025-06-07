@@ -49,7 +49,8 @@ export class StaticRouterHooks
                     {
                         if (!this.cacheRebuilt)
                         {
-                            this.mapSpawnControl.rebuildCache(this.mapToRebuild);
+                            this.mapSpawnControl.configureInitialData();
+                            //this.mapSpawnControl.rebuildCache(this.mapToRebuild);
                             this.cacheRebuilt = true;
                         }
                         return output;
