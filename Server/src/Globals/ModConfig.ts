@@ -41,7 +41,6 @@ export interface ScavStartingConfig
 {
     enable: boolean,
     maxBotSpawns: ValidLocations,
-    maxBotsPerZone: number,
     startingMarksman: boolean,
 }
 export interface ScavWaveConfig

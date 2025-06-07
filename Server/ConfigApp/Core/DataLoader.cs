@@ -55,7 +55,6 @@ namespace ABPSConfig.Core
     {
         public bool enable { get; set; }
         public required ValidLocationsNumber maxBotSpawns { get; set; }
-        public int maxBotsPerZone { get; set; }
         public bool startingMarksman { get; set; }
     }
     public class ScavWaveConfig

@@ -74,7 +74,6 @@ export class ScavSpawnControl
         const scavCap = lateStart ? maxStartingSpawns * 0.75 : maxStartingSpawns;
         const playerScavChance = lateStart ? 60 : 10;
 
-        const maxBotsPerZone = location.includes("factory") || location.includes("sandbox") ? maxStartingSpawns : ModConfig.config.scavConfig.startingScavs.maxBotsPerZone;
         const availableSpawnZones = botRole == "assault" ? createExhaustableArray(this.getNonMarksmanSpawnZones(location), this.randomUtil, this.cloner) : createExhaustableArray(this.getMarksmanSpawnZones(location), this.randomUtil, this.cloner);
         let spawnsAdded = botRole == "assault" ? 0 : waveLength;
         let marksmanCount = 0;
@@ -92,11 +91,9 @@ export class ScavSpawnControl
                 selectedSpawnZone = availableSpawnZones.getRandomValue();
                 marksmanCount++;
             }
-            const remainingSpots = maxStartingSpawns - spawnsAdded;
-            const groupSize = botRole == "assault" ? Math.min(remainingSpots - 1, this.randomUtil.getInt(1, maxBotsPerZone)) : 1;
 
-            scavDefaultData.slots_min = groupSize > 1 ? 1 : 0;
-            scavDefaultData.slots_max = groupSize > 1 ? groupSize : 1;
+            scavDefaultData.slots_min = 0;
+            scavDefaultData.slots_max = 1;
             scavDefaultData.time_min = 1;
             scavDefaultData.time_max = 3;
             scavDefaultData.number = spawnsAdded;

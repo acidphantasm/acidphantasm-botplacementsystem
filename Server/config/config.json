@@ -92,7 +92,6 @@
                 "tarkovstreets": 5,
                 "woods": 5
             },
-            "maxBotsPerZone": 1,
             "startingMarksman": true
         },
         "waves": {

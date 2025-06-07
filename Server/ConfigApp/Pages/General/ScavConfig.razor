@@ -376,44 +376,6 @@
                         }
                     </MudItem>
 
-                    <MudItem xs="1">
-                        <MudPaper Class="d-flex justify-center mud-width-full ma-1" Elevation="0">
-                            <MudTooltip Color="Color.Primary" Placement="Placement.Right" Arrow="true">
-                                <ChildContent>
-                                    <MudIconButton Icon="@Icons.Material.Filled.Warning" Size="Size.Small" />
-                                </ChildContent>
-                                <TooltipContent>
-                                    <MudText Typo="Typo.caption">Factory/Ground Zero use Map Limits instead.</MudText>
-                                </TooltipContent>
-                            </MudTooltip>
-                        </MudPaper>
-                    </MudItem>
-                    <MudItem xs="4">
-                        <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
-                            <MudTooltip Text="The limit to the amount of starting scavs in each zone." Color="Color.Primary" Placement="Placement.Right" Arrow="true">
-                                <MudText>Max Scavs per Zone</MudText>
-                            </MudTooltip>
-                        </MudPaper>
-                    </MudItem>
-                    <MudItem xs="1">
-                        <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" Disabled="!_scav_Starting_Enabled">@_scav_Starting_BotsPerZone</MudButton>
-                    </MudItem>
-                    <MudItem xs="5">
-                        <MudSlider @bind-Value="_scav_Starting_BotsPerZone" ValueLabel="true" Min="1" Max="5" Color="Color.Info" Size="Size.Medium" Disabled="!_scav_Starting_Enabled" />
-                    </MudItem>
-                    <MudItem xs="1">
-                        @if (MainLayout._appUndoButtonToggle &&
-                        MainLayout.pendingChanges.Contains("_scav_Starting_BotsPerZone"))
-                        {
-                            <MudButton @onclick="undo_Scav_Starting_BotsPerZone" Variant="Variant.Filled" Color="Color.Inherit" Size="Size.Small">Undo</MudButton>
-                        }
-                        else if (MainLayout._appDefaultButtonToggle &&
-                        _scav_Starting_BotsPerZone != 1)
-                        {
-                            <MudButton @onclick="default_Scav_Starting_BotsPerZone" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">Default</MudButton>
-                        }
-                    </MudItem>
-
                     <MudItem xs="1" />
                     <MudItem xs="4">
                         <MudPaper Class="d-flex align-center mud-width-full ma-1" Elevation="0">
@@ -886,17 +848,6 @@
     }
     private void undo_Scav_Starting_MapLimits_Woods() => _scav_Starting_MapLimits_Woods = OriginalConfig.scavConfig.startingScavs.maxBotSpawns.woods;
     private void default_Scav_Starting_MapLimits_Woods() => _scav_Starting_MapLimits_Woods = 5;
-    private int _scav_Starting_BotsPerZone
-    {
-        get => Data.scavConfig.startingScavs.maxBotsPerZone;
-        set
-        {
-            Utils.UpdateView(value, OriginalConfig.scavConfig.startingScavs.maxBotsPerZone);
-            Data.scavConfig.startingScavs.maxBotsPerZone = value;
-        }
-    }
-    private void undo_Scav_Starting_BotsPerZone() => _scav_Starting_BotsPerZone = OriginalConfig.scavConfig.startingScavs.maxBotsPerZone;
-    private void default_Scav_Starting_BotsPerZone() => _scav_Starting_BotsPerZone = 1;
     private bool _scav_Starting_MarksmanEnabled
     {
         get => Data.scavConfig.startingScavs.startingMarksman;
