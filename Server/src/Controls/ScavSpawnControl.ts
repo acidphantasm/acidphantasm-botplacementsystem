@@ -77,6 +77,7 @@ export class ScavSpawnControl
         const availableSpawnZones = botRole == "assault" ? createExhaustableArray(this.getNonMarksmanSpawnZones(location), this.randomUtil, this.cloner) : createExhaustableArray(this.getMarksmanSpawnZones(location), this.randomUtil, this.cloner);
         let spawnsAdded = botRole == "assault" ? 0 : waveLength;
         let marksmanCount = 0;
+        let marksmanSpawnCount = scavCap;
 
         while (spawnsAdded < scavCap)
         {
@@ -95,12 +96,13 @@ export class ScavSpawnControl
             scavDefaultData.slots_min = 0;
             scavDefaultData.slots_max = 1;
             scavDefaultData.time_min = 1;
-            scavDefaultData.time_max = 3;
-            scavDefaultData.number = spawnsAdded;
+            scavDefaultData.time_max = 5;
+            scavDefaultData.number = botRole == "assault" ? spawnsAdded : marksmanSpawnCount;
             scavDefaultData.WildSpawnType = botRole == "assault" ? WildSpawnType.ASSAULT : WildSpawnType.MARKSMAN;
             scavDefaultData.isPlayers = botRole == "assault" ? this.randomUtil.getChance100(playerScavChance) ? true : false : false;
             scavDefaultData.SpawnPoints = selectedSpawnZone;
             
+            if (botRole == "marksman") marksmanSpawnCount++;
             spawnsAdded++;
             scavWaveSpawnInfo.push(scavDefaultData);
             //this.logger.warning(`[Scav Waves] ${scavDefaultData.number} - Adding 1 spawn for ${botRole} to ${location} | Zone: ${selectedSpawnZone} Min: ${scavDefaultData.slots_min} | Max: ${scavDefaultData.slots_max}`);
