@@ -4,7 +4,7 @@ using BepInEx.Logging;
 
 namespace acidphantasm_botplacementsystem
 {
-    [BepInPlugin("com.acidphantasm.botplacementsystem", "acidphantasm-BotPlacementSystem", "1.1.1")]
+    [BepInPlugin("com.acidphantasm.botplacementsystem", "acidphantasm-BotPlacementSystem", "1.1.2")]
     public class Plugin : BaseUnityPlugin
     {
         public static ManualLogSource LogSource;
