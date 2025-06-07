@@ -170,6 +170,7 @@ export class MapSpawnControl
         this.locationData = this.databaseService.getTables().locations;
         this.botMapCache[location] = [];
         this.scavMapCache[location] = [];
+        this.locationData[location].base.waves = [];
         this.rebuildBossWave(location);
         this.rebuildPMCWave(location);    
         this.rebuildStartingScavs(location) 
