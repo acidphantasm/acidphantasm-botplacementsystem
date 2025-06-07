@@ -54,7 +54,22 @@ export class MapSpawnControl
             this.locationData[mapName].base.BossLocationSpawn = [];
             this.botMapCache[mapName] = [];
             this.scavMapCache[mapName] = [];
-            if (ModConfig.config.scavConfig.waves.enable) this.vanillaAdjustmentControl.enableAllSpawnSystem(this.locationData[mapName].base);
+            if (ModConfig.config.scavConfig.waves.enable && ModConfig.config.scavConfig.startingScavs.enable) 
+            {
+                this.vanillaAdjustmentControl.enableAllSpawnSystem(this.locationData[mapName].base);
+            }
+            else if (!ModConfig.config.scavConfig.waves.enable && ModConfig.config.scavConfig.startingScavs.enable)
+            {
+                this.vanillaAdjustmentControl.disableNewSpawnSystem(this.locationData[mapName].base);
+            }
+            else if (!ModConfig.config.scavConfig.waves.enable && !ModConfig.config.scavConfig.startingScavs.enable)
+            {
+                this.vanillaAdjustmentControl.disableAllSpawnSystem(this.locationData[mapName].base);
+            }
+            else if (ModConfig.config.scavConfig.waves.enable && !ModConfig.config.scavConfig.startingScavs.enable)
+            {
+                this.vanillaAdjustmentControl.disableOldSpawnSystem(this.locationData[mapName].base);
+            }
             this.vanillaAdjustmentControl.removeExistingWaves(this.locationData[mapName].base);
             this.vanillaAdjustmentControl.fixPMCHostility(this.locationData[mapName].base);
             this.vanillaAdjustmentControl.adjustNewWaveSettings(this.locationData[mapName].base);

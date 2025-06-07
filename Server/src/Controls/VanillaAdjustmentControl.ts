@@ -49,6 +49,16 @@ export class VanillaAdjustmentControl
         base.OfflineOldSpawn = true;
     }
 
+    public disableOldSpawnSystem(base: any): void
+    {
+        if (base.Id == "laboratory") return;
+
+        base.NewSpawn = true;
+        base.OfflineNewSpawn = true;
+        base.OldSpawn = false;
+        base.OfflineOldSpawn = false;
+    }
+
     public enableAllSpawnSystem(base: any): void
     {
         if (base.Id == "laboratory") return;
@@ -57,6 +67,16 @@ export class VanillaAdjustmentControl
         base.OfflineNewSpawn = true;
         base.OldSpawn = true;
         base.OfflineOldSpawn = true;
+    }
+
+    public disableAllSpawnSystem(base: any): void
+    {
+        if (base.Id == "laboratory") return;
+
+        base.NewSpawn = false;
+        base.OfflineNewSpawn = false;
+        base.OldSpawn = false;
+        base.OfflineOldSpawn = false;
     }
 
     public adjustNewWaveSettings(base: any): void
